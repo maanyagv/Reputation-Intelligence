@@ -3,26 +3,38 @@ import feedparser
 
 
 def search_news(query="Puravankara", max_results=50):
-    encoded_query = urllib.parse.quote(query)
-
-    url = (
-        f"https://news.google.com/rss/search?"
-        f"q={encoded_query}&hl=en-IN&gl=IN&ceid=IN:en"
-    )
-
-    feed = feedparser.parse(url)
+    queries = [
+        query,
+        f"{query} complaint OR delay OR RERA OR dispute OR issue"
+    ]
 
     results = []
+    seen_urls = set()
 
-    for entry in feed.entries[:max_results]:
-        results.append({
-            "platform": "google_news",
-            "title": entry.get("title", ""),
-            "description": entry.get("summary", ""),
-            "published_at": entry.get("published", ""),
-            "url": entry.get("link", ""),
-            "source": entry.get("source", {}).get("title", "")
-        })
+    for q in queries:
+        encoded_query = urllib.parse.quote(q)
+        url = (
+            f"https://news.google.com/rss/search?"
+            f"q={encoded_query}&hl=en-IN&gl=IN&ceid=IN:en"
+        )
+
+        feed = feedparser.parse(url)
+
+        for entry in feed.entries:
+            link = entry.get("link", "")
+            if link and link not in seen_urls:
+                seen_urls.add(link)
+                results.append({
+                    "platform": "google_news",
+                    "title": entry.get("title", ""),
+                    "description": entry.get("summary", ""),
+                    "published_at": entry.get("published", ""),
+                    "url": link,
+                    "source": entry.get("source", {}).get("title", "")
+                })
+
+            if len(results) >= max_results:
+                break
 
     return results
 

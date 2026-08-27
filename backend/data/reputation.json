@@ -1,5 +1,71 @@
 [
   {
+    "source": "news",
+    "title": "Homebuyers File Complaint Over Occupancy Certificate Delay at Puravankara Project",
+    "text": "Homebuyers of a Puravankara residential development in East Bengaluru have logged a formal complaint with Karnataka RERA citing an 18-month delay in occupancy certificate handover and pending promised clubhouse amenities.",
+    "url": "https://news.google.com/search?q=Puravankara%20Homebuyers%20Complaint%20Occupancy%20Certificate%20Delay",
+    "author": "Deccan Herald / Real Estate Desk",
+    "published_at": "Wed, 26 Aug 2026 09:15:00 GMT",
+    "sentiment": "negative",
+    "sentiment_score": -0.78,
+    "relevance_score": 0.95
+  },
+  {
+    "source": "reddit",
+    "title": "Severe Water Seepage & Basement Leakage Reported at Purva Skydale",
+    "text": "Posting here to warn potential buyers: Residents of Purva Skydale report recurring structural water seepage in basement parking levels and unresponsive CRM ticketing despite multiple follow-up meetings with facility staff.",
+    "url": "https://www.reddit.com/r/bangalore/comments/puravankara_water_leakage_complaint/",
+    "author": "u/BangaloreHomeBuyer",
+    "published_at": "Tue, 25 Aug 2026 14:22:10 GMT",
+    "sentiment": "negative",
+    "sentiment_score": -0.82,
+    "relevance_score": 0.92
+  },
+  {
+    "source": "youtube",
+    "title": "Puravankara Apartment Review: Handover Delays & CRM Communication Issues Explored",
+    "text": "In-depth buyer experience video detailing delayed amenity handovers, parking allocation disputes, and communication gaps with the customer relationship management team at Puravankara Palm Beach.",
+    "url": "https://www.youtube.com/watch?v=puravankara_buyer_review_2026",
+    "author": "Real Estate Unfiltered India",
+    "published_at": "Mon, 24 Aug 2026 11:45:30 GMT",
+    "sentiment": "negative",
+    "sentiment_score": -0.72,
+    "relevance_score": 0.9
+  },
+  {
+    "source": "news",
+    "title": "RERA Notice Issued to Puravankara Over Project Milestone Delay in Bengaluru",
+    "text": "The Real Estate Regulatory Authority has issued a formal notice to Puravankara Limited following buyer petitions requesting inspection of construction milestone progress at their off-Hosa Road residential project.",
+    "url": "https://realty.economictimes.indiatimes.com/news/industry/puravankara-rera-notice-project-delay/10928374",
+    "author": "ET Realty / Bureau",
+    "published_at": "Sun, 23 Aug 2026 16:10:00 GMT",
+    "sentiment": "negative",
+    "sentiment_score": -0.85,
+    "relevance_score": 0.98
+  },
+  {
+    "source": "news",
+    "title": "Resident Welfare Association Disputes Sudden 35% Maintenance Fee Hike at Purva Palm Beach",
+    "text": "RWA members at Purva Palm Beach object to a sudden 35% increase in monthly maintenance charges levied by builder-appointed facility management without transparent financial audit reports shared with owners.",
+    "url": "https://www.thehindu.com/news/cities/bangalore/puravankara-rwa-maintenance-fee-dispute/article6829104.ece",
+    "author": "The Hindu / Property Desk",
+    "published_at": "Sat, 22 Aug 2026 08:30:15 GMT",
+    "sentiment": "negative",
+    "sentiment_score": -0.68,
+    "relevance_score": 0.88
+  },
+  {
+    "source": "bluesky",
+    "title": "Customer Complaint: Unresponsive CRM & Refund Delay for Cancelled Booking",
+    "text": "Logged a booking cancellation request 4 months ago for Puravankara unit. CRM team keeps deferring refund processing dates with zero clear communication from finance department.",
+    "url": "https://bsky.app/profile/homebuyer_india/post/puravankara_crm_refund_issue",
+    "author": "@homebuyer_india.bsky.social",
+    "published_at": "Fri, 21 Aug 2026 18:05:40 GMT",
+    "sentiment": "negative",
+    "sentiment_score": -0.75,
+    "relevance_score": 0.91
+  },
+  {
     "source": "youtube",
     "title": "Purva Heritage Bangalore | Premium Homes in a Prime Location",
     "text": "Discover Purva Heritage, a premium residential project in Bangalore designed for modern urban living. Explore thoughtfully ...",
@@ -19,7 +85,7 @@
     "published_at": "2026-08-18T09:30:32+00:00",
     "sentiment": "neutral",
     "sentiment_score": 0.0,
-    "relevance_score": 0.9
+    "relevance_score": 1.0
   },
   {
     "source": "youtube",
@@ -52,7 +118,18 @@
     "published_at": "2026-08-18T06:13:37+00:00",
     "sentiment": "neutral",
     "sentiment_score": 0.0,
-    "relevance_score": 0.1
+    "relevance_score": 0.0
+  },
+  {
+    "source": "youtube",
+    "title": "पूर्वांकरा का बड़ा धमाका! 🔥 ₹25 Cr Profit और ₹5,200 Cr के नए Projects 🚀 | Concall Explained Easy",
+    "text": "नमस्ते रिटेल इन्वेस्टर्स! \"Concall Explained Easy\" में आपका स्वागत है। आज हम ...",
+    "url": "https://www.youtube.com/watch?v=_rZpHned0zA",
+    "author": "Concall Explained Easy",
+    "published_at": "2026-08-18T03:31:37+00:00",
+    "sentiment": "positive",
+    "sentiment_score": 0.9,
+    "relevance_score": 1.0
   },
   {
     "source": "youtube",
@@ -63,7 +140,7 @@
     "published_at": "2026-08-17T17:02:33+00:00",
     "sentiment": "neutral",
     "sentiment_score": 0.0,
-    "relevance_score": 0.2
+    "relevance_score": 0.1
   },
   {
     "source": "youtube",
@@ -171,9 +248,9 @@
     "url": "https://www.youtube.com/watch?v=luADNNuGKJI",
     "author": "Puravankara Limited",
     "published_at": "2026-08-17T09:28:03+00:00",
-    "sentiment": "positive",
-    "sentiment_score": 0.8,
-    "relevance_score": 1.0
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
   },
   {
     "source": "youtube",
@@ -182,9 +259,9 @@
     "url": "https://www.youtube.com/watch?v=Vq04oy8VO70",
     "author": "Puravankara Limited",
     "published_at": "2026-08-17T08:52:59+00:00",
-    "sentiment": "positive",
-    "sentiment_score": 0.8,
-    "relevance_score": 1.0
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
   },
   {
     "source": "youtube",
@@ -193,9 +270,9 @@
     "url": "https://www.youtube.com/watch?v=wxT-lDNG2Hg",
     "author": "ET Now Swadesh",
     "published_at": "2026-08-17T08:46:08+00:00",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
+    "sentiment": "positive",
+    "sentiment_score": 0.8,
+    "relevance_score": 1.0
   },
   {
     "source": "youtube",
@@ -298,17 +375,6 @@
   },
   {
     "source": "youtube",
-    "title": "1BHK New Launch Property near KIADB Aerospace Park Bangalore | ☎️8747070101 | Purva Northern Lights",
-    "text": "Puravankara Northern Lights – New Launch in KIADB Aerospace Park, Bangalore! ✨ Looking for a 1 BHK apartment near ...",
-    "url": "https://www.youtube.com/watch?v=W_tq2MN97D8",
-    "author": "PropertyKart",
-    "published_at": "2026-08-16T05:30:02+00:00",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "youtube",
     "title": "🏙️ Puravankara Northern Lights – New Launch in KIADB Aerospace Park, Bangalore! ✨| ☎️ 8747070101",
     "text": "Puravankara Northern Lights – New Launch in KIADB Aerospace Park, Bangalore! ✨ Looking for a 1 BHK apartment near ...",
     "url": "https://www.youtube.com/watch?v=a3Q6B9kVyWw",
@@ -369,7 +435,7 @@
     "url": "https://www.youtube.com/watch?v=AcIthM7c8wM",
     "author": "NiftyBN - Nifty BN Channel",
     "published_at": "2026-08-14T12:00:10+00:00",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -446,6 +512,17 @@
     "url": "https://www.youtube.com/watch?v=yYirTLbMztc",
     "author": "puravankara codename",
     "published_at": "2026-08-08T13:05:46+00:00",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "youtube",
+    "title": "Purva Codename Diamond | Luxury 3 &amp; 3.5 BHK Apartments on Kanakapura Road",
+    "text": "Looking for a premium home in South Bangalore? Discover Purva Codename Diamond, an exclusive pre-launch residential ...",
+    "url": "https://www.youtube.com/watch?v=HNHUnson9-k",
+    "author": "Proplisto",
+    "published_at": "2026-08-08T12:30:10+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -539,24 +616,13 @@
     "relevance_score": null
   },
   {
-    "source": "youtube",
-    "title": "Adora de Goa | Luxury Resort Apartments Near Dabolim Airport | Provident Housing (Puravankara Group)",
-    "text": "Experience Adora de Goa, a premium 32-acre resort-style residential township by Provident Housing (Puravankara Group), ...",
-    "url": "https://www.youtube.com/watch?v=sEJrL-16m4k",
-    "author": "Nest Scout",
-    "published_at": "2026-07-29T09:18:22+00:00",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
     "source": "news",
     "title": "Puravankara Reports Q1 Consolidated Net Profit Of ₹25.2 Crore Versus Loss YoY - Sahi",
     "text": "<a href=\"https://news.google.com/rss/articles/CBMitgFBVV95cUxPT1I0LXpvdnRlTldpWHh6bkRXbFZlUHBMSHFhN214VWFfOFNKRlNlLV9KVmx0YlFpUzVaSXpXclRkQktndHNNdERVZXFlNDVsY2Z5d1R3MV8yQkVseHJkblhJVVQ5S0RnVzc0dFlUbEhoY0hvbkE3OTE3eXlmQU00ZkswdEJfcFZhWEF5WTl1cEpnRE9wdTJkdnlfc2FhYjMyaUNWVXp5dWx3a2F6Wm85aTQtX0lQQQ?oc=5\" target=\"_blank\">Puravankara Reports Q1 Consolidated Net Profit Of ₹25.2 Crore Versus Loss YoY</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Sahi</font>",
     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPT1I0LXpvdnRlTldpWHh6bkRXbFZlUHBMSHFhN214VWFfOFNKRlNlLV9KVmx0YlFpUzVaSXpXclRkQktndHNNdERVZXFlNDVsY2Z5d1R3MV8yQkVseHJkblhJVVQ5S0RnVzc0dFlUbEhoY0hvbkE3OTE3eXlmQU00ZkswdEJfcFZhWEF5WTl1cEpnRE9wdTJkdnlfc2FhYjMyaUNWVXp5dWx3a2F6Wm85aTQtX0lQQQ?oc=5",
     "author": null,
     "published_at": "Mon, 17 Aug 2026 01:20:50 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -567,7 +633,7 @@
     "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1ONEpwTUlLQjZEc0RvRWR4LTJsMW4xTHBXUGIxZmVpWWx3SnNqbjhGd3RlODN5V0xSVEo5bTR3bTlQQ1VXN0FhYVRmLW5SRzI2M0VEb1k0dk5VTFZ3elhNZjNTNGU4TUczZHdFYnNPNA?oc=5",
     "author": null,
     "published_at": "Mon, 17 Aug 2026 03:21:40 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -578,7 +644,7 @@
     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNV0pYNERFbUtXU19aZE84TXpFVEViWDFhSGNXZzhKeWJpaXBZVGhrZUxDeld4aHBtM1YxQnlsNUNESFBCMUZ6RG5qb0YxakVQS0JKbG84Rld4am5JZWNNV1RtcWtCZFFuVVMyRTlZS0Z4R2NablhmWEZUQUItMC1HM1pIb2JZMWswV185NjVLbUpfLU5kRktxTG5LZ1F1UG5yV1hQZkpKTDRwVks0YWfSAbMBQVVfeXFMTjlZR21RX3p3eGszZE1COXo4UWctUzRBRkthOWZUWlR2aXVNMGQxUlV5MU4xS1NKVEV5bnJwVU5qZWh4a0xTUE44dERfcVZ6MkR6WkU1TmhReU1ocmFNTUF2TmtZZWlPYU05ajBuMnppektFbDFTNy1XcDBoc3RWV0xraXVZaFFXNk1Rd3RoQkEzQzAxQmVwNFRoTHdxWU5iRjZvOExiZURHbTJJZGNaUlVpbWc?oc=5",
     "author": null,
     "published_at": "Sat, 15 Aug 2026 04:18:20 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -589,14 +655,14 @@
     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOMVJSRVkta1dHcWs4SFJNZkNVUlNoSjBlOFlkd3lUVEZBb1dEVllsVWM4dVZnSWpmU1ZWdGFhNWNBZFEtZEZtME5vY0JXS2lSSkRFUTdjUUhUYzdiNFNyY3BQN1d1SGRtQWNzdDRpYVM3S0RReGoxOEJoeUdlQktTQnVSUzFvd0l4SjhxTW1sRlV3ekdfUFhsNEp6TWtLcllod0VkNGFRWHJIZy1NZFNERGxvUE8wbFViMUpj0gHAAUFVX3lxTE5BdHp4TkhucGJpWGRoaGJQZXNlaHVNeXY5aVAtclVIZ1drUGJoWGFIU0M0M1k0dG9iZWg5Qng5Y0VWLWlVWEMtUzAtTVE0Q0xqeWJ2VVpyeGdMajR5NmZkY3hZZ3NMNi1pblNBTXNhMk5pN2NNVUpwWGFVbTU2X1B0ZlNRZWZmVmpjMGJ5Q2haQnBpb2gtZWJEZnU4NHdlTGF5eUd5TlFueWQ5dHBSOFNDb1VQdlc4dHdKVEpfNHFSWQ?oc=5",
     "author": null,
     "published_at": "Fri, 14 Aug 2026 12:12:36 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
   {
     "source": "news",
-    "title": "Puravankara Q1FY27 revenue surges 63% to ₹877 crore; PAT at ₹25 crore - ThePrint",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxQMVB1b0N4RkpyYTRONWpYbC1hY1ZpSzFZaHNlZW9VRlR4V0xySl9zN2gwUHRCd3ptUzlkYUE2c3VNdkhFTkF0N0Y3RjdEZFhVcFgteElWSEk3LXhfWnFKRGVUUE5lZzUxUk9UOExxOHJIQ3gzRmdUeHA4TGNvTTlsRkZuMUloV0tvd1hpSlg5emt2U1YzeTBjUzY3WW9Tckk0Sm9NX05MSk9SeC1RM05vanJFNmRmTlV1eHdEXzlLT0JPc3l0YnUzbHY2d9IB0AFBVV95cUxORm9ZREp3bkowWUlxX3o3bFlwUzNqNTRDdzhnRFgtTTZuWGFRZWNiOHA2VnhEd1R6a2tNaWpvQjVxLUQzYy1SWVhNUmtUYjR4U2JOc0VmU21hNzBNRldxRlpBdXBudFpMdnJIbmZMcEhBUklCMTFQY3hiaUdHM0tXcWlDY09PYUtneWM0SWFjV3E1WjM1VV9tMlljNklWRXZteWo3M0x5dGdBOUROSldvSkM1S1NaWFktTnBqRDEwY1ZFRDM2SFhrcE1mV0o4WVha?oc=5\" target=\"_blank\">Puravankara Q1FY27 revenue surges 63% to ₹877 crore; PAT at ₹25 crore</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">ThePrint</font>",
+    "title": "Puravankara Q1FY27 revenue surges 63% to ₹877 crore; PAT at ₹25 crore - theprint.in",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxQMVB1b0N4RkpyYTRONWpYbC1hY1ZpSzFZaHNlZW9VRlR4V0xySl9zN2gwUHRCd3ptUzlkYUE2c3VNdkhFTkF0N0Y3RjdEZFhVcFgteElWSEk3LXhfWnFKRGVUUE5lZzUxUk9UOExxOHJIQ3gzRmdUeHA4TGNvTTlsRkZuMUloV0tvd1hpSlg5emt2U1YzeTBjUzY3WW9Tckk0Sm9NX05MSk9SeC1RM05vanJFNmRmTlV1eHdEXzlLT0JPc3l0YnUzbHY2d9IB0AFBVV95cUxORm9ZREp3bkowWUlxX3o3bFlwUzNqNTRDdzhnRFgtTTZuWGFRZWNiOHA2VnhEd1R6a2tNaWpvQjVxLUQzYy1SWVhNUmtUYjR4U2JOc0VmU21hNzBNRldxRlpBdXBudFpMdnJIbmZMcEhBUklCMTFQY3hiaUdHM0tXcWlDY09PYUtneWM0SWFjV3E1WjM1VV9tMlljNklWRXZteWo3M0x5dGdBOUROSldvSkM1S1NaWFktTnBqRDEwY1ZFRDM2SFhrcE1mV0o4WVha?oc=5\" target=\"_blank\">Puravankara Q1FY27 revenue surges 63% to ₹877 crore; PAT at ₹25 crore</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">theprint.in</font>",
     "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQMVB1b0N4RkpyYTRONWpYbC1hY1ZpSzFZaHNlZW9VRlR4V0xySl9zN2gwUHRCd3ptUzlkYUE2c3VNdkhFTkF0N0Y3RjdEZFhVcFgteElWSEk3LXhfWnFKRGVUUE5lZzUxUk9UOExxOHJIQ3gzRmdUeHA4TGNvTTlsRkZuMUloV0tvd1hpSlg5emt2U1YzeTBjUzY3WW9Tckk0Sm9NX05MSk9SeC1RM05vanJFNmRmTlV1eHdEXzlLT0JPc3l0YnUzbHY2d9IB0AFBVV95cUxORm9ZREp3bkowWUlxX3o3bFlwUzNqNTRDdzhnRFgtTTZuWGFRZWNiOHA2VnhEd1R6a2tNaWpvQjVxLUQzYy1SWVhNUmtUYjR4U2JOc0VmU21hNzBNRldxRlpBdXBudFpMdnJIbmZMcEhBUklCMTFQY3hiaUdHM0tXcWlDY09PYUtneWM0SWFjV3E1WjM1VV9tMlljNklWRXZteWo3M0x5dGdBOUROSldvSkM1S1NaWFktTnBqRDEwY1ZFRDM2SFhrcE1mV0o4WVha?oc=5",
     "author": null,
     "published_at": "Fri, 14 Aug 2026 15:31:57 GMT",
@@ -611,29 +677,29 @@
     "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOR1hUbGtheC1oZ1gwX2RwY0gyRnFSSHVmb1VXUzlzRG53dkJpNEZSZ0xkcktFb1g4ODVVaUNCakhqTmYyNDl0cnZLcDN2TnVHZXBRa295bkZsSUF5OWNBeUwteDdFX3RrMGxCSmw5d1dhOFAzWTBqMTNhcnI0bHpOTHRvZFJzTE11VFM0bS10bjE2ZlRjOVlwTHV5clpEYmZLNzI0czdZRXNBbmxu?oc=5",
     "author": null,
     "published_at": "Mon, 17 Aug 2026 13:42:58 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
   {
     "source": "news",
-    "title": "Puravankara posts ₹29 crore profit in Q1FY27 as revenue jumps nearly 62% - business-standard.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi5wFBVV95cUxOT3FqSS1LbHExS3dSakxUOHFOZjR0WmxuR0d6TjNERUNSbklZYmxGZWZ4SDctcUxicm5LYl85a1hnQ2kyTDFmRkNMWDh4NGV1VWFsV3hKQmszZ2pscDQyLXV2REhDaUhjY01oTDRLLXJJS3hLTTdLdldtcFJiUWwtRFI2QmgyQ0cwMDloSFduYVNpNXUycklVNHpCT1diSUd5T0p2ZVJuOC1fOWNsbFQ4UG1KTGgza2JIRVdIbExvRGk2MXE5NkxuOXFtSy1kQWU3R3lBNlduODN0b2tLdHVsMGhEcWRobjjSAewBQVVfeXFMTVlGNGF2SU84di00YVJXeDdkZ25rdzJaQnFrLVAxWWdvSi1LcWFKOWhVcXZpWF9wMlRVb1VEV2FwSTJxUEJPX3VNbGx1N2hfNUpsTWdMcU9PMmdpMFB6UFYwV2hvVGlFeFg4ejAyd2liV0dGWlQ5SGpBdEZLZlBMQ3BsYWxLSVAyS0NhLVlNZTdHcUtMVmNoX0RGMEhVVXdtYnJVNF9PcmZQMUtSdFJqVTFwYlhoWFpTb01fVjE4NDRIUWRMWGYxczYyYzRUQVgtLXkySnM3YUZhQW9kV19MS255VWc3ZEU3VnN1Tm8?oc=5\" target=\"_blank\">Puravankara posts ₹29 crore profit in Q1FY27 as revenue jumps nearly 62%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">business-standard.com</font>",
+    "title": "Puravankara posts ₹29 crore profit in Q1FY27 as revenue jumps nearly 62% - Business Standard",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi5wFBVV95cUxOT3FqSS1LbHExS3dSakxUOHFOZjR0WmxuR0d6TjNERUNSbklZYmxGZWZ4SDctcUxicm5LYl85a1hnQ2kyTDFmRkNMWDh4NGV1VWFsV3hKQmszZ2pscDQyLXV2REhDaUhjY01oTDRLLXJJS3hLTTdLdldtcFJiUWwtRFI2QmgyQ0cwMDloSFduYVNpNXUycklVNHpCT1diSUd5T0p2ZVJuOC1fOWNsbFQ4UG1KTGgza2JIRVdIbExvRGk2MXE5NkxuOXFtSy1kQWU3R3lBNlduODN0b2tLdHVsMGhEcWRobjjSAewBQVVfeXFMTVlGNGF2SU84di00YVJXeDdkZ25rdzJaQnFrLVAxWWdvSi1LcWFKOWhVcXZpWF9wMlRVb1VEV2FwSTJxUEJPX3VNbGx1N2hfNUpsTWdMcU9PMmdpMFB6UFYwV2hvVGlFeFg4ejAyd2liV0dGWlQ5SGpBdEZLZlBMQ3BsYWxLSVAyS0NhLVlNZTdHcUtMVmNoX0RGMEhVVXdtYnJVNF9PcmZQMUtSdFJqVTFwYlhoWFpTb01fVjE4NDRIUWRMWGYxczYyYzRUQVgtLXkySnM3YUZhQW9kV19MS255VWc3ZEU3VnN1Tm8?oc=5\" target=\"_blank\">Puravankara posts ₹29 crore profit in Q1FY27 as revenue jumps nearly 62%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Business Standard</font>",
     "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOT3FqSS1LbHExS3dSakxUOHFOZjR0WmxuR0d6TjNERUNSbklZYmxGZWZ4SDctcUxicm5LYl85a1hnQ2kyTDFmRkNMWDh4NGV1VWFsV3hKQmszZ2pscDQyLXV2REhDaUhjY01oTDRLLXJJS3hLTTdLdldtcFJiUWwtRFI2QmgyQ0cwMDloSFduYVNpNXUycklVNHpCT1diSUd5T0p2ZVJuOC1fOWNsbFQ4UG1KTGgza2JIRVdIbExvRGk2MXE5NkxuOXFtSy1kQWU3R3lBNlduODN0b2tLdHVsMGhEcWRobjjSAewBQVVfeXFMTVlGNGF2SU84di00YVJXeDdkZ25rdzJaQnFrLVAxWWdvSi1LcWFKOWhVcXZpWF9wMlRVb1VEV2FwSTJxUEJPX3VNbGx1N2hfNUpsTWdMcU9PMmdpMFB6UFYwV2hvVGlFeFg4ejAyd2liV0dGWlQ5SGpBdEZLZlBMQ3BsYWxLSVAyS0NhLVlNZTdHcUtMVmNoX0RGMEhVVXdtYnJVNF9PcmZQMUtSdFJqVTFwYlhoWFpTb01fVjE4NDRIUWRMWGYxczYyYzRUQVgtLXkySnM3YUZhQW9kV19MS255VWc3ZEU3VnN1Tm8?oc=5",
     "author": null,
     "published_at": "Fri, 14 Aug 2026 15:32:14 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
   {
     "source": "news",
-    "title": "Puravankara turns profitable in Q1 as revenue surges 62%; EBITDA jumps - cnbctv18.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMizAFBVV95cUxPdU16RE82NldfVFd1eU5XekVqRm42YmF4N2xmSV9odG9WYTZ6Y25zMFZLOV93NUhLbndoV1ZBR2FCTndYSWxwYmNCRTE2SlpEazhtaU1MVFR5bFhId0hXRXo1aDlOR0Vfb2VOdmdXU0xwVHJ0NGVLa1pnWWxIcXJ5MjZOeElKQzlyYlNOVFIxZU9NWXhkSTBlckg4dlhiVTdueng1Snc4OEc0ZTFnNEFUMEszV3Zja2c0bjFhOWN2dGI5OEtiUGxlckh2Y2HSAdIBQVVfeXFMT2NYSUZpU1pfVWlmcGtPNnNiaW14Qm9XRmVuS0k4Yng1Q1VvUm50b3M0QnZ2RmFHc0xETG5iR2hVT1dzajJTMlZxQ2FfNHN0OE1HLS1lX1dNVWUyYUNTc3M0UENxN2dpbjdnS1hYUWFhVDVBUGszQlhmb1Y2dUNBVDlIR3VWU0xhYlFpSGRmTS1GTWlUMjBfTHpYcm9WRHYtZnhpVUZ2U19ZNzZBNG1hZmVzM0NTdFNlWVdjR1hXR3AwR2lZSU4ydlhud3NmX0hfVW1B?oc=5\" target=\"_blank\">Puravankara turns profitable in Q1 as revenue surges 62%; EBITDA jumps</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">cnbctv18.com</font>",
+    "title": "Puravankara turns profitable in Q1 as revenue surges 62%; EBITDA jumps - CNBC TV18",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMizAFBVV95cUxPdU16RE82NldfVFd1eU5XekVqRm42YmF4N2xmSV9odG9WYTZ6Y25zMFZLOV93NUhLbndoV1ZBR2FCTndYSWxwYmNCRTE2SlpEazhtaU1MVFR5bFhId0hXRXo1aDlOR0Vfb2VOdmdXU0xwVHJ0NGVLa1pnWWxIcXJ5MjZOeElKQzlyYlNOVFIxZU9NWXhkSTBlckg4dlhiVTdueng1Snc4OEc0ZTFnNEFUMEszV3Zja2c0bjFhOWN2dGI5OEtiUGxlckh2Y2HSAdIBQVVfeXFMT2NYSUZpU1pfVWlmcGtPNnNiaW14Qm9XRmVuS0k4Yng1Q1VvUm50b3M0QnZ2RmFHc0xETG5iR2hVT1dzajJTMlZxQ2FfNHN0OE1HLS1lX1dNVWUyYUNTc3M0UENxN2dpbjdnS1hYUWFhVDVBUGszQlhmb1Y2dUNBVDlIR3VWU0xhYlFpSGRmTS1GTWlUMjBfTHpYcm9WRHYtZnhpVUZ2U19ZNzZBNG1hZmVzM0NTdFNlWVdjR1hXR3AwR2lZSU4ydlhud3NmX0hfVW1B?oc=5\" target=\"_blank\">Puravankara turns profitable in Q1 as revenue surges 62%; EBITDA jumps</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CNBC TV18</font>",
     "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPdU16RE82NldfVFd1eU5XekVqRm42YmF4N2xmSV9odG9WYTZ6Y25zMFZLOV93NUhLbndoV1ZBR2FCTndYSWxwYmNCRTE2SlpEazhtaU1MVFR5bFhId0hXRXo1aDlOR0Vfb2VOdmdXU0xwVHJ0NGVLa1pnWWxIcXJ5MjZOeElKQzlyYlNOVFIxZU9NWXhkSTBlckg4dlhiVTdueng1Snc4OEc0ZTFnNEFUMEszV3Zja2c0bjFhOWN2dGI5OEtiUGxlckh2Y2HSAdIBQVVfeXFMT2NYSUZpU1pfVWlmcGtPNnNiaW14Qm9XRmVuS0k4Yng1Q1VvUm50b3M0QnZ2RmFHc0xETG5iR2hVT1dzajJTMlZxQ2FfNHN0OE1HLS1lX1dNVWUyYUNTc3M0UENxN2dpbjdnS1hYUWFhVDVBUGszQlhmb1Y2dUNBVDlIR3VWU0xhYlFpSGRmTS1GTWlUMjBfTHpYcm9WRHYtZnhpVUZ2U19ZNzZBNG1hZmVzM0NTdFNlWVdjR1hXR3AwR2lZSU4ydlhud3NmX0hfVW1B?oc=5",
     "author": null,
     "published_at": "Fri, 14 Aug 2026 11:52:31 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -644,7 +710,7 @@
     "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPcVBFQzd3emJ1M2g4QWJ2ZjhnNTFTYWhRaFdZTVZ4UFBiSGZ1TUt2bmJhTURXZ3pFYjU3ZUFJbXFWNEkyOVkwd1pPQVBxTHptd1hkMWU5RHVoMjZadUJQOTRZMTkteEpUaHdncXN6RWx3SndIdS12ZExjM1hDTWJwYjB5NXFPd2tsNVRYbUtGb2lTbmZ5ODVWNktVLUwtR0NBMGtTaHlRZk95WE10SXl5LUJLeEdGaGNzaEY4WFNaTQ?oc=5",
     "author": null,
     "published_at": "Mon, 17 Aug 2026 11:51:09 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -699,7 +765,7 @@
     "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPWUt2Z3I3Qlg1WmwzenBRdGRwRGZhS3lGeU9XWElZUkxaQVpQdlhYNDlxMlRmZ0JjWEJGSWpuWUUtSmZ4SkpiRmVZRTlfTzEtOU9zX2REU1hxQXZSUXUyeHVKcXJBakM0X05jYUp3TTMtc1BZV2ZqbG9Makt0OE5BZHR2TnFZd3VRWXNQSnd6ZUIzM2Ntbk9IX0tjN3dqV1BlVUNXODFaSGZ3M0lYYUVrNlFLRTEyVDFEOEJpdW5LbzJFYzBq?oc=5",
     "author": null,
     "published_at": "Fri, 14 Aug 2026 07:00:00 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -716,34 +782,12 @@
   },
   {
     "source": "news",
-    "title": "Puravankara reports consolidated net profit of Rs 28.93 crore in the June 2026 quarter - business-standard.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi_AFBVV95cUxOb2dVdmpCaU1SMFI4N0JBdU1uVDN6QzdreGNHS1hzWkppNGptRG5NanhTclczcEdVWlZRV2tUT2F5V0t0LXpkVkk2Y3dET1dHaWc2V0lCZ2V0b0c5VXBzSmVBZlhsc1AyTzVnZnlrTzFnc2JoTDFET1NGY29fZmpOMmlMT19PTjNiWGwxaXFjSHNlX3hqb2dFSUJja0pSUXN3bkJyclRZYlhxb01ldFYxRHc2bFFvREF6R211Sy1PWm5pQk9uQVJkX1ZxUzhBdEhZemJvZy10RXJEVTdoTDFTVmdIblFEV24tbm1UWXpPR2REUVZqVW5obGZKSmXSAYICQVVfeXFMTklTM1Eya2dCM2VZcXpsX2Jmb1NQeFN2VE1jUFd2bW5jLUJKZVpYQzRnbFNzbnpuQUpGOUZFOVl4Q0lUNHFZNmkwM0d0N0F1QVB1TkUzSHZyd0o3TEVDX1ZzNUdzSy0wSEExWWMzRTJQcmFpSXJfQlNWZXJBLUJoOTFKWVp1MktrZzRCMEd6ME5WRXJhNHRFVEx3YW1DRVFNRjc5N0RXLVdueW13aDlqYUFta2M1cno2aURBUFdYY1NPWHBGQkhSd3BCRklOVFpDSDZ0ZldWSk0tTXE1LW53TnlrM3M0WXZFeWhkWEZCLUNyVnlDenl4TnVFQUFnbjJsb2J3?oc=5\" target=\"_blank\">Puravankara reports consolidated net profit of Rs 28.93 crore in the June 2026 quarter</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">business-standard.com</font>",
+    "title": "Puravankara reports consolidated net profit of Rs 28.93 crore in the June 2026 quarter - Business Standard",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi_AFBVV95cUxOb2dVdmpCaU1SMFI4N0JBdU1uVDN6QzdreGNHS1hzWkppNGptRG5NanhTclczcEdVWlZRV2tUT2F5V0t0LXpkVkk2Y3dET1dHaWc2V0lCZ2V0b0c5VXBzSmVBZlhsc1AyTzVnZnlrTzFnc2JoTDFET1NGY29fZmpOMmlMT19PTjNiWGwxaXFjSHNlX3hqb2dFSUJja0pSUXN3bkJyclRZYlhxb01ldFYxRHc2bFFvREF6R211Sy1PWm5pQk9uQVJkX1ZxUzhBdEhZemJvZy10RXJEVTdoTDFTVmdIblFEV24tbm1UWXpPR2REUVZqVW5obGZKSmXSAYICQVVfeXFMTklTM1Eya2dCM2VZcXpsX2Jmb1NQeFN2VE1jUFd2bW5jLUJKZVpYQzRnbFNzbnpuQUpGOUZFOVl4Q0lUNHFZNmkwM0d0N0F1QVB1TkUzSHZyd0o3TEVDX1ZzNUdzSy0wSEExWWMzRTJQcmFpSXJfQlNWZXJBLUJoOTFKWVp1MktrZzRCMEd6ME5WRXJhNHRFVEx3YW1DRVFNRjc5N0RXLVdueW13aDlqYUFta2M1cno2aURBUFdYY1NPWHBGQkhSd3BCRklOVFpDSDZ0ZldWSk0tTXE1LW53TnlrM3M0WXZFeWhkWEZCLUNyVnlDenl4TnVFQUFnbjJsb2J3?oc=5\" target=\"_blank\">Puravankara reports consolidated net profit of Rs 28.93 crore in the June 2026 quarter</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Business Standard</font>",
     "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxOb2dVdmpCaU1SMFI4N0JBdU1uVDN6QzdreGNHS1hzWkppNGptRG5NanhTclczcEdVWlZRV2tUT2F5V0t0LXpkVkk2Y3dET1dHaWc2V0lCZ2V0b0c5VXBzSmVBZlhsc1AyTzVnZnlrTzFnc2JoTDFET1NGY29fZmpOMmlMT19PTjNiWGwxaXFjSHNlX3hqb2dFSUJja0pSUXN3bkJyclRZYlhxb01ldFYxRHc2bFFvREF6R211Sy1PWm5pQk9uQVJkX1ZxUzhBdEhZemJvZy10RXJEVTdoTDFTVmdIblFEV24tbm1UWXpPR2REUVZqVW5obGZKSmXSAYICQVVfeXFMTklTM1Eya2dCM2VZcXpsX2Jmb1NQeFN2VE1jUFd2bW5jLUJKZVpYQzRnbFNzbnpuQUpGOUZFOVl4Q0lUNHFZNmkwM0d0N0F1QVB1TkUzSHZyd0o3TEVDX1ZzNUdzSy0wSEExWWMzRTJQcmFpSXJfQlNWZXJBLUJoOTFKWVp1MktrZzRCMEd6ME5WRXJhNHRFVEx3YW1DRVFNRjc5N0RXLVdueW13aDlqYUFta2M1cno2aURBUFdYY1NPWHBGQkhSd3BCRklOVFpDSDZ0ZldWSk0tTXE1LW53TnlrM3M0WXZFeWhkWEZCLUNyVnlDenl4TnVFQUFnbjJsb2J3?oc=5",
     "author": null,
     "published_at": "Fri, 14 Aug 2026 12:44:01 GMT",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "news",
-    "title": "Volume Gainers, August 17, 2026, 3:30 PM IST - HDFC Sky",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE0tcUJFb01KTXdFSjR5NXhNV1BNS002dlp0ODdUUTUzWkFMSTRhUjAtSFlrVkEyQzBGdjBZZ3RqTXNPZkpIdktqWVVzMWdNazBxcUtWajZhOXN1cGE4ZWJxNmxOaXI?oc=5\" target=\"_blank\">Volume Gainers, August 17, 2026, 3:30 PM IST</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">HDFC Sky</font>",
-    "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0tcUJFb01KTXdFSjR5NXhNV1BNS002dlp0ODdUUTUzWkFMSTRhUjAtSFlrVkEyQzBGdjBZZ3RqTXNPZkpIdktqWVVzMWdNazBxcUtWajZhOXN1cGE4ZWJxNmxOaXI?oc=5",
-    "author": null,
-    "published_at": "Mon, 17 Aug 2026 06:48:26 GMT",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "news",
-    "title": "Puravankara surges after reporting turnaround Q1 performance - business-standard.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxPa2IteU1GZEhJbjExODVTdG1pSDlyOWQ5VUttemt3bXlsN2wyd1NYLUpKWkpyLTBaR3dKS01mY1piam1XbUNwNXpXX0lGMHpGZi1zSGUtcXdNdVN5cFc5b2dpRXZ5b3Y0SlBxcmVYanZBX1Y2TzhOOUg3dmZNSlNJdWhfMy1OZVh0dWNYTndjNmdBamgxZ1RzOGdIemdDanBfYVdDUmx6NjZEM3JSMWZEc1VyLTFWWmpxNmx0ODM1S0V0OF9NZkJHVzZuSjhib2k1bXBmY2xZX2Ywc254U0pz0gHfAUFVX3lxTE9rYi15TUZkSEluMTE4NVN0bWlIOXI5ZDlVS216a3dteWw3bDJ3U1gtSkpaSnItMFpHd0pLTWZjWmJqbVdtQ3A1eldfSUYwekZmLXNIZS1xd011U3lwVzlvZ2lFdnlvdjRKUHFyZVhqdkFfVjZPOE45SDd2Zk1KU0l1aF8zLU5lWHR1Y1hOd2M2Z0FqaDFnVHM4Z0h6Z0NqcF9hV0NSbHo2NkQzclIxZkRzVXItMVZaanE2bHQ4MzVLRXQ4X01mQkdXNm5KOGJvaTVtcGZjbFlfZjBzbnhTSnM?oc=5\" target=\"_blank\">Puravankara surges after reporting turnaround Q1 performance</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">business-standard.com</font>",
-    "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPa2IteU1GZEhJbjExODVTdG1pSDlyOWQ5VUttemt3bXlsN2wyd1NYLUpKWkpyLTBaR3dKS01mY1piam1XbUNwNXpXX0lGMHpGZi1zSGUtcXdNdVN5cFc5b2dpRXZ5b3Y0SlBxcmVYanZBX1Y2TzhOOUg3dmZNSlNJdWhfMy1OZVh0dWNYTndjNmdBamgxZ1RzOGdIemdDanBfYVdDUmx6NjZEM3JSMWZEc1VyLTFWWmpxNmx0ODM1S0V0OF9NZkJHVzZuSjhib2k1bXBmY2xZX2Ywc254U0pz0gHfAUFVX3lxTE9rYi15TUZkSEluMTE4NVN0bWlIOXI5ZDlVS216a3dteWw3bDJ3U1gtSkpaSnItMFpHd0pLTWZjWmJqbVdtQ3A1eldfSUYwekZmLXNIZS1xd011U3lwVzlvZ2lFdnlvdjRKUHFyZVhqdkFfVjZPOE45SDd2Zk1KU0l1aF8zLU5lWHR1Y1hOd2M2Z0FqaDFnVHM4Z0h6Z0NqcF9hV0NSbHo2NkQzclIxZkRzVXItMVZaanE2bHQ4MzVLRXQ4X01mQkdXNm5KOGJvaTVtcGZjbFlfZjBzbnhTSnM?oc=5",
-    "author": null,
-    "published_at": "Mon, 17 Aug 2026 05:34:01 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -760,11 +804,44 @@
   },
   {
     "source": "news",
+    "title": "Puravankara surges after reporting turnaround Q1 performance - Business Standard",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxPa2IteU1GZEhJbjExODVTdG1pSDlyOWQ5VUttemt3bXlsN2wyd1NYLUpKWkpyLTBaR3dKS01mY1piam1XbUNwNXpXX0lGMHpGZi1zSGUtcXdNdVN5cFc5b2dpRXZ5b3Y0SlBxcmVYanZBX1Y2TzhOOUg3dmZNSlNJdWhfMy1OZVh0dWNYTndjNmdBamgxZ1RzOGdIemdDanBfYVdDUmx6NjZEM3JSMWZEc1VyLTFWWmpxNmx0ODM1S0V0OF9NZkJHVzZuSjhib2k1bXBmY2xZX2Ywc254U0pz0gHfAUFVX3lxTE9rYi15TUZkSEluMTE4NVN0bWlIOXI5ZDlVS216a3dteWw3bDJ3U1gtSkpaSnItMFpHd0pLTWZjWmJqbVdtQ3A1eldfSUYwekZmLXNIZS1xd011U3lwVzlvZ2lFdnlvdjRKUHFyZVhqdkFfVjZPOE45SDd2Zk1KU0l1aF8zLU5lWHR1Y1hOd2M2Z0FqaDFnVHM4Z0h6Z0NqcF9hV0NSbHo2NkQzclIxZkRzVXItMVZaanE2bHQ4MzVLRXQ4X01mQkdXNm5KOGJvaTVtcGZjbFlfZjBzbnhTSnM?oc=5\" target=\"_blank\">Puravankara surges after reporting turnaround Q1 performance</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Business Standard</font>",
+    "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPa2IteU1GZEhJbjExODVTdG1pSDlyOWQ5VUttemt3bXlsN2wyd1NYLUpKWkpyLTBaR3dKS01mY1piam1XbUNwNXpXX0lGMHpGZi1zSGUtcXdNdVN5cFc5b2dpRXZ5b3Y0SlBxcmVYanZBX1Y2TzhOOUg3dmZNSlNJdWhfMy1OZVh0dWNYTndjNmdBamgxZ1RzOGdIemdDanBfYVdDUmx6NjZEM3JSMWZEc1VyLTFWWmpxNmx0ODM1S0V0OF9NZkJHVzZuSjhib2k1bXBmY2xZX2Ywc254U0pz0gHfAUFVX3lxTE9rYi15TUZkSEluMTE4NVN0bWlIOXI5ZDlVS216a3dteWw3bDJ3U1gtSkpaSnItMFpHd0pLTWZjWmJqbVdtQ3A1eldfSUYwekZmLXNIZS1xd011U3lwVzlvZ2lFdnlvdjRKUHFyZVhqdkFfVjZPOE45SDd2Zk1KU0l1aF8zLU5lWHR1Y1hOd2M2Z0FqaDFnVHM4Z0h6Z0NqcF9hV0NSbHo2NkQzclIxZkRzVXItMVZaanE2bHQ4MzVLRXQ4X01mQkdXNm5KOGJvaTVtcGZjbFlfZjBzbnhTSnM?oc=5",
+    "author": null,
+    "published_at": "Mon, 17 Aug 2026 05:34:01 GMT",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "news",
     "title": "Puravankara signs ₹1,000 crore JDA for Bengaluru housing project - BusinessLine",
     "text": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxQb2UtVVowV0EwTTVUdjVCRDRBVWtFOUttQkhSbzFpMGcybjVQV3AwUGVuWEppZzFIeEp2di05OGViY1FGV1JSMGltMGMwRUVEMFdfd1BGRUwwSHlzdElYZm9maDRoWDloaWt5bkdZWTdINWF5RWlzNy1NSUx0eHFWSHpiOWpNeVgyalFrRUlCNFJkVDFjRENBRU0tOE5ONjZhRVJlRDI0dktKSFdSLUdIY1c1alN3YTRqd0xkNlZYbDdkeDNBS2NJQ0JtZFNOYnZDc0VHUFp3bFlLR3l4WmlZ0gHmAUFVX3lxTE9uNFJTOVRUc1A4dHZhMmtiOFNmWGRDTk5ZWF9XTGIzT0lkNTF4Q3VXZnc1Vms4d0RXb0dSQXR1bGhsRGU5b2tvc2g2SnlhUHBXdzctck9HdWJlSDE4UmdQM2hYcEVpcndSRF9odWdhV2hZNWNfX0FoazgtR18wdWZYcWczLXJQQ2Y2M3RrdjVldVVPMHdhQ1h0WUY5TVhzQ1hUUkJJMlFpZWI3akgxMEJXUmZNSUhDTE1GSllvRi0tdElNa2plR0F3RzdWYU00blRrNVBsdU5pNnNqd05sTV9NdGx4R3hn?oc=5\" target=\"_blank\">Puravankara signs ₹1,000 crore JDA for Bengaluru housing project</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">BusinessLine</font>",
     "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQb2UtVVowV0EwTTVUdjVCRDRBVWtFOUttQkhSbzFpMGcybjVQV3AwUGVuWEppZzFIeEp2di05OGViY1FGV1JSMGltMGMwRUVEMFdfd1BGRUwwSHlzdElYZm9maDRoWDloaWt5bkdZWTdINWF5RWlzNy1NSUx0eHFWSHpiOWpNeVgyalFrRUlCNFJkVDFjRENBRU0tOE5ONjZhRVJlRDI0dktKSFdSLUdIY1c1alN3YTRqd0xkNlZYbDdkeDNBS2NJQ0JtZFNOYnZDc0VHUFp3bFlLR3l4WmlZ0gHmAUFVX3lxTE9uNFJTOVRUc1A4dHZhMmtiOFNmWGRDTk5ZWF9XTGIzT0lkNTF4Q3VXZnc1Vms4d0RXb0dSQXR1bGhsRGU5b2tvc2g2SnlhUHBXdzctck9HdWJlSDE4UmdQM2hYcEVpcndSRF9odWdhV2hZNWNfX0FoazgtR18wdWZYcWczLXJQQ2Y2M3RrdjVldVVPMHdhQ1h0WUY5TVhzQ1hUUkJJMlFpZWI3akgxMEJXUmZNSUhDTE1GSllvRi0tdElNa2plR0F3RzdWYU00blRrNVBsdU5pNnNqd05sTV9NdGx4R3hn?oc=5",
     "author": null,
     "published_at": "Mon, 29 Jun 2026 07:00:00 GMT",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "news",
+    "title": "Puravankara Shares Surge Nearly 15% on Strong Q1 FY27 Performance, Premium Housing Demand Boosts Growth - India Infoline",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxQMFZMSUZybHZZckhUekpaVXdvQ2ZBTTZnb1dqcmp5dWJFbXJUUnNXenlydGd5ZUROd0lnZ05GM0lFbk9zTm41LUFUSVdlWVV5NnBMZ192ajF1eXVra3BSOE9VdmltcHZaSGtkWDluZVJBTUVBNUkzWkxJNXltN1dkSXBtTV9DUVk5bmVPTDBhYXN0ZGZMNUh0V3dTOVVNREJkTm1ueVhvejlWcHVNUWhrNXZEbUdXLUlXTHVrX1oxZ0RnR0NmRlpXZllYS1pSangxWV9YQ1lXT180aFo0VVlJ?oc=5\" target=\"_blank\">Puravankara Shares Surge Nearly 15% on Strong Q1 FY27 Performance, Premium Housing Demand Boosts Growth</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">India Infoline</font>",
+    "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQMFZMSUZybHZZckhUekpaVXdvQ2ZBTTZnb1dqcmp5dWJFbXJUUnNXenlydGd5ZUROd0lnZ05GM0lFbk9zTm41LUFUSVdlWVV5NnBMZ192ajF1eXVra3BSOE9VdmltcHZaSGtkWDluZVJBTUVBNUkzWkxJNXltN1dkSXBtTV9DUVk5bmVPTDBhYXN0ZGZMNUh0V3dTOVVNREJkTm1ueVhvejlWcHVNUWhrNXZEbUdXLUlXTHVrX1oxZ0RnR0NmRlpXZllYS1pSangxWV9YQ1lXT180aFo0VVlJ?oc=5",
+    "author": null,
+    "published_at": "Mon, 13 Jul 2026 07:00:00 GMT",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "news",
+    "title": "Puravankara’s pre-sales jumps 28% in Q1 to Rs 1,439 crore, adds Rs 5,200 crore GDV pipeline - newindianexpress.com",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi1wFBVV95cUxOVEYxT29pcVdHWXVBN3R3cHNXNG9Ob3RpRWR2bHBQX2d5WjMzS3hPSE00bHUzcnMydXVvRzBmam94TWVkMXZSWEh6TGY5Q0N5UEVrMW1vb3ZYT3dxSXFDbV9CWjAwWGgtak4tZmxGOW1fSEl6b29kVHdoRWxuWXFmelBTRGozbWRVZ1IwV3BWMnBDVHdBaVJoLVBsQmoyVUwyQ0lsUS1FaUFQMnllRFgyZVM3X1VRSnIwVzBqZXBmZGVxLXluT3piVFhZWmpVc1lEcmtRN3gxSdIB5AFBVV95cUxOcjJfRWhUcXNBVGtBUE5Udm95dmNNZW5wcER6ejNaUVhtXzlWQlQ4SnRFMEI5ZGk0TjBXQ2kwNXkya3I3R002U1FlSWQ3RWtaNFlUMEtJeHB6VmxmWFZmUWNLd256Rm1EQzRFSTFlWHEzOFU1REVLVzRYNkZKTGRhZzJCSjVIeFBRRF96cVhMcmZSbkcwc25wRlF4eEFReFFrcTh0TzRaWm5Pdi1fb1lDQjNPcF8wZkZtZ1NHYkUxbXBzekdDQ25DdEVTUG9JcFJDaXVWLUlDbGlUX3lXQlBYRm43NEE?oc=5\" target=\"_blank\">Puravankara’s pre-sales jumps 28% in Q1 to Rs 1,439 crore, adds Rs 5,200 crore GDV pipeline</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">newindianexpress.com</font>",
+    "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOVEYxT29pcVdHWXVBN3R3cHNXNG9Ob3RpRWR2bHBQX2d5WjMzS3hPSE00bHUzcnMydXVvRzBmam94TWVkMXZSWEh6TGY5Q0N5UEVrMW1vb3ZYT3dxSXFDbV9CWjAwWGgtak4tZmxGOW1fSEl6b29kVHdoRWxuWXFmelBTRGozbWRVZ1IwV3BWMnBDVHdBaVJoLVBsQmoyVUwyQ0lsUS1FaUFQMnllRFgyZVM3X1VRSnIwVzBqZXBmZGVxLXluT3piVFhZWmpVc1lEcmtRN3gxSdIB5AFBVV95cUxOcjJfRWhUcXNBVGtBUE5Udm95dmNNZW5wcER6ejNaUVhtXzlWQlQ4SnRFMEI5ZGk0TjBXQ2kwNXkya3I3R002U1FlSWQ3RWtaNFlUMEtJeHB6VmxmWFZmUWNLd256Rm1EQzRFSTFlWHEzOFU1REVLVzRYNkZKTGRhZzJCSjVIeFBRRF96cVhMcmZSbkcwc25wRlF4eEFReFFrcTh0TzRaWm5Pdi1fb1lDQjNPcF8wZkZtZ1NHYkUxbXBzekdDQ25DdEVTUG9JcFJDaXVWLUlDbGlUX3lXQlBYRm43NEE?oc=5",
+    "author": null,
+    "published_at": "Mon, 13 Jul 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -804,22 +881,22 @@
   },
   {
     "source": "news",
-    "title": "Puravankara’s pre-sales jumps 28% in Q1 to Rs 1,439 crore, adds Rs 5,200 crore GDV pipeline - The New Indian Express",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi1wFBVV95cUxOVEYxT29pcVdHWXVBN3R3cHNXNG9Ob3RpRWR2bHBQX2d5WjMzS3hPSE00bHUzcnMydXVvRzBmam94TWVkMXZSWEh6TGY5Q0N5UEVrMW1vb3ZYT3dxSXFDbV9CWjAwWGgtak4tZmxGOW1fSEl6b29kVHdoRWxuWXFmelBTRGozbWRVZ1IwV3BWMnBDVHdBaVJoLVBsQmoyVUwyQ0lsUS1FaUFQMnllRFgyZVM3X1VRSnIwVzBqZXBmZGVxLXluT3piVFhZWmpVc1lEcmtRN3gxSdIB5AFBVV95cUxOcjJfRWhUcXNBVGtBUE5Udm95dmNNZW5wcER6ejNaUVhtXzlWQlQ4SnRFMEI5ZGk0TjBXQ2kwNXkya3I3R002U1FlSWQ3RWtaNFlUMEtJeHB6VmxmWFZmUWNLd256Rm1EQzRFSTFlWHEzOFU1REVLVzRYNkZKTGRhZzJCSjVIeFBRRF96cVhMcmZSbkcwc25wRlF4eEFReFFrcTh0TzRaWm5Pdi1fb1lDQjNPcF8wZkZtZ1NHYkUxbXBzekdDQ25DdEVTUG9JcFJDaXVWLUlDbGlUX3lXQlBYRm43NEE?oc=5\" target=\"_blank\">Puravankara’s pre-sales jumps 28% in Q1 to Rs 1,439 crore, adds Rs 5,200 crore GDV pipeline</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The New Indian Express</font>",
-    "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOVEYxT29pcVdHWXVBN3R3cHNXNG9Ob3RpRWR2bHBQX2d5WjMzS3hPSE00bHUzcnMydXVvRzBmam94TWVkMXZSWEh6TGY5Q0N5UEVrMW1vb3ZYT3dxSXFDbV9CWjAwWGgtak4tZmxGOW1fSEl6b29kVHdoRWxuWXFmelBTRGozbWRVZ1IwV3BWMnBDVHdBaVJoLVBsQmoyVUwyQ0lsUS1FaUFQMnllRFgyZVM3X1VRSnIwVzBqZXBmZGVxLXluT3piVFhZWmpVc1lEcmtRN3gxSdIB5AFBVV95cUxOcjJfRWhUcXNBVGtBUE5Udm95dmNNZW5wcER6ejNaUVhtXzlWQlQ4SnRFMEI5ZGk0TjBXQ2kwNXkya3I3R002U1FlSWQ3RWtaNFlUMEtJeHB6VmxmWFZmUWNLd256Rm1EQzRFSTFlWHEzOFU1REVLVzRYNkZKTGRhZzJCSjVIeFBRRF96cVhMcmZSbkcwc25wRlF4eEFReFFrcTh0TzRaWm5Pdi1fb1lDQjNPcF8wZkZtZ1NHYkUxbXBzekdDQ25DdEVTUG9JcFJDaXVWLUlDbGlUX3lXQlBYRm43NEE?oc=5",
+    "title": "Puravankara to jointly develop 6.4-acre land parcel in Bengaluru - realty.economictimes.indiatimes.com",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxQeldyU3F3TWlJajg1b0lNS0t4dDdnTkhYYnF1bWxMMzNMVTFLWnRZa2pMSi1pdkROYlNkYWlhaXNMcGhYaFhINkZGNElRUUxJUXZQRzVjR0V5S3NDNG5TTUs4Q3N3S09kaGJXQzNBUWoyT0dnYzhneTRMNGVzR2Zma2s3QnYyR0lzN2hlRkZvUTVRcXV2aDVCdHhUY3diSWNyWndOZmUta3lkRUVjeFVROUZsaTViZnV0YnZZeF9FaTBZSFFVeklkT1Bvd9IB0AFBVV95cUxPMG9BV3laQkxDYUNIZDkzOEJqMnlCSGQzLTZfbUlYUVlLZGtNaExpQ3dwTUM4dlltZnQ0MEE0N1BhdmYwWUZ6SzJNVUROWkt0ZWluVi1ZZXVmQnBhUENBOGRlQjB3dVJQSElsRFFTdEhNMjN3Y0R3dGp1SDBnRXpGUnBNdVhHeU1vR0pQQVFTVHNEY3dtT0xFa0pZdm03SmN1UGYtLXZkeXhMNnJZTGhNMjRUMXFwU0pXck8tS2d4c1J4Nl9ZNElVSmZJV19QUWoy?oc=5\" target=\"_blank\">Puravankara to jointly develop 6.4-acre land parcel in Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">realty.economictimes.indiatimes.com</font>",
+    "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQeldyU3F3TWlJajg1b0lNS0t4dDdnTkhYYnF1bWxMMzNMVTFLWnRZa2pMSi1pdkROYlNkYWlhaXNMcGhYaFhINkZGNElRUUxJUXZQRzVjR0V5S3NDNG5TTUs4Q3N3S09kaGJXQzNBUWoyT0dnYzhneTRMNGVzR2Zma2s3QnYyR0lzN2hlRkZvUTVRcXV2aDVCdHhUY3diSWNyWndOZmUta3lkRUVjeFVROUZsaTViZnV0YnZZeF9FaTBZSFFVeklkT1Bvd9IB0AFBVV95cUxPMG9BV3laQkxDYUNIZDkzOEJqMnlCSGQzLTZfbUlYUVlLZGtNaExpQ3dwTUM4dlltZnQ0MEE0N1BhdmYwWUZ6SzJNVUROWkt0ZWluVi1ZZXVmQnBhUENBOGRlQjB3dVJQSElsRFFTdEhNMjN3Y0R3dGp1SDBnRXpGUnBNdVhHeU1vR0pQQVFTVHNEY3dtT0xFa0pZdm03SmN1UGYtLXZkeXhMNnJZTGhNMjRUMXFwU0pXck8tS2d4c1J4Nl9ZNElVSmZJV19QUWoy?oc=5",
     "author": null,
-    "published_at": "Mon, 13 Jul 2026 07:00:00 GMT",
+    "published_at": "Mon, 29 Jun 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
   },
   {
     "source": "news",
-    "title": "Puravankara to jointly develop 6.4-acre land parcel in Bengaluru - realty.economictimes.indiatimes.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxQeldyU3F3TWlJajg1b0lNS0t4dDdnTkhYYnF1bWxMMzNMVTFLWnRZa2pMSi1pdkROYlNkYWlhaXNMcGhYaFhINkZGNElRUUxJUXZQRzVjR0V5S3NDNG5TTUs4Q3N3S09kaGJXQzNBUWoyT0dnYzhneTRMNGVzR2Zma2s3QnYyR0lzN2hlRkZvUTVRcXV2aDVCdHhUY3diSWNyWndOZmUta3lkRUVjeFVROUZsaTViZnV0YnZZeF9FaTBZSFFVeklkT1Bvd9IB0AFBVV95cUxPMG9BV3laQkxDYUNIZDkzOEJqMnlCSGQzLTZfbUlYUVlLZGtNaExpQ3dwTUM4dlltZnQ0MEE0N1BhdmYwWUZ6SzJNVUROWkt0ZWluVi1ZZXVmQnBhUENBOGRlQjB3dVJQSElsRFFTdEhNMjN3Y0R3dGp1SDBnRXpGUnBNdVhHeU1vR0pQQVFTVHNEY3dtT0xFa0pZdm03SmN1UGYtLXZkeXhMNnJZTGhNMjRUMXFwU0pXck8tS2d4c1J4Nl9ZNElVSmZJV19QUWoy?oc=5\" target=\"_blank\">Puravankara to jointly develop 6.4-acre land parcel in Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">realty.economictimes.indiatimes.com</font>",
-    "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQeldyU3F3TWlJajg1b0lNS0t4dDdnTkhYYnF1bWxMMzNMVTFLWnRZa2pMSi1pdkROYlNkYWlhaXNMcGhYaFhINkZGNElRUUxJUXZQRzVjR0V5S3NDNG5TTUs4Q3N3S09kaGJXQzNBUWoyT0dnYzhneTRMNGVzR2Zma2s3QnYyR0lzN2hlRkZvUTVRcXV2aDVCdHhUY3diSWNyWndOZmUta3lkRUVjeFVROUZsaTViZnV0YnZZeF9FaTBZSFFVeklkT1Bvd9IB0AFBVV95cUxPMG9BV3laQkxDYUNIZDkzOEJqMnlCSGQzLTZfbUlYUVlLZGtNaExpQ3dwTUM4dlltZnQ0MEE0N1BhdmYwWUZ6SzJNVUROWkt0ZWluVi1ZZXVmQnBhUENBOGRlQjB3dVJQSElsRFFTdEhNMjN3Y0R3dGp1SDBnRXpGUnBNdVhHeU1vR0pQQVFTVHNEY3dtT0xFa0pZdm03SmN1UGYtLXZkeXhMNnJZTGhNMjRUMXFwU0pXck8tS2d4c1J4Nl9ZNElVSmZJV19QUWoy?oc=5",
+    "title": "Puravankara acquires 9.73-acre land parcel in North Bengaluru - Construction Week Online India",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMikgFBVV95cUxQaUNPdDRXUHUyRlZJX0hSTmpKLXBXVmdsQmFTczN2ckdVTndMeUhObWlxVjdnZXAwYWFJZG5nZEotZGRLTmI3dlhicjVVaXN0R09JXzhMMWx3cXlhQ1lMa2lXWTRUMlg5T29zQWpFcl9abHZGeTZObzJrRUcwUjFtWWhBazZEUWx2SXJlTWUxRVlpQQ?oc=5\" target=\"_blank\">Puravankara acquires 9.73-acre land parcel in North Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Construction Week Online India</font>",
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQaUNPdDRXUHUyRlZJX0hSTmpKLXBXVmdsQmFTczN2ckdVTndMeUhObWlxVjdnZXAwYWFJZG5nZEotZGRLTmI3dlhicjVVaXN0R09JXzhMMWx3cXlhQ1lMa2lXWTRUMlg5T29zQWpFcl9abHZGeTZObzJrRUcwUjFtWWhBazZEUWx2SXJlTWUxRVlpQQ?oc=5",
     "author": null,
-    "published_at": "Mon, 29 Jun 2026 07:00:00 GMT",
+    "published_at": "Thu, 18 Jun 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -837,11 +914,11 @@
   },
   {
     "source": "news",
-    "title": "Puravankara Buys Bengaluru Land for Rs 800 Cr Housing Project - Rediff MoneyWiz",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ05pYVhNUnI1UzhheFRkRDVYbUotSEwyZk1iVElDX3dDLXd3eWd5OHpxeVVESWl0YUlSVzRVdTAwcTJ1UXZRY21vNDNhb0dvS2prZG43ZHZlQk1ydUNoMVpvZ3B3WHIzaU14MTNaeFJVRk10U3hVM2ZaRC1VZXRTdTJzbW9YMFc2eUVQc3BGd1I2RzZoMEZQZVZ4MHZrTV9KeVQzaVhvQVZqbDF1ZTRSZFlIb9IBuAFBVV95cUxOQ1NjbTd1ekJ6WS1LMGdGOTZESzBrVTdSRzQtbzBmN2xGYkRORmlHTTFPbENxb0RTZGRSc1dYbHJ0bWlpMC1BYnJ0SEtkNjVfN2R4c3dVNjdqckFDSl9iQW9JLVl5ZFVxQm1kWE5FYUpjejVNVmFUYlJSNElYbjQtX0p6OUxaZEs5MjQ4OWNSMzJZYzFrT0NWanF0WnRtWTZmYXBIUy1OZ1JlOFJVbzBqQzBHaC1GNGdS?oc=5\" target=\"_blank\">Puravankara Buys Bengaluru Land for Rs 800 Cr Housing Project</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Rediff MoneyWiz</font>",
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ05pYVhNUnI1UzhheFRkRDVYbUotSEwyZk1iVElDX3dDLXd3eWd5OHpxeVVESWl0YUlSVzRVdTAwcTJ1UXZRY21vNDNhb0dvS2prZG43ZHZlQk1ydUNoMVpvZ3B3WHIzaU14MTNaeFJVRk10U3hVM2ZaRC1VZXRTdTJzbW9YMFc2eUVQc3BGd1I2RzZoMEZQZVZ4MHZrTV9KeVQzaVhvQVZqbDF1ZTRSZFlIb9IBuAFBVV95cUxOQ1NjbTd1ekJ6WS1LMGdGOTZESzBrVTdSRzQtbzBmN2xGYkRORmlHTTFPbENxb0RTZGRSc1dYbHJ0bWlpMC1BYnJ0SEtkNjVfN2R4c3dVNjdqckFDSl9iQW9JLVl5ZFVxQm1kWE5FYUpjejVNVmFUYlJSNElYbjQtX0p6OUxaZEs5MjQ4OWNSMzJZYzFrT0NWanF0WnRtWTZmYXBIUy1OZ1JlOFJVbzBqQzBHaC1GNGdS?oc=5",
+    "title": "Puravankara Reports 28% YoY Growth in Pre Sales; Collections Surge 40%; Adds ₹5,200 Crore GDV Pipeline in Q1 FY27 - ANI News",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi9AFBVV95cUxPYXVIcmdHek00bmNOa1JhMm9oM3o5UlRwaV9BbjNKa21yS0RaWkU0ZEtiLVFtdVdOM1hCdld4ZktDdDBybFkzTEpfelJGa0tkN2hWSl83VmZ0bEU4b2o0RE02UVZYY3RDelNWUERSdElGZndZX05YQVhMSk1PWjE5X1VHbUpSTEhOLV92VDBNTDRWSDRwS0NlM1pBSDRGSWJHY25DaTBwajJOcUM5ZUl0d251OHcxOG9PVmdYYWd1TWU2ajlDYWhZOWlBRGpvLWx2WHRjd2JJQ19TaldJZVQ2T2RLQm0yMElqektXdWlhdENvdVlv?oc=5\" target=\"_blank\">Puravankara Reports 28% YoY Growth in Pre Sales; Collections Surge 40%; Adds ₹5,200 Crore GDV Pipeline in Q1 FY27</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">ANI News</font>",
+    "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxPYXVIcmdHek00bmNOa1JhMm9oM3o5UlRwaV9BbjNKa21yS0RaWkU0ZEtiLVFtdVdOM1hCdld4ZktDdDBybFkzTEpfelJGa0tkN2hWSl83VmZ0bEU4b2o0RE02UVZYY3RDelNWUERSdElGZndZX05YQVhMSk1PWjE5X1VHbUpSTEhOLV92VDBNTDRWSDRwS0NlM1pBSDRGSWJHY25DaTBwajJOcUM5ZUl0d251OHcxOG9PVmdYYWd1TWU2ajlDYWhZOWlBRGpvLWx2WHRjd2JJQ19TaldJZVQ2T2RLQm0yMElqektXdWlhdENvdVlv?oc=5",
     "author": null,
-    "published_at": "Wed, 17 Jun 2026 07:00:00 GMT",
+    "published_at": "Mon, 13 Jul 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -859,6 +936,17 @@
   },
   {
     "source": "news",
+    "title": "Puravankara Buys Bengaluru Land for Rs 800 Cr Housing Project - Rediff MoneyWiz",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ05pYVhNUnI1UzhheFRkRDVYbUotSEwyZk1iVElDX3dDLXd3eWd5OHpxeVVESWl0YUlSVzRVdTAwcTJ1UXZRY21vNDNhb0dvS2prZG43ZHZlQk1ydUNoMVpvZ3B3WHIzaU14MTNaeFJVRk10U3hVM2ZaRC1VZXRTdTJzbW9YMFc2eUVQc3BGd1I2RzZoMEZQZVZ4MHZrTV9KeVQzaVhvQVZqbDF1ZTRSZFlIb9IBuAFBVV95cUxOQ1NjbTd1ekJ6WS1LMGdGOTZESzBrVTdSRzQtbzBmN2xGYkRORmlHTTFPbENxb0RTZGRSc1dYbHJ0bWlpMC1BYnJ0SEtkNjVfN2R4c3dVNjdqckFDSl9iQW9JLVl5ZFVxQm1kWE5FYUpjejVNVmFUYlJSNElYbjQtX0p6OUxaZEs5MjQ4OWNSMzJZYzFrT0NWanF0WnRtWTZmYXBIUy1OZ1JlOFJVbzBqQzBHaC1GNGdS?oc=5\" target=\"_blank\">Puravankara Buys Bengaluru Land for Rs 800 Cr Housing Project</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Rediff MoneyWiz</font>",
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ05pYVhNUnI1UzhheFRkRDVYbUotSEwyZk1iVElDX3dDLXd3eWd5OHpxeVVESWl0YUlSVzRVdTAwcTJ1UXZRY21vNDNhb0dvS2prZG43ZHZlQk1ydUNoMVpvZ3B3WHIzaU14MTNaeFJVRk10U3hVM2ZaRC1VZXRTdTJzbW9YMFc2eUVQc3BGd1I2RzZoMEZQZVZ4MHZrTV9KeVQzaVhvQVZqbDF1ZTRSZFlIb9IBuAFBVV95cUxOQ1NjbTd1ekJ6WS1LMGdGOTZESzBrVTdSRzQtbzBmN2xGYkRORmlHTTFPbENxb0RTZGRSc1dYbHJ0bWlpMC1BYnJ0SEtkNjVfN2R4c3dVNjdqckFDSl9iQW9JLVl5ZFVxQm1kWE5FYUpjejVNVmFUYlJSNElYbjQtX0p6OUxaZEs5MjQ4OWNSMzJZYzFrT0NWanF0WnRtWTZmYXBIUy1OZ1JlOFJVbzBqQzBHaC1GNGdS?oc=5",
+    "author": null,
+    "published_at": "Wed, 17 Jun 2026 07:00:00 GMT",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "news",
     "title": "Puravankara Announces JDA for 6.4-acre Land Parcel in Sarjapur, Bengaluru with Potential GDV of Rs 1,000 Crores - TheWire.in",
     "text": "<a href=\"https://news.google.com/rss/articles/CBMi4gFBVV95cUxOWE1Xb1IwZHI0ZHV1MHFaVFZlT3JtRnhfb3J1NTJVeWJKa1BUV09VaHFrNjdBZHFWU2NHNi0zTi15MXlhVTRFX2FoVGFHTmNVeTRvRWJ1S1ZRODhlcEo5UUIyNW1MMmQ2eEpNUGpLY1VxcW83N3daQ2J2OE5rV3IwVkdPaG5UdDg0bHpNam03Zjk3cFlUVEtXQjJlOTdyZWxZXy1WeEhncmJsOXFDUWE5V3l3d1g0WVZ6U0d2c3JSYW15UGU0YTFCZ2xDUTE3WWtpYTNIRlFJdVVFdDNTdnJFVHR30gHnAUFVX3lxTE9BcVhxaHVIdDBMMjdoYkRzXzVJa1dtYlo0MFRIUkg1RFpqV3RBMGRhNTA3azJDS3pleW4zcFFFMWJjSlk1SEdzQlFJLUFTUTNWVHNaUDN5MVltdmQ0dDlsdHotVHBSQ1lHOWZmMjFkNGNpRHA4T0JYa2FIRXpkdXhBUVcxT0pQUmhuUUdLV2ZLSHJUQS10ZGF5SGZrY3ZfejRUZXM4dEtCdG5iRkthMDBmWlZ6QTVwLTlpdzF2cldFdWlRQWlCdjZfNTB6SEJkaHBhYk5FUGdZQm1BcVRGSEtIWkJZNVpLcw?oc=5\" target=\"_blank\">Puravankara Announces JDA for 6.4-acre Land Parcel in Sarjapur, Bengaluru with Potential GDV of Rs 1,000 Crores</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TheWire.in</font>",
     "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOWE1Xb1IwZHI0ZHV1MHFaVFZlT3JtRnhfb3J1NTJVeWJKa1BUV09VaHFrNjdBZHFWU2NHNi0zTi15MXlhVTRFX2FoVGFHTmNVeTRvRWJ1S1ZRODhlcEo5UUIyNW1MMmQ2eEpNUGpLY1VxcW83N3daQ2J2OE5rV3IwVkdPaG5UdDg0bHpNam03Zjk3cFlUVEtXQjJlOTdyZWxZXy1WeEhncmJsOXFDUWE5V3l3d1g0WVZ6U0d2c3JSYW15UGU0YTFCZ2xDUTE3WWtpYTNIRlFJdVVFdDNTdnJFVHR30gHnAUFVX3lxTE9BcVhxaHVIdDBMMjdoYkRzXzVJa1dtYlo0MFRIUkg1RFpqV3RBMGRhNTA3azJDS3pleW4zcFFFMWJjSlk1SEdzQlFJLUFTUTNWVHNaUDN5MVltdmQ0dDlsdHotVHBSQ1lHOWZmMjFkNGNpRHA4T0JYa2FIRXpkdXhBUVcxT0pQUmhuUUdLV2ZLSHJUQS10ZGF5SGZrY3ZfejRUZXM4dEtCdG5iRkthMDBmWlZ6QTVwLTlpdzF2cldFdWlRQWlCdjZfNTB6SEJkaHBhYk5FUGdZQm1BcVRGSEtIWkJZNVpLcw?oc=5",
@@ -870,19 +958,8 @@
   },
   {
     "source": "news",
-    "title": "Puravankara acquires 9.73-acre land parcel in North Bengaluru - Construction Week India",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMikgFBVV95cUxQaUNPdDRXUHUyRlZJX0hSTmpKLXBXVmdsQmFTczN2ckdVTndMeUhObWlxVjdnZXAwYWFJZG5nZEotZGRLTmI3dlhicjVVaXN0R09JXzhMMWx3cXlhQ1lMa2lXWTRUMlg5T29zQWpFcl9abHZGeTZObzJrRUcwUjFtWWhBazZEUWx2SXJlTWUxRVlpQQ?oc=5\" target=\"_blank\">Puravankara acquires 9.73-acre land parcel in North Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Construction Week India</font>",
-    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQaUNPdDRXUHUyRlZJX0hSTmpKLXBXVmdsQmFTczN2ckdVTndMeUhObWlxVjdnZXAwYWFJZG5nZEotZGRLTmI3dlhicjVVaXN0R09JXzhMMWx3cXlhQ1lMa2lXWTRUMlg5T29zQWpFcl9abHZGeTZObzJrRUcwUjFtWWhBazZEUWx2SXJlTWUxRVlpQQ?oc=5",
-    "author": null,
-    "published_at": "Thu, 18 Jun 2026 07:00:00 GMT",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "news",
-    "title": "Puravankara signs Sarjapur JDA with ₹1,000 cr GDV - Construction Week India",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxQRmxhRWlIdmcyZWtmTUwtUi1qZUtrZ2pOdGp1RU1EcGw0QUhKZkR0dTRLcXdraVpTelROcGwtam81Wkg4ZkswX1N2YUVsQXNSV2xodUd0WHp5LTVCdl9xUUE5dGhtOUdKc19ZMlYxSDZ3R25OMFhNdEpwaWJuQ1BCaEFLeWJ6VDV0bThVU0Q2M1BsSXJsQVBNeWExZVlQU21B?oc=5\" target=\"_blank\">Puravankara signs Sarjapur JDA with ₹1,000 cr GDV</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Construction Week India</font>",
+    "title": "Puravankara signs Sarjapur JDA with ₹1,000 cr GDV - Construction Week Online India",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxQRmxhRWlIdmcyZWtmTUwtUi1qZUtrZ2pOdGp1RU1EcGw0QUhKZkR0dTRLcXdraVpTelROcGwtam81Wkg4ZkswX1N2YUVsQXNSV2xodUd0WHp5LTVCdl9xUUE5dGhtOUdKc19ZMlYxSDZ3R25OMFhNdEpwaWJuQ1BCaEFLeWJ6VDV0bThVU0Q2M1BsSXJsQVBNeWExZVlQU21B?oc=5\" target=\"_blank\">Puravankara signs Sarjapur JDA with ₹1,000 cr GDV</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Construction Week Online India</font>",
     "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQRmxhRWlIdmcyZWtmTUwtUi1qZUtrZ2pOdGp1RU1EcGw0QUhKZkR0dTRLcXdraVpTelROcGwtam81Wkg4ZkswX1N2YUVsQXNSV2xodUd0WHp5LTVCdl9xUUE5dGhtOUdKc19ZMlYxSDZ3R25OMFhNdEpwaWJuQ1BCaEFLeWJ6VDV0bThVU0Q2M1BsSXJsQVBNeWExZVlQU21B?oc=5",
     "author": null,
     "published_at": "Tue, 30 Jun 2026 07:00:00 GMT",
@@ -903,11 +980,11 @@
   },
   {
     "source": "news",
-    "title": "Puravankara to divest stake in Purva Ruby Properties to ICICI Prudential AIF for ₹145 crore - BusinessLine",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi9wFBVV95cUxQVk5vUmhCcjBydEY0WGh2SlZrbXNqNlI0UWkwdWFvMEotN1lHOVY1bFhzSnYtcDAydUhKNVlHQVIwM3FWUUxKbTg4X05ZaERrVGM1QWRjMHFrbVdFTU9QSXBpeUpDeU9kb0RjWFhGNk1iR3VJbElhcXBDRWljUllsbk1aVDRlTkF6UnNBUE1INVhBRngzcVdLLXpjbmlnU3V6RXJMS2djNkJuS0JkLWk0Nlg2RUQtUUJlclR6bFNoYWNkbUt6ZXA4THdVZVhEVEI2UEtPUHBXclRvMnF1N2t0ZUZpMkJsdEZ1c2Q2bXV6UUNyTWItcWpZ0gH-AUFVX3lxTE9CLWJjWmMxQ0d2ZzFDckwzaEdsNi1hRTV5MFlFNkFlaGVEUEZsNlU5QTMyTmVlRmpwVFhqNXJSVDlfVmRMSmxGS3BhTnVRelRBY2tfUGtxNkFQUExRVEZYU1lBY2Y2bTlfN3RBSGxTd3ZQZ3JsQXNoMVFRaTRsRHE5WVUyc1prN3JObklzb0N0X2R4QlMwaVdxdUhKMnpaWDF0Yy01c3c3TF8wemZOUWdqb0ZyQmJ0Yl8zamhfeFhldkpTTGlqYWxsMGNDTk5kc0xXSXo4RTU5Sno4aTl1SDVmTzlXcXZWOFphTFF5MW84LXhId29fNWFyU0hFREdB?oc=5\" target=\"_blank\">Puravankara to divest stake in Purva Ruby Properties to ICICI Prudential AIF for ₹145 crore</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">BusinessLine</font>",
-    "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxQVk5vUmhCcjBydEY0WGh2SlZrbXNqNlI0UWkwdWFvMEotN1lHOVY1bFhzSnYtcDAydUhKNVlHQVIwM3FWUUxKbTg4X05ZaERrVGM1QWRjMHFrbVdFTU9QSXBpeUpDeU9kb0RjWFhGNk1iR3VJbElhcXBDRWljUllsbk1aVDRlTkF6UnNBUE1INVhBRngzcVdLLXpjbmlnU3V6RXJMS2djNkJuS0JkLWk0Nlg2RUQtUUJlclR6bFNoYWNkbUt6ZXA4THdVZVhEVEI2UEtPUHBXclRvMnF1N2t0ZUZpMkJsdEZ1c2Q2bXV6UUNyTWItcWpZ0gH-AUFVX3lxTE9CLWJjWmMxQ0d2ZzFDckwzaEdsNi1hRTV5MFlFNkFlaGVEUEZsNlU5QTMyTmVlRmpwVFhqNXJSVDlfVmRMSmxGS3BhTnVRelRBY2tfUGtxNkFQUExRVEZYU1lBY2Y2bTlfN3RBSGxTd3ZQZ3JsQXNoMVFRaTRsRHE5WVUyc1prN3JObklzb0N0X2R4QlMwaVdxdUhKMnpaWDF0Yy01c3c3TF8wemZOUWdqb0ZyQmJ0Yl8zamhfeFhldkpTTGlqYWxsMGNDTk5kc0xXSXo4RTU5Sno4aTl1SDVmTzlXcXZWOFphTFF5MW84LXhId29fNWFyU0hFREdB?oc=5",
+    "title": "Puravankara to jointly develop 11.23-acre land in North Bengaluru - realty.economictimes.indiatimes.com",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi1AFBVV95cUxOWnBIblZGbFAwZ2RTSlcwbXFpS3Y0QUc5Ym80NE1PUWpjTk9uTGljeF9LNHZ1c2FVUzhMWmxwTWEtV0dkQ09oa05OdHhiOHM4ZGx0bTBOMmJsVlZ4MWJWby12SVBnYjBKWWptX3pPTkVIcE5fVUUwcEhVZ3ZwZ1FwVElhUFBoSWpGR2VhcTUxOTNYbWlJTlBVcnVUbUxnVURhSDREOHFoRlJVdDdENFh0MTh3cmNSNElBNGRoWm05QjNkX0FpbmtFOF9NczZ1cTZQUkc3R9IB2gFBVV95cUxOVFdHVHRMN1g2Z1FZUm5qYzdtNlZ4LS1sUU1ZaGZ4Wm5hdFZvQTMyMUtlWlo4ZXR6VzVLUTI5ODJSaFh1b1ZfODItb1E4a21TUVBCVUhvYXhSZTRQMmJ3VHRmVUZFS3otNXNRcnZqaVMwMjEwNUJ1WFpZNnZJemtCcF9mdjY0OERuWjdwSVJEY21OamRJX1lDdkFYT2RuU3pZQXBySnJHLTNRcTZLTDlxR1pDT2xhdl8yUVAydzlXNE1NTDh0Y3JDQWVMaHFEWklmNnpna0xxdF9Cdw?oc=5\" target=\"_blank\">Puravankara to jointly develop 11.23-acre land in North Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">realty.economictimes.indiatimes.com</font>",
+    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOWnBIblZGbFAwZ2RTSlcwbXFpS3Y0QUc5Ym80NE1PUWpjTk9uTGljeF9LNHZ1c2FVUzhMWmxwTWEtV0dkQ09oa05OdHhiOHM4ZGx0bTBOMmJsVlZ4MWJWby12SVBnYjBKWWptX3pPTkVIcE5fVUUwcEhVZ3ZwZ1FwVElhUFBoSWpGR2VhcTUxOTNYbWlJTlBVcnVUbUxnVURhSDREOHFoRlJVdDdENFh0MTh3cmNSNElBNGRoWm05QjNkX0FpbmtFOF9NczZ1cTZQUkc3R9IB2gFBVV95cUxOVFdHVHRMN1g2Z1FZUm5qYzdtNlZ4LS1sUU1ZaGZ4Wm5hdFZvQTMyMUtlWlo4ZXR6VzVLUTI5ODJSaFh1b1ZfODItb1E4a21TUVBCVUhvYXhSZTRQMmJ3VHRmVUZFS3otNXNRcnZqaVMwMjEwNUJ1WFpZNnZJemtCcF9mdjY0OERuWjdwSVJEY21OamRJX1lDdkFYT2RuU3pZQXBySnJHLTNRcTZLTDlxR1pDT2xhdl8yUVAydzlXNE1NTDh0Y3JDQWVMaHFEWklmNnpna0xxdF9Cdw?oc=5",
     "author": null,
-    "published_at": "Fri, 26 Jun 2026 07:00:00 GMT",
+    "published_at": "Mon, 01 Jun 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -925,30 +1002,8 @@
   },
   {
     "source": "news",
-    "title": "Puravankara Reports 28% YoY Growth in Pre Sales; Collections Surge 40%; Adds ₹5,200 Crore GDV Pipeline in Q1 FY27 - ANI News",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi9AFBVV95cUxPYXVIcmdHek00bmNOa1JhMm9oM3o5UlRwaV9BbjNKa21yS0RaWkU0ZEtiLVFtdVdOM1hCdld4ZktDdDBybFkzTEpfelJGa0tkN2hWSl83VmZ0bEU4b2o0RE02UVZYY3RDelNWUERSdElGZndZX05YQVhMSk1PWjE5X1VHbUpSTEhOLV92VDBNTDRWSDRwS0NlM1pBSDRGSWJHY25DaTBwajJOcUM5ZUl0d251OHcxOG9PVmdYYWd1TWU2ajlDYWhZOWlBRGpvLWx2WHRjd2JJQ19TaldJZVQ2T2RLQm0yMElqektXdWlhdENvdVlv?oc=5\" target=\"_blank\">Puravankara Reports 28% YoY Growth in Pre Sales; Collections Surge 40%; Adds ₹5,200 Crore GDV Pipeline in Q1 FY27</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">ANI News</font>",
-    "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxPYXVIcmdHek00bmNOa1JhMm9oM3o5UlRwaV9BbjNKa21yS0RaWkU0ZEtiLVFtdVdOM1hCdld4ZktDdDBybFkzTEpfelJGa0tkN2hWSl83VmZ0bEU4b2o0RE02UVZYY3RDelNWUERSdElGZndZX05YQVhMSk1PWjE5X1VHbUpSTEhOLV92VDBNTDRWSDRwS0NlM1pBSDRGSWJHY25DaTBwajJOcUM5ZUl0d251OHcxOG9PVmdYYWd1TWU2ajlDYWhZOWlBRGpvLWx2WHRjd2JJQ19TaldJZVQ2T2RLQm0yMElqektXdWlhdENvdVlv?oc=5",
-    "author": null,
-    "published_at": "Mon, 13 Jul 2026 07:00:00 GMT",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "news",
-    "title": "Puravankara to jointly develop 11.23-acre land in North Bengaluru - realty.economictimes.indiatimes.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi1AFBVV95cUxOWnBIblZGbFAwZ2RTSlcwbXFpS3Y0QUc5Ym80NE1PUWpjTk9uTGljeF9LNHZ1c2FVUzhMWmxwTWEtV0dkQ09oa05OdHhiOHM4ZGx0bTBOMmJsVlZ4MWJWby12SVBnYjBKWWptX3pPTkVIcE5fVUUwcEhVZ3ZwZ1FwVElhUFBoSWpGR2VhcTUxOTNYbWlJTlBVcnVUbUxnVURhSDREOHFoRlJVdDdENFh0MTh3cmNSNElBNGRoWm05QjNkX0FpbmtFOF9NczZ1cTZQUkc3R9IB2gFBVV95cUxOVFdHVHRMN1g2Z1FZUm5qYzdtNlZ4LS1sUU1ZaGZ4Wm5hdFZvQTMyMUtlWlo4ZXR6VzVLUTI5ODJSaFh1b1ZfODItb1E4a21TUVBCVUhvYXhSZTRQMmJ3VHRmVUZFS3otNXNRcnZqaVMwMjEwNUJ1WFpZNnZJemtCcF9mdjY0OERuWjdwSVJEY21OamRJX1lDdkFYT2RuU3pZQXBySnJHLTNRcTZLTDlxR1pDT2xhdl8yUVAydzlXNE1NTDh0Y3JDQWVMaHFEWklmNnpna0xxdF9Cdw?oc=5\" target=\"_blank\">Puravankara to jointly develop 11.23-acre land in North Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">realty.economictimes.indiatimes.com</font>",
-    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOWnBIblZGbFAwZ2RTSlcwbXFpS3Y0QUc5Ym80NE1PUWpjTk9uTGljeF9LNHZ1c2FVUzhMWmxwTWEtV0dkQ09oa05OdHhiOHM4ZGx0bTBOMmJsVlZ4MWJWby12SVBnYjBKWWptX3pPTkVIcE5fVUUwcEhVZ3ZwZ1FwVElhUFBoSWpGR2VhcTUxOTNYbWlJTlBVcnVUbUxnVURhSDREOHFoRlJVdDdENFh0MTh3cmNSNElBNGRoWm05QjNkX0FpbmtFOF9NczZ1cTZQUkc3R9IB2gFBVV95cUxOVFdHVHRMN1g2Z1FZUm5qYzdtNlZ4LS1sUU1ZaGZ4Wm5hdFZvQTMyMUtlWlo4ZXR6VzVLUTI5ODJSaFh1b1ZfODItb1E4a21TUVBCVUhvYXhSZTRQMmJ3VHRmVUZFS3otNXNRcnZqaVMwMjEwNUJ1WFpZNnZJemtCcF9mdjY0OERuWjdwSVJEY21OamRJX1lDdkFYT2RuU3pZQXBySnJHLTNRcTZLTDlxR1pDT2xhdl8yUVAydzlXNE1NTDh0Y3JDQWVMaHFEWklmNnpna0xxdF9Cdw?oc=5",
-    "author": null,
-    "published_at": "Mon, 01 Jun 2026 07:00:00 GMT",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "news",
-    "title": "Puravankara clears ₹145 crore sale of subsidiary to ICICI Prudential AIF-backed entity - cnbctv18.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi5wFBVV95cUxQVFItSkN0VUtHM040bTNoX1NmVENZNUllUDJiM3dxanZhRnhrNWtscGNBOFlYcjJPTzE0TDNKeTV0cnBkWTEyUHhqTEdWb2Z0MFF2Z2ZkWXRyNVlNOWgxNWRzU2JMUlRtbEl4aG4tYXBhUi1UOW5oSU1EQjVid1VHeTlGeXNLaVlqd05teWtIN1Uwc1FGMURkUm1VTVBMazZ6NDI4azJRbzhxX2llTzhGOGV3Wm50YkE2UGZqYzB5MGtnRTdYSkJHVjNvdEsyR2lqdllnd0NRc25PMjFreFRKWDY1QVo2SWfSAewBQVVfeXFMUFRxazlVRkktemI1RTFyTmxOdTFMaEJ3SkMzclpKam5iWXdWZFZHZl9OMFM1c3d6Mk9rT1YyR2NXcmFuNkJFcnBaNTJUWVJxRVUwSEQ5TVZKd1dORGlfVFhRLWpEcklCZkl6VzlIbGFtUW5meW9EWDBvdWhZbkxMSi1vSWtoSVA0aGswM2FtWTVqR01pMlpyOHN3VkhQcFI0OEZyY2JST0haNV90d1E5T0RSeHRDeXJLMnJQbHBaelFiOVRHU2lyYkpLTkMwazFHSWExYV9LaEREMC12NlN2VDZjN1o2clpJaVVGbkc?oc=5\" target=\"_blank\">Puravankara clears ₹145 crore sale of subsidiary to ICICI Prudential AIF-backed entity</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">cnbctv18.com</font>",
+    "title": "Puravankara clears ₹145 crore sale of subsidiary to ICICI Prudential AIF-backed entity - CNBC TV18",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi5wFBVV95cUxQVFItSkN0VUtHM040bTNoX1NmVENZNUllUDJiM3dxanZhRnhrNWtscGNBOFlYcjJPTzE0TDNKeTV0cnBkWTEyUHhqTEdWb2Z0MFF2Z2ZkWXRyNVlNOWgxNWRzU2JMUlRtbEl4aG4tYXBhUi1UOW5oSU1EQjVid1VHeTlGeXNLaVlqd05teWtIN1Uwc1FGMURkUm1VTVBMazZ6NDI4azJRbzhxX2llTzhGOGV3Wm50YkE2UGZqYzB5MGtnRTdYSkJHVjNvdEsyR2lqdllnd0NRc25PMjFreFRKWDY1QVo2SWfSAewBQVVfeXFMUFRxazlVRkktemI1RTFyTmxOdTFMaEJ3SkMzclpKam5iWXdWZFZHZl9OMFM1c3d6Mk9rT1YyR2NXcmFuNkJFcnBaNTJUWVJxRVUwSEQ5TVZKd1dORGlfVFhRLWpEcklCZkl6VzlIbGFtUW5meW9EWDBvdWhZbkxMSi1vSWtoSVA0aGswM2FtWTVqR01pMlpyOHN3VkhQcFI0OEZyY2JST0haNV90d1E5T0RSeHRDeXJLMnJQbHBaelFiOVRHU2lyYkpLTkMwazFHSWExYV9LaEREMC12NlN2VDZjN1o2clpJaVVGbkc?oc=5\" target=\"_blank\">Puravankara clears ₹145 crore sale of subsidiary to ICICI Prudential AIF-backed entity</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CNBC TV18</font>",
     "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQVFItSkN0VUtHM040bTNoX1NmVENZNUllUDJiM3dxanZhRnhrNWtscGNBOFlYcjJPTzE0TDNKeTV0cnBkWTEyUHhqTEdWb2Z0MFF2Z2ZkWXRyNVlNOWgxNWRzU2JMUlRtbEl4aG4tYXBhUi1UOW5oSU1EQjVid1VHeTlGeXNLaVlqd05teWtIN1Uwc1FGMURkUm1VTVBMazZ6NDI4azJRbzhxX2llTzhGOGV3Wm50YkE2UGZqYzB5MGtnRTdYSkJHVjNvdEsyR2lqdllnd0NRc25PMjFreFRKWDY1QVo2SWfSAewBQVVfeXFMUFRxazlVRkktemI1RTFyTmxOdTFMaEJ3SkMzclpKam5iWXdWZFZHZl9OMFM1c3d6Mk9rT1YyR2NXcmFuNkJFcnBaNTJUWVJxRVUwSEQ5TVZKd1dORGlfVFhRLWpEcklCZkl6VzlIbGFtUW5meW9EWDBvdWhZbkxMSi1vSWtoSVA0aGswM2FtWTVqR01pMlpyOHN3VkhQcFI0OEZyY2JST0haNV90d1E5T0RSeHRDeXJLMnJQbHBaelFiOVRHU2lyYkpLTkMwazFHSWExYV9LaEREMC12NlN2VDZjN1o2clpJaVVGbkc?oc=5",
     "author": null,
     "published_at": "Fri, 26 Jun 2026 07:00:00 GMT",
@@ -980,8 +1035,8 @@
   },
   {
     "source": "news",
-    "title": "Puravankara shares surge nearly 17% as Q1 pre-sales rise 28%, collections up 40% - cnbctv18.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMivgFBVV95cUxQTHo2bGx1QXlBdzF3LWszbFFselNzXzJ3X2Nqd1BRYlFjZnc4UUFSQldJV3FIeDNQY1ptcmtORnAwcFhjdEE3c05lWVA2d3BXU182NVMyc0UyX0ExdHRTbFRmalJxOWNjR1ZOY19kcE9Xd2dJM1Z6ZXdrUUNmeVBaMXZUWnE1dzF1UnF0Zi1sS0dlbTlIdExmT21xLUl1ekt2R0Q1cDFBaVFPNC1MMmVaWFVKVVNUOWUya3RGWmJB0gHDAUFVX3lxTFBCTmJuUHY3SkVlTk44ZmlUaUEwRTg0Q2lJeFc4cTA3ZGx3Ylc3TWZINGlJdHJQaHlhVUtvQ1IwVWNtMWx6TDdWWndGUGEtejZjX1Rhd0laWmNfclJrOGJWNTRieDd3QWN0NTJkcG1RR0o3Q2gyYVdRQ0RyOW90Sk5FNWoydnN5R1l3di14c2U4WFBkVW5zR1prUTBHUlVvV04zQW96ZWpVV3VNUGRIazd5UmhTcXFuRF9SSThfU0M3cURlYw?oc=5\" target=\"_blank\">Puravankara shares surge nearly 17% as Q1 pre-sales rise 28%, collections up 40%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">cnbctv18.com</font>",
+    "title": "Puravankara shares surge nearly 17% as Q1 pre-sales rise 28%, collections up 40% - CNBC TV18",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMivgFBVV95cUxQTHo2bGx1QXlBdzF3LWszbFFselNzXzJ3X2Nqd1BRYlFjZnc4UUFSQldJV3FIeDNQY1ptcmtORnAwcFhjdEE3c05lWVA2d3BXU182NVMyc0UyX0ExdHRTbFRmalJxOWNjR1ZOY19kcE9Xd2dJM1Z6ZXdrUUNmeVBaMXZUWnE1dzF1UnF0Zi1sS0dlbTlIdExmT21xLUl1ekt2R0Q1cDFBaVFPNC1MMmVaWFVKVVNUOWUya3RGWmJB0gHDAUFVX3lxTFBCTmJuUHY3SkVlTk44ZmlUaUEwRTg0Q2lJeFc4cTA3ZGx3Ylc3TWZINGlJdHJQaHlhVUtvQ1IwVWNtMWx6TDdWWndGUGEtejZjX1Rhd0laWmNfclJrOGJWNTRieDd3QWN0NTJkcG1RR0o3Q2gyYVdRQ0RyOW90Sk5FNWoydnN5R1l3di14c2U4WFBkVW5zR1prUTBHUlVvV04zQW96ZWpVV3VNUGRIazd5UmhTcXFuRF9SSThfU0M3cURlYw?oc=5\" target=\"_blank\">Puravankara shares surge nearly 17% as Q1 pre-sales rise 28%, collections up 40%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CNBC TV18</font>",
     "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQTHo2bGx1QXlBdzF3LWszbFFselNzXzJ3X2Nqd1BRYlFjZnc4UUFSQldJV3FIeDNQY1ptcmtORnAwcFhjdEE3c05lWVA2d3BXU182NVMyc0UyX0ExdHRTbFRmalJxOWNjR1ZOY19kcE9Xd2dJM1Z6ZXdrUUNmeVBaMXZUWnE1dzF1UnF0Zi1sS0dlbTlIdExmT21xLUl1ekt2R0Q1cDFBaVFPNC1MMmVaWFVKVVNUOWUya3RGWmJB0gHDAUFVX3lxTFBCTmJuUHY3SkVlTk44ZmlUaUEwRTg0Q2lJeFc4cTA3ZGx3Ylc3TWZINGlJdHJQaHlhVUtvQ1IwVWNtMWx6TDdWWndGUGEtejZjX1Rhd0laWmNfclJrOGJWNTRieDd3QWN0NTJkcG1RR0o3Q2gyYVdRQ0RyOW90Sk5FNWoydnN5R1l3di14c2U4WFBkVW5zR1prUTBHUlVvV04zQW96ZWpVV3VNUGRIazd5UmhTcXFuRF9SSThfU0M3cURlYw?oc=5",
     "author": null,
     "published_at": "Mon, 13 Jul 2026 07:00:00 GMT",
@@ -1024,6 +1079,17 @@
   },
   {
     "source": "news",
+    "title": "Puravankara plans 30 projects worth ₹55k cr GDV - Construction Week Online India",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMinwFBVV95cUxOYzNNY0RPZGNJYXRiaHRpbG55MHBfX2lrU3ZvZHV6ZDROR1pxVGJmVVM2RXFfT2c5a052TWJwRGFFVkxnTnM3c3VBSDlOZkYzRHNiX25SM3NrY0dJd19nWVN3eWdlZzl6d0REQkg4T1hSSU1UWFhFZlhFWmtDY2NGWmFJX0VKTmxJREJpTWdjUmVWTjViMDRLZ2E0NzdwWlU?oc=5\" target=\"_blank\">Puravankara plans 30 projects worth ₹55k cr GDV</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Construction Week Online India</font>",
+    "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOYzNNY0RPZGNJYXRiaHRpbG55MHBfX2lrU3ZvZHV6ZDROR1pxVGJmVVM2RXFfT2c5a052TWJwRGFFVkxnTnM3c3VBSDlOZkYzRHNiX25SM3NrY0dJd19nWVN3eWdlZzl6d0REQkg4T1hSSU1UWFhFZlhFWmtDY2NGWmFJX0VKTmxJREJpTWdjUmVWTjViMDRLZ2E0NzdwWlU?oc=5",
+    "author": null,
+    "published_at": "Fri, 27 Mar 2026 07:00:00 GMT",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "news",
     "title": "Puravankara shares soar 15% after Q1 business update; pre-sales rise 28%, collections jump 40% - Moneycontrol.com",
     "text": "<a href=\"https://news.google.com/rss/articles/CBMi6gFBVV95cUxNMFN6QjZzUEZhWTFPamExVmVxNGhOT0ZXb3hVdWRod1JjcGZQVS15U05NTVlEbS1mWkN3dHpucEJGVERFRmtnaVYyVnZMS1k3X203WThpVE5CejlyNGpJS1psVzJDalFOMTJ5aXFacWJva2h5Y0p3VXJ6THJUQWZ3MXlTcGVtWHZzMkRSRGNjQjVnck1mSDNnQURBaHV4R3FCN3k5V3pmTHFYcWdxV1NNR0NVdjRySDRndVU5cGpXNkRxMEFKbmdkWUdpby1ZQ1RPbFBnQ3ViSUQ1djI3U09sNUJ6NFBfZFRFSHfSAe8BQVVfeXFMTnE4VFpIenJyTll0S0tSRlJ3bnhFSmw5RHlPUUNGUWlUUXdNNy1lVk5ZVG82NFQxdGdqZVplMHB2cmVOMVR4ejU2MGhyZHdJT18wUUQyZ2I1YVhKQzB0VWU5MnNEajc2UDhVbHcyd1pFRElvRXVCc1NxQ056SWp3c1ZZU3BmZGd0bWdkYVAyZ2RMeEpvNE9ncEhZMk0xSDB1aU9nTmxZVTVkZ2lpbE5vRnZFNkh3NnNpQTFDWTE2YmVmd0tLMFFJMHRvZVNidTFrY2xBc1NoTXZSVTVzYXhMVkp2VE1VQWQydnBEUVBwS3c?oc=5\" target=\"_blank\">Puravankara shares soar 15% after Q1 business update; pre-sales rise 28%, collections jump 40%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Moneycontrol.com</font>",
     "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNMFN6QjZzUEZhWTFPamExVmVxNGhOT0ZXb3hVdWRod1JjcGZQVS15U05NTVlEbS1mWkN3dHpucEJGVERFRmtnaVYyVnZMS1k3X203WThpVE5CejlyNGpJS1psVzJDalFOMTJ5aXFacWJva2h5Y0p3VXJ6THJUQWZ3MXlTcGVtWHZzMkRSRGNjQjVnck1mSDNnQURBaHV4R3FCN3k5V3pmTHFYcWdxV1NNR0NVdjRySDRndVU5cGpXNkRxMEFKbmdkWUdpby1ZQ1RPbFBnQ3ViSUQ1djI3U09sNUJ6NFBfZFRFSHfSAe8BQVVfeXFMTnE4VFpIenJyTll0S0tSRlJ3bnhFSmw5RHlPUUNGUWlUUXdNNy1lVk5ZVG82NFQxdGdqZVplMHB2cmVOMVR4ejU2MGhyZHdJT18wUUQyZ2I1YVhKQzB0VWU5MnNEajc2UDhVbHcyd1pFRElvRXVCc1NxQ056SWp3c1ZZU3BmZGd0bWdkYVAyZ2RMeEpvNE9ncEhZMk0xSDB1aU9nTmxZVTVkZ2lpbE5vRnZFNkh3NnNpQTFDWTE2YmVmd0tLMFFJMHRvZVNidTFrY2xBc1NoTXZSVTVzYXhMVkp2VE1VQWQydnBEUVBwS3c?oc=5",
@@ -1035,12 +1101,12 @@
   },
   {
     "source": "news",
-    "title": "Puravankara zooms 17% on Q4 profit turnaround; revenue up 177% YoY - business-standard.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxNWXdRUEJUYkF4SllpS3ZoVG5yR3o2QTdhdS10dW50cF9qMXVFZUxjc2w0cTZ4UVc2T3JUTHlQR0F5cXh0NWJKU0NVV2lMdGxMYXg1V0NuVm9xUkoySzlyMmw4dDFtUnF4bUtLQ25DZEJrSFlYRENuVjZMZTBndmxEa3R2bkxSelVCcFhjVFR4bmNobzRYRE5TVUVwVHpROXFHX2N1NGc3bkRld1dJNy14emdrQWx5cTEySHdiekNLa01LNzZpSFR1M3pIRVB2YkxqMGQ2aXRXQ2dsTC1ybHNJ0gHkAUFVX3lxTE5Yal9mNGxWZzJGM3E0dzdUaTJRaFktVjlmdWhQVlA3c0lyZ0htb2xkRGl2V3VmQ2FZOEVBaGYyMWd6VWhJaXItdmdxSjBHSTFYNFBkRnpMbDZMU0sxSDJDNU1VTHRoNzRwVnlxREdpcXdpdHFCdnFFcllkTVlzbjdpcDZwamY1bUJLNE5oRkE0MzBTOTZ5WUQtb0p2VFRESFA1R2YweS1Sdkw5UU80TjI3VlVCT3hXYUxyam1INjMwb2s4VkJDTS12Vjl6UVktYzJoNUpwVWR3NnFFSFJJTXNVa0ZzNQ?oc=5\" target=\"_blank\">Puravankara zooms 17% on Q4 profit turnaround; revenue up 177% YoY</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">business-standard.com</font>",
+    "title": "Puravankara zooms 17% on Q4 profit turnaround; revenue up 177% YoY - Business Standard",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxNWXdRUEJUYkF4SllpS3ZoVG5yR3o2QTdhdS10dW50cF9qMXVFZUxjc2w0cTZ4UVc2T3JUTHlQR0F5cXh0NWJKU0NVV2lMdGxMYXg1V0NuVm9xUkoySzlyMmw4dDFtUnF4bUtLQ25DZEJrSFlYRENuVjZMZTBndmxEa3R2bkxSelVCcFhjVFR4bmNobzRYRE5TVUVwVHpROXFHX2N1NGc3bkRld1dJNy14emdrQWx5cTEySHdiekNLa01LNzZpSFR1M3pIRVB2YkxqMGQ2aXRXQ2dsTC1ybHNJ0gHkAUFVX3lxTE5Yal9mNGxWZzJGM3E0dzdUaTJRaFktVjlmdWhQVlA3c0lyZ0htb2xkRGl2V3VmQ2FZOEVBaGYyMWd6VWhJaXItdmdxSjBHSTFYNFBkRnpMbDZMU0sxSDJDNU1VTHRoNzRwVnlxREdpcXdpdHFCdnFFcllkTVlzbjdpcDZwamY1bUJLNE5oRkE0MzBTOTZ5WUQtb0p2VFRESFA1R2YweS1Sdkw5UU80TjI3VlVCT3hXYUxyam1INjMwb2s4VkJDTS12Vjl6UVktYzJoNUpwVWR3NnFFSFJJTXNVa0ZzNQ?oc=5\" target=\"_blank\">Puravankara zooms 17% on Q4 profit turnaround; revenue up 177% YoY</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Business Standard</font>",
     "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNWXdRUEJUYkF4SllpS3ZoVG5yR3o2QTdhdS10dW50cF9qMXVFZUxjc2w0cTZ4UVc2T3JUTHlQR0F5cXh0NWJKU0NVV2lMdGxMYXg1V0NuVm9xUkoySzlyMmw4dDFtUnF4bUtLQ25DZEJrSFlYRENuVjZMZTBndmxEa3R2bkxSelVCcFhjVFR4bmNobzRYRE5TVUVwVHpROXFHX2N1NGc3bkRld1dJNy14emdrQWx5cTEySHdiekNLa01LNzZpSFR1M3pIRVB2YkxqMGQ2aXRXQ2dsTC1ybHNJ0gHkAUFVX3lxTE5Yal9mNGxWZzJGM3E0dzdUaTJRaFktVjlmdWhQVlA3c0lyZ0htb2xkRGl2V3VmQ2FZOEVBaGYyMWd6VWhJaXItdmdxSjBHSTFYNFBkRnpMbDZMU0sxSDJDNU1VTHRoNzRwVnlxREdpcXdpdHFCdnFFcllkTVlzbjdpcDZwamY1bUJLNE5oRkE0MzBTOTZ5WUQtb0p2VFRESFA1R2YweS1Sdkw5UU80TjI3VlVCT3hXYUxyam1INjMwb2s4VkJDTS12Vjl6UVktYzJoNUpwVWR3NnFFSFJJTXNVa0ZzNQ?oc=5",
     "author": null,
     "published_at": "Tue, 19 May 2026 07:00:00 GMT",
-    "sentiment": null,
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -1057,19 +1123,19 @@
   },
   {
     "source": "news",
-    "title": "Puravankara acquires 14.57 acre land in Bengaluru - Deccan Herald",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMimwFBVV95cUxNdmxabk8tdFhzdEx6YnJZZHR2ZHhEdFRDNjlFOXpqT1lpWDdEZGVRSTBWNllpYUllUWgyMHEzOWpFcFgwSDlaSkpiOWIyaW12T3hrTE5CVlZEMkEycUZLMk41WUhVY1BicThCNTFMSUZoX3lZUjR6VUtEU29peWRmVTl5bmpGWFc0bzJndkhjRDZVTEZQVDdsdVlzdw?oc=5\" target=\"_blank\">Puravankara acquires 14.57 acre land in Bengaluru</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Deccan Herald</font>",
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNdmxabk8tdFhzdEx6YnJZZHR2ZHhEdFRDNjlFOXpqT1lpWDdEZGVRSTBWNllpYUllUWgyMHEzOWpFcFgwSDlaSkpiOWIyaW12T3hrTE5CVlZEMkEycUZLMk41WUhVY1BicThCNTFMSUZoX3lZUjR6VUtEU29peWRmVTl5bmpGWFc0bzJndkhjRDZVTEZQVDdsdVlzdw?oc=5",
+    "title": "Puravankara to divest stake in Purva Ruby Properties to ICICI Prudential AIF for ₹145 crore - BusinessLine",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi9wFBVV95cUxQVk5vUmhCcjBydEY0WGh2SlZrbXNqNlI0UWkwdWFvMEotN1lHOVY1bFhzSnYtcDAydUhKNVlHQVIwM3FWUUxKbTg4X05ZaERrVGM1QWRjMHFrbVdFTU9QSXBpeUpDeU9kb0RjWFhGNk1iR3VJbElhcXBDRWljUllsbk1aVDRlTkF6UnNBUE1INVhBRngzcVdLLXpjbmlnU3V6RXJMS2djNkJuS0JkLWk0Nlg2RUQtUUJlclR6bFNoYWNkbUt6ZXA4THdVZVhEVEI2UEtPUHBXclRvMnF1N2t0ZUZpMkJsdEZ1c2Q2bXV6UUNyTWItcWpZ0gH-AUFVX3lxTE9CLWJjWmMxQ0d2ZzFDckwzaEdsNi1hRTV5MFlFNkFlaGVEUEZsNlU5QTMyTmVlRmpwVFhqNXJSVDlfVmRMSmxGS3BhTnVRelRBY2tfUGtxNkFQUExRVEZYU1lBY2Y2bTlfN3RBSGxTd3ZQZ3JsQXNoMVFRaTRsRHE5WVUyc1prN3JObklzb0N0X2R4QlMwaVdxdUhKMnpaWDF0Yy01c3c3TF8wemZOUWdqb0ZyQmJ0Yl8zamhfeFhldkpTTGlqYWxsMGNDTk5kc0xXSXo4RTU5Sno4aTl1SDVmTzlXcXZWOFphTFF5MW84LXhId29fNWFyU0hFREdB?oc=5\" target=\"_blank\">Puravankara to divest stake in Purva Ruby Properties to ICICI Prudential AIF for ₹145 crore</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">BusinessLine</font>",
+    "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxQVk5vUmhCcjBydEY0WGh2SlZrbXNqNlI0UWkwdWFvMEotN1lHOVY1bFhzSnYtcDAydUhKNVlHQVIwM3FWUUxKbTg4X05ZaERrVGM1QWRjMHFrbVdFTU9QSXBpeUpDeU9kb0RjWFhGNk1iR3VJbElhcXBDRWljUllsbk1aVDRlTkF6UnNBUE1INVhBRngzcVdLLXpjbmlnU3V6RXJMS2djNkJuS0JkLWk0Nlg2RUQtUUJlclR6bFNoYWNkbUt6ZXA4THdVZVhEVEI2UEtPUHBXclRvMnF1N2t0ZUZpMkJsdEZ1c2Q2bXV6UUNyTWItcWpZ0gH-AUFVX3lxTE9CLWJjWmMxQ0d2ZzFDckwzaEdsNi1hRTV5MFlFNkFlaGVEUEZsNlU5QTMyTmVlRmpwVFhqNXJSVDlfVmRMSmxGS3BhTnVRelRBY2tfUGtxNkFQUExRVEZYU1lBY2Y2bTlfN3RBSGxTd3ZQZ3JsQXNoMVFRaTRsRHE5WVUyc1prN3JObklzb0N0X2R4QlMwaVdxdUhKMnpaWDF0Yy01c3c3TF8wemZOUWdqb0ZyQmJ0Yl8zamhfeFhldkpTTGlqYWxsMGNDTk5kc0xXSXo4RTU5Sno4aTl1SDVmTzlXcXZWOFphTFF5MW84LXhId29fNWFyU0hFREdB?oc=5",
     "author": null,
-    "published_at": "Mon, 25 May 2026 07:00:00 GMT",
+    "published_at": "Fri, 26 Jun 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
   },
   {
     "source": "news",
-    "title": "Puravankara acquires 9.73-acre land parcel in North Bengaluru with a revenue potential of ₹800 crore | Real Estate News - hindustantimes.com",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi9gFBVV95cUxPWkNWdEhmR1prRklienNvQTlEZVhWWUVDLUhXZk9FWGlRcEhuQU5VTC1ab2RkMWdDcU5qdERMblBrTXpQY2VaYm9DUWpYX21NMGszVFFHNVVfZW54c2NHdUl6eFluRmhuOWtwal9UaEZza1BDc3RDNVUxY3BqQmd2VkFDODExQV9qT3QtSXFNVElfWnV6eS1xX094bkxFRkNIUExMY3FBaE41X3FsNmRiVGw0bHRvalF0dS1udmRQb19yb29PNFd2THlGaVM3VGJOajNESnJPb3FGNEk3NnMwY2FSZFNlWnV4QXhERXZYZ3VQZ3lmcnfSAfsBQVVfeXFMT0V3Xzl6MkROU192RFhXb0pYY1pTOXJUN2FHLVFwUDMwQWxiUXRGRWoxWWRBQnRwaktYZE55bEhUcTByUmdjY18wcFZMME1ycWo1ZEhJVTNRNWU1Z2o5TDFLSnFrR3ZKUzVXdUVPMWZ0Uzhzdng4VHJWLVNQU2M1b3hDSWdWNW5UTHY2dUdrUjlfNU1LdE94Yk85dzhuVE1rU1FDYndSbl95MC00MDlwOVFma0JrbUR6RUgyQnA2MTBfamlidlBvNmpaejVFTDJtTl9NVi1KUkRqX0JFRF9qcnh1eWpRazBnMHBsaXVRQU5ZbG92a2RNQzEtOUE?oc=5\" target=\"_blank\">Puravankara acquires 9.73-acre land parcel in North Bengaluru with a revenue potential of ₹800 crore | Real Estate News</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">hindustantimes.com</font>",
+    "title": "Puravankara acquires 9.73-acre land parcel in North Bengaluru with a revenue potential of ₹800 crore | Real Estate News - Hindustan Times",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi9gFBVV95cUxPWkNWdEhmR1prRklienNvQTlEZVhWWUVDLUhXZk9FWGlRcEhuQU5VTC1ab2RkMWdDcU5qdERMblBrTXpQY2VaYm9DUWpYX21NMGszVFFHNVVfZW54c2NHdUl6eFluRmhuOWtwal9UaEZza1BDc3RDNVUxY3BqQmd2VkFDODExQV9qT3QtSXFNVElfWnV6eS1xX094bkxFRkNIUExMY3FBaE41X3FsNmRiVGw0bHRvalF0dS1udmRQb19yb29PNFd2THlGaVM3VGJOajNESnJPb3FGNEk3NnMwY2FSZFNlWnV4QXhERXZYZ3VQZ3lmcnfSAfsBQVVfeXFMT0V3Xzl6MkROU192RFhXb0pYY1pTOXJUN2FHLVFwUDMwQWxiUXRGRWoxWWRBQnRwaktYZE55bEhUcTByUmdjY18wcFZMME1ycWo1ZEhJVTNRNWU1Z2o5TDFLSnFrR3ZKUzVXdUVPMWZ0Uzhzdng4VHJWLVNQU2M1b3hDSWdWNW5UTHY2dUdrUjlfNU1LdE94Yk85dzhuVE1rU1FDYndSbl95MC00MDlwOVFma0JrbUR6RUgyQnA2MTBfamlidlBvNmpaejVFTDJtTl9NVi1KUkRqX0JFRF9qcnh1eWpRazBnMHBsaXVRQU5ZbG92a2RNQzEtOUE?oc=5\" target=\"_blank\">Puravankara acquires 9.73-acre land parcel in North Bengaluru with a revenue potential of ₹800 crore | Real Estate News</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Hindustan Times</font>",
     "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxPWkNWdEhmR1prRklienNvQTlEZVhWWUVDLUhXZk9FWGlRcEhuQU5VTC1ab2RkMWdDcU5qdERMblBrTXpQY2VaYm9DUWpYX21NMGszVFFHNVVfZW54c2NHdUl6eFluRmhuOWtwal9UaEZza1BDc3RDNVUxY3BqQmd2VkFDODExQV9qT3QtSXFNVElfWnV6eS1xX094bkxFRkNIUExMY3FBaE41X3FsNmRiVGw0bHRvalF0dS1udmRQb19yb29PNFd2THlGaVM3VGJOajNESnJPb3FGNEk3NnMwY2FSZFNlWnV4QXhERXZYZ3VQZ3lmcnfSAfsBQVVfeXFMT0V3Xzl6MkROU192RFhXb0pYY1pTOXJUN2FHLVFwUDMwQWxiUXRGRWoxWWRBQnRwaktYZE55bEhUcTByUmdjY18wcFZMME1ycWo1ZEhJVTNRNWU1Z2o5TDFLSnFrR3ZKUzVXdUVPMWZ0Uzhzdng4VHJWLVNQU2M1b3hDSWdWNW5UTHY2dUdrUjlfNU1LdE94Yk85dzhuVE1rU1FDYndSbl95MC00MDlwOVFma0JrbUR6RUgyQnA2MTBfamlidlBvNmpaejVFTDJtTl9NVi1KUkRqX0JFRF9qcnh1eWpRazBnMHBsaXVRQU5ZbG92a2RNQzEtOUE?oc=5",
     "author": null,
     "published_at": "Wed, 17 Jun 2026 07:00:00 GMT",
@@ -1079,22 +1145,22 @@
   },
   {
     "source": "news",
-    "title": "Promenade Apartment Elita Promenade Bhk Sale Puravankara Elita Elita Promenade Bhk Sale 7th Phase Elita - fuelcarmagazine",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTE1yblhSa3M5cElMU0pTdWJaem45alRIUVZjWWUyZFc3elBvNDdYOHprTEhQWUNMX1BZanZta2M3bnZhRVpINnQtNEM2Wm1xYVNqajdTdTlUOA?oc=5\" target=\"_blank\">Promenade Apartment Elita Promenade Bhk Sale Puravankara Elita Elita Promenade Bhk Sale 7th Phase Elita</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">fuelcarmagazine</font>",
-    "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1yblhSa3M5cElMU0pTdWJaem45alRIUVZjWWUyZFc3elBvNDdYOHprTEhQWUNMX1BZanZta2M3bnZhRVpINnQtNEM2Wm1xYVNqajdTdTlUOA?oc=5",
+    "title": "Puravankara shares rally 15% as company posts turnaround in Q4FY26 results; revenue jumps 173% - upstox.com",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMi5wFBVV95cUxQdmRLTEtxZ09aVGtCUkdlWHdiNWZlV1k4Nl9iejhIblJ3YWxDTFZQd2tqMVByanl1M0wtU2g3QnhtWUI4MkxhMU03WWxETk81NzBXUkRQbmhabnhpZFNVNUs3dTZkUkxFb0RNSnpVbm9RbEtTcFdCNF84MFVuOWhrU3Q1MjFJa2w0UlhSQjBXWi1CSnlOQmZGa3NVQkZCc20xTkRzcXVkeHhIeUVlXzlHSnl1U3RiMy1JTFJyLTBHUks1MzZ0SktmdHlYNmNUbWN4WWNmdC1GZEUtdnFHc1RGcnI3cmIzVVE?oc=5\" target=\"_blank\">Puravankara shares rally 15% as company posts turnaround in Q4FY26 results; revenue jumps 173%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">upstox.com</font>",
+    "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQdmRLTEtxZ09aVGtCUkdlWHdiNWZlV1k4Nl9iejhIblJ3YWxDTFZQd2tqMVByanl1M0wtU2g3QnhtWUI4MkxhMU03WWxETk81NzBXUkRQbmhabnhpZFNVNUs3dTZkUkxFb0RNSnpVbm9RbEtTcFdCNF84MFVuOWhrU3Q1MjFJa2w0UlhSQjBXWi1CSnlOQmZGa3NVQkZCc20xTkRzcXVkeHhIeUVlXzlHSnl1U3RiMy1JTFJyLTBHUks1MzZ0SktmdHlYNmNUbWN4WWNmdC1GZEUtdnFHc1RGcnI3cmIzVVE?oc=5",
     "author": null,
-    "published_at": "Tue, 04 Aug 2026 07:00:00 GMT",
+    "published_at": "Mon, 18 May 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
   },
   {
     "source": "news",
-    "title": "Puravankara shares rally 15% as company posts turnaround in Q4FY26 results; revenue jumps 173% - Upstox",
-    "text": "<a href=\"https://news.google.com/rss/articles/CBMi5wFBVV95cUxQdmRLTEtxZ09aVGtCUkdlWHdiNWZlV1k4Nl9iejhIblJ3YWxDTFZQd2tqMVByanl1M0wtU2g3QnhtWUI4MkxhMU03WWxETk81NzBXUkRQbmhabnhpZFNVNUs3dTZkUkxFb0RNSnpVbm9RbEtTcFdCNF84MFVuOWhrU3Q1MjFJa2w0UlhSQjBXWi1CSnlOQmZGa3NVQkZCc20xTkRzcXVkeHhIeUVlXzlHSnl1U3RiMy1JTFJyLTBHUks1MzZ0SktmdHlYNmNUbWN4WWNmdC1GZEUtdnFHc1RGcnI3cmIzVVE?oc=5\" target=\"_blank\">Puravankara shares rally 15% as company posts turnaround in Q4FY26 results; revenue jumps 173%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Upstox</font>",
-    "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQdmRLTEtxZ09aVGtCUkdlWHdiNWZlV1k4Nl9iejhIblJ3YWxDTFZQd2tqMVByanl1M0wtU2g3QnhtWUI4MkxhMU03WWxETk81NzBXUkRQbmhabnhpZFNVNUs3dTZkUkxFb0RNSnpVbm9RbEtTcFdCNF84MFVuOWhrU3Q1MjFJa2w0UlhSQjBXWi1CSnlOQmZGa3NVQkZCc20xTkRzcXVkeHhIeUVlXzlHSnl1U3RiMy1JTFJyLTBHUks1MzZ0SktmdHlYNmNUbWN4WWNmdC1GZEUtdnFHc1RGcnI3cmIzVVE?oc=5",
+    "title": "Puravankara acquires Bengaluru land parcel - Construction Week Online India",
+    "text": "<a href=\"https://news.google.com/rss/articles/CBMijgFBVV95cUxPMlc5XzBTbHlGWU11VlZ4QXFJUmpPeTNtV3lLNUlfZjY2eFdERHNZd01aVjJBYm5xbTlOYzNLX0NGdEd3eGFYSWlIU3htMlAtVTh4U2M1WWtzVzhDaXR0LXRDTk1Ocjc0ZGRIZWxHenIwWE16M25jN1FKUG51T2VINlNlM0pPS2R5QVF0alhR?oc=5\" target=\"_blank\">Puravankara acquires Bengaluru land parcel</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Construction Week Online India</font>",
+    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPMlc5XzBTbHlGWU11VlZ4QXFJUmpPeTNtV3lLNUlfZjY2eFdERHNZd01aVjJBYm5xbTlOYzNLX0NGdEd3eGFYSWlIU3htMlAtVTh4U2M1WWtzVzhDaXR0LXRDTk1Ocjc0ZGRIZWxHenIwWE16M25jN1FKUG51T2VINlNlM0pPS2R5QVF0alhR?oc=5",
     "author": null,
-    "published_at": "Mon, 18 May 2026 07:00:00 GMT",
+    "published_at": "Tue, 26 May 2026 07:00:00 GMT",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1105,18 +1171,7 @@
     "text": "Puravankara acquires 15 acre land in Bengaluru for housing project; eyes Rs 2,300 crore revenue - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "linkedin",
-    "title": "Puravankara Strengthens Channel Sales Leadership as Ramnath Muralidharan Takes Charge as General Manager Puravankara Limited has appointed Ramnath Muralidharan as General Manager – Channel Sales, strengthening its focus on channel-partner",
-    "text": "Puravankara Strengthens Channel Sales Leadership as Ramnath Muralidharan Takes Charge as General Manager Puravankara Limited has appointed Ramnath Muralidharan as General Manager – Channel Sales, strengthening its focus on channel-partner - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
-    "url": "https://www.linkedin.com/company/puravankara-limited/",
-    "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1127,7 +1182,7 @@
     "text": "Two months. Countless conversations. Endless learning. When I joined Puravankara Limited as a Sales Intern, I thought I would learn how to sell real estate. I left with something far more valuable, an understanding of how relationships build businesses. Over t - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1138,7 +1193,7 @@
     "text": "Mallanna Sasalu, CEO-South, Puravankara Ltd, on ET Now | 17 August 2026 - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1149,7 +1204,7 @@
     "text": "Buying a home means owning more than just a space. It means understanding the rights that come with it. Explore the difference between freehold and leasehold properties, and discover how ownership structure can impact resale, financing, inheritance, and l - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1160,7 +1215,7 @@
     "text": "Mallanna Sasalu, CEO-South, Puravankara Ltd, on ET Now Swadesh | 17 August 2026 - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1171,7 +1226,7 @@
     "text": "Manoj Sundararajan has been appointed Head of Sales and Strategy – NRI (ROW) at Puravankara Limited, where he will spearhead the company's business expansion across global non-resident Indian (NRI) markets. In this strategic leadership role, he is res - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1182,7 +1237,7 @@
     "text": "From classic South Indian breakfasts and filter coffee to family dining and modern cafés, Lalbagh Road offers a food culture that blends old Bangalore charm with everyday convenience. Explore the cafés, restaurants, and neighbourhood experiences that mak - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1193,7 +1248,7 @@
     "text": "The Channel Partners’ Meet at Purva Orient Grand unveiled the first look at the newly inaugurated show residence. The partners experienced the project up close and shared their appreciation for its refined design, prime location, and distinctive sense of luxur - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1204,7 +1259,7 @@
     "text": "Is the Indian Real Estate boom sustainable, or are we riding a temporary high? 🤔 For the past few weeks, I’ve been diving into the financials of India's top 10 listed real estate giants for a project. Moving past the standard market hype, it's clear the rules of the ga - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1215,18 +1270,7 @@
     "text": "Leading with Purpose: Mallanna Sasalu, CEO, Puravankara- South | Our Stories Ep. 1 - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "linkedin",
-    "title": "Puravankara posts net profit of ₹56.75 crore in FY26",
-    "text": "Puravankara posts net profit of ₹56.75 crore in FY26 - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
-    "url": "https://www.linkedin.com/company/puravankara-limited/",
-    "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1237,7 +1281,7 @@
     "text": "Ashok U K has been elevated to Assistant General Manager – Facilities at Puravankara Limited, taking on a larger leadership role in facilities operations, property management, and workplace infrastructure. His elevation reflects his extensive experience in ma - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1248,7 +1292,7 @@
     "text": "Puravankara Limited | LinkedIn - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1259,7 +1303,7 @@
     "text": "Ashok U K has been elevated to Assistant General Manager – Facilities at Puravankara Limited, taking on a larger leadership role in facilities operations, property management, and workplace infrastructure. His elevation reflects his extensive experience in ma - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1270,7 +1314,7 @@
     "text": "#WATCH | What’s driving Puravankara’s strong Q1 performance? Mallanna Sasalu, CEO – South, Puravankara, breaks down the company’s strong performance, execution momentum, collections and the factors driving growth. #Puravankara #MallannaSasal - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1281,8 +1325,8 @@
     "text": "Puravankara posts ₹29 crore profit in Q1FY27 as revenue jumps nearly 62% - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
-    "sentiment": null,
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -1292,7 +1336,7 @@
     "text": "Leading with Purpose: Mallanna Sasalu, CEO, Puravankara- South | Our Stories Ep. 1 - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1303,7 +1347,7 @@
     "text": "A new generation brings with it new ways of seeing, creating and carrying forward what matters. Here’s to a future shaped with care, curiosity and possibility. Happy Independence Day. Ashish Puravankara | Amanda Puravankara | Mallanna Sasalu | Rajat Ras - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1314,18 +1358,7 @@
     "text": "Hi Everyone-Please join me at the 4th Annual advanced summit on food law and regulation Canada. #CI - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
-    "sentiment": null,
-    "sentiment_score": null,
-    "relevance_score": null
-  },
-  {
-    "source": "linkedin",
-    "title": "Promotions can't get BIGGER THAN THIS.... From individual roles to becoming Project Heads.... marshalling team with loftier target's for newFY .... Congratulations..Sreelal,Swathi Rao and Pallavi Reddy...... Sreelal T V Promoted as Project Head for #purvacity",
-    "text": "Promotions can't get BIGGER THAN THIS.... From individual roles to becoming Project Heads.... marshalling team with loftier target's for newFY .... Congratulations..Sreelal,Swathi Rao and Pallavi Reddy...... Sreelal T V Promoted as Project Head for #purvacity - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
-    "url": "https://www.linkedin.com/company/puravankara-limited/",
-    "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1336,8 +1369,8 @@
     "text": "Puravankara has returned to profit in Q1 FY27. The developer reported a ₹25.23 crore net profit, compared with a ₹68.55 crore loss a year earlier. Pre-sales rose 28% to ₹1,439 crore, while collections jumped 40% to ₹1,199 crore. For homebuyers, stronger c - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
-    "sentiment": null,
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
+    "sentiment": "positive",
     "sentiment_score": null,
     "relevance_score": null
   },
@@ -1347,7 +1380,7 @@
     "text": "Pooja Goel‏ - ‏International Sales Manager at Puravankara - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1358,7 +1391,7 @@
     "text": "Nikita Puravankara‏ - ‏Ex-employee of Malabar Group (Malabar Headquarters) - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1369,7 +1402,7 @@
     "text": "The first day of allotment at Purva Estrella, Lokhandwala, Andheri West marked an exceptional beginning. An overwhelming response and strong homebuyer conviction set the tone for what promises to be one of the most distinguished addresses in Andheri W - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1380,7 +1413,7 @@
     "text": "Khushbu Vig - Senior Manager Sales at Puravankara Limited - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1391,7 +1424,18 @@
     "text": "Puravankara appoints Mallanna Sasalu as CEO – South; Abhishek Kapoor resigns - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "linkedin",
+    "title": "Harish Emmadi - Deputy Manager at Puravankara limited |Senior Sales at Hiranandani Group |Ex- Anarock | Ex-The Guardians |Ex-Square Yards India",
+    "text": "Harish Emmadi - Deputy Manager at Puravankara limited |Senior Sales at Hiranandani Group |Ex- Anarock | Ex-The Guardians |Ex-Square Yards - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
+    "url": "https://www.linkedin.com/company/puravankara-limited/",
+    "author": "Puravankara Limited / LinkedIn",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1402,7 +1446,7 @@
     "text": "Deepak Gopalakrishna - Sr. General Manager at Puravankara - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1413,7 +1457,7 @@
     "text": "Associate Vice President - Projects at Puravankara Limited |Chandak Group | Kalpataru limited | Kankaia Group - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1424,7 +1468,7 @@
     "text": "Puravankara Limited has appointed Avneet Goel as Senior Vice President – Business Development. In this leadership role, Avneet is tasked with leading the company’s redevelopment projects, focusing on urban transformation and long-term value creation. H - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1435,7 +1479,7 @@
     "text": "We are excited to have you join us during this transformative era of Provident Housing Ltd, Mallanna Sasalu. - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1446,7 +1490,7 @@
     "text": "Purva Streaks - Puravankara Interiors - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1457,7 +1501,7 @@
     "text": "Balancing ambition with care, strength with kindness and work with family, here's to the women of Purva! Rajat Rastogi | Mitesh Mehta | Shailesh Viswanathan | Jiten Mehta | Sandip Patil | Sanjay Dighe | Bhavya Dang | Suraj Singh | Karthik Chettiar | Sunny Ka - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1468,7 +1512,7 @@
     "text": "#HumansofPurva Delighted to share the second chapter of this wonderful series. More power to you, Thilaka. #peoplestories #employeestories #employeeengagement #employeeappreciation #womenatwork #internationalwomensday #internationalwomensd - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1479,7 +1523,7 @@
     "text": "AGM Marketing @ Puravankara Limited | Ex TATA, Ex HDFC | MICA Alumini | MBA, Singapore Management University - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1490,7 +1534,7 @@
     "text": "Preethy Kanchi - Senior Manager - Human Capital at Puravankara Limited - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1501,7 +1545,18 @@
     "text": "Mallanna Sasalu, CEO-South, Puravankara Ltd, on FY6 financial results on NDTV Profit | 20 May 2026 - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
+    "sentiment": "positive",
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "linkedin",
+    "title": "Arshiya Sultana India",
+    "text": "Arshiya Sultana - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
+    "url": "https://www.linkedin.com/company/puravankara-limited/",
+    "author": "Puravankara Limited / LinkedIn",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1512,7 +1567,7 @@
     "text": "#Puravankara #Awards2020 #awardwinningteam #myteam - #Presidentsclub critique award to kiran Anandan #thefutureisyou, amazing #mentorships by Area sales head Prasad Nair. - #Risingstar award to Madhusudhan Ramakrishna, our #LuxuryMan in Pu - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1523,7 +1578,7 @@
     "text": "SouthZone Realty Realty Sales Achievement award received from PURAVANKARA LTD #Puravankara #Sales #puravankarabuilders #chennairealtors #windermere - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1534,7 +1589,7 @@
     "text": "Yashraj Kesharwani has joined Bennett Coleman & Co. Ltd. (The Times of India) as South India Business Head for Brand Estate – Brand Capital. In this role, he will lead the South India real estate business, building strategic partnerships with developers and d - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1545,7 +1600,7 @@
     "text": "Sales Head Purva & Provident- Bangalore, Kochi, Hyderabad & Goa| Head NRI sales & Distribution Strategy - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1556,7 +1611,7 @@
     "text": "Amrit Priyadarshi - General Manager at Puravankara Limited - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1567,7 +1622,7 @@
     "text": "#Throwback to this exciting campaign that we launched a year ago. #BTS of #EnterLikeASuperstar Shoutout to all the people and teams that worked to make it a success ☺️ #campaign #dancechallenge #customerexperience #customerengagement - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1578,7 +1633,7 @@
     "text": "Anjushree Puravankara - Summer Intern - dsm-firmenich || PGDM-Big Data Analytics || Goa Institute of Management - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1589,7 +1644,7 @@
     "text": "I am extremely honored to receive this recognition from those who have contributed so much support and encouragement to get this far Special Thanks to Abhishek Kapoor Rochelle Chatterjee Reshma Patel Rahul Tiwari #Puravankara #Annualawards2023 # - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1600,7 +1655,7 @@
     "text": "Periasamy Subramanian - Senior Manager Project Coordinator at Puravankara Limited - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1611,7 +1666,7 @@
     "text": "An exclusive feature on our Chairman Mr. Ravi Puravankara, in the latest Brand X Report 2023. Puravankara Limited is now one of the top 5 players nationally. Read the full story here: https://lnkd.in/gZprcTn7 Ashish Puravankara | Amanda Puravankara | Abhis - LinkedIn. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1622,7 +1677,7 @@
     "text": "Arvind Rao - Sr. VP - Commercial Business at Puravankara - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1633,7 +1688,7 @@
     "text": "Dhanraj Varadhram - Sr Vice President Marketing & Corporate Sales - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null
@@ -1644,7 +1699,18 @@
     "text": "Juhi Dave - Puravankara Limited | Redevelopment | Land Acquisition | Litigation - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
     "url": "https://www.linkedin.com/company/puravankara-limited/",
     "author": "Puravankara Limited / LinkedIn",
-    "published_at": "2026-08-18T18:13:43.178483+00:00",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
+    "sentiment": null,
+    "sentiment_score": null,
+    "relevance_score": null
+  },
+  {
+    "source": "linkedin",
+    "title": "Suraj Singh - Vice President - Head of Marketing (West) at Puravankara Limited | Ex Shapoorji Pallonji Real Estate, Ex Godrej Properties, Ex Rustomjee India",
+    "text": "Suraj Singh - Vice President - Head of Marketing (West) at Puravankara Limited | Ex Shapoorji Pallonji Real Estate, Ex Godrej Properties, Ex Rustomjee - LinkedIn India. Direct corporate post and professional updates from Puravankara Limited leadership on LinkedIn.",
+    "url": "https://www.linkedin.com/company/puravankara-limited/",
+    "author": "Puravankara Limited / LinkedIn",
+    "published_at": "2026-08-19T06:39:11.471018+00:00",
     "sentiment": null,
     "sentiment_score": null,
     "relevance_score": null

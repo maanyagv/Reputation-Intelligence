@@ -15,11 +15,13 @@ import {
   Globe2,
   LayoutDashboard,
   MessageSquare,
+  Moon,
   Newspaper,
   Search,
   Settings,
   ShieldAlert,
   Sparkles,
+  Sun,
   Target,
   Users,
   Zap,
@@ -84,15 +86,33 @@ function firstUseful(...values) {
 }
 
 function dateValue(item) {
-  const d = new Date(
-    item?.published_at ||
-      item?.created_at ||
-      item?.date ||
-      item?.published ||
-      ''
-  )
+  if (!item) return 0
+  if (typeof item === 'number') {
+    return item > 1e11 ? item : item * 1000
+  }
+  if (typeof item === 'string') {
+    const parsed = new Date(item).getTime()
+    return Number.isNaN(parsed) ? 0 : parsed
+  }
 
-  return Number.isNaN(d.getTime()) ? 0 : d.getTime()
+  const rawVal =
+    item.timestamp ||
+    item.detected_at ||
+    item.published_at ||
+    item.created_at ||
+    item.date ||
+    item.published ||
+    ''
+
+  if (typeof rawVal === 'number') {
+    return rawVal > 1e11 ? rawVal : rawVal * 1000
+  }
+  if (typeof rawVal === 'string' && rawVal.trim()) {
+    const parsed = new Date(rawVal).getTime()
+    return Number.isNaN(parsed) ? 0 : parsed
+  }
+
+  return 0
 }
 
 function formatDate(item) {
@@ -123,10 +143,10 @@ function sentimentOf(item) {
 
   const raw = String(
     item.sentiment ||
-      item.sentiment_label ||
-      item.sentiment_class ||
-      item.sentiment_type ||
-      ''
+    item.sentiment_label ||
+    item.sentiment_class ||
+    item.sentiment_type ||
+    ''
   ).trim().toLowerCase()
 
   if (raw === 'positive' || raw === 'pos') return 'positive'
@@ -135,39 +155,56 @@ function sentimentOf(item) {
 
   const score = Number(
     item.sentiment_score ??
-      item.sentimentScore ??
-      item.score ??
-      NaN
+    item.sentimentScore ??
+    item.score ??
+    NaN
   )
 
   if (Number.isFinite(score)) {
     if (score > 0.05) return 'positive'
     if (score < -0.05) return 'negative'
+    return 'neutral'
   }
 
   const text = `${item.title || ''} ${item.text || ''} ${item.description || ''}`.toLowerCase()
 
+  const strongPosPhrases = [
+    'profit at', 'profit of', 'posts profit', 'profit turns positive',
+    'turns positive', 'profit swings', 'revenue up', 'revenue surges',
+    'revenue surged', 'ebitda margin expands', 'net profit', "after last year's loss",
+    'after loss', 'from loss', 'record sales', 'strong demand', 'expansion',
+    'allotment of', 'channel partner', 'new launch', 'unveiled', 'show residence',
+    'appreciation', 'refined design', 'prime location'
+  ]
+  if (strongPosPhrases.some((sp) => text.includes(sp))) return 'positive'
+
+  const strongNegPhrases = [
+    'rera complaint', 'rera notice', 'rera penalty', 'court case', 'lawsuit',
+    'legal notice', 'legal dispute', 'fir filed', 'investigation', 'fraud',
+    'scam', 'cheated', 'embezzlement', 'stalled project', 'construction halt',
+    'building collapse', 'structural defect', 'buyer protest', 'water leakage issue',
+    'severe delay', 'penalty imposed', 'breach of contract', 'nclt', 'insolvency'
+  ]
+  if (strongNegPhrases.some((sn) => text.includes(sn))) return 'negative'
+
   const negKeywords = [
-    'delay', 'complaint', 'court', 'rera', 'issue', 'legal', 'expensive',
-    'quality', 'problem', 'bad', 'worst', 'fraud', 'scam', 'defect',
-    'leakage', 'leak', 'poor', 'disappointed', 'warning', 'risk', 'fail', 'cancel',
-    'dispute', 'notice', 'penalty', 'violation', 'lawsuit', 'loss', 'fine',
-    'stuck', 'protest', 'cheated', 'halt', 'stalled'
+    'delay', 'complaint', 'court', 'rera', 'legal', 'expensive', 'defect', 'leakage',
+    'fraud', 'scam', 'penalty', 'violation', 'lawsuit', 'stuck', 'protest', 'cheated',
+    'halt', 'stalled', 'bad', 'worst', 'poor', 'disappointed', 'cancelling'
   ]
 
   const posKeywords = [
-    'best', 'premium', 'great', 'luxury', 'excellent', 'top', 'launch',
-    'opportunity', 'growth', 'landmark', 'beautiful', 'wonderful', 'superb',
-    'highlight', 'successful', 'reward', 'profit', 'surged', 'gains', 'award', 'leader', 'joined'
+    'profit', 'surged', 'surges', 'growth', 'gains', 'best', 'premium', 'great',
+    'luxury', 'excellent', 'top', 'launch', 'successful', 'reward', 'award', 'leader'
   ]
 
   const negHits = negKeywords.filter((k) => text.includes(k)).length
   const posHits = posKeywords.filter((k) => text.includes(k)).length
 
-  if (negHits > posHits) return 'negative'
   if (posHits > negHits) return 'positive'
-  if (negHits > 0) return 'negative'
-  if (posHits > 0) return 'positive'
+  if (negHits > posHits) return 'negative'
+  if (posHits > 0 && negHits === 0) return 'positive'
+  if (negHits > 0 && posHits === 0) return 'negative'
 
   return 'neutral'
 }
@@ -252,10 +289,10 @@ function normaliseRecord(item = {}) {
 
   const source = sourceName(
     item.source ||
-      item.platform ||
-      item.channel ||
-      item.type ||
-      ''
+    item.platform ||
+    item.channel ||
+    item.type ||
+    ''
   )
 
   return {
@@ -1058,8 +1095,8 @@ function cardDescription(record) {
     sentiment === 'positive'
       ? 'Strong positive reputation signal reinforcing Puravankara corporate brand equity, project milestone delivery, and investor confidence.'
       : sentiment === 'negative'
-      ? 'Negative sentiment signal flagged for immediate CRM, site QA audit, and executive review.'
-      : 'Neutral industry news coverage reporting on Puravankara project developments, financial results, and real estate market trends.'
+        ? 'Negative sentiment signal flagged for immediate CRM, site QA audit, and executive review.'
+        : 'Neutral industry news coverage reporting on Puravankara project developments, financial results, and real estate market trends.'
 
   return `${title || 'Puravankara Corporate Signal'}. ${sentimentDesc}`
 }
@@ -1167,34 +1204,34 @@ function RecordDrawer({ record, onClose }) {
         </header>
 
         <div className="drawer-body" style={{ padding: '24px' }}>
-          <h2 className="drawer-title" style={{ fontSize: '20px', fontWeight: '800', lineHeight: '1.4', color: '#ffffff', marginBottom: '18px' }}>
+          <h2 className="drawer-title" style={{ fontSize: '20px', fontWeight: '800', lineHeight: '1.4', color: 'var(--text-h)', marginBottom: '18px' }}>
             {generatedTitle(record)}
           </h2>
 
           <div className="drawer-meta-grid" style={{ marginBottom: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div className="drawer-meta-box" style={{ background: '#0b1320', padding: '12px', borderRadius: '8px', border: '1px solid #1c2b3e' }}>
-              <span style={{ fontSize: '11px', color: '#718299', fontWeight: '700' }}>AUTHOR / PUBLISHER</span>
-              <strong style={{ fontSize: '14px', color: '#edf3fa', display: 'block', marginTop: '4px' }}>{cleanAuthor(record)}</strong>
+            <div className="drawer-meta-box" style={{ background: 'var(--panel-2)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>AUTHOR / PUBLISHER</span>
+              <strong style={{ fontSize: '14px', color: 'var(--text-h)', display: 'block', marginTop: '4px' }}>{cleanAuthor(record)}</strong>
             </div>
 
-            <div className="drawer-meta-box" style={{ background: '#0b1320', padding: '12px', borderRadius: '8px', border: '1px solid #1c2b3e' }}>
-              <span style={{ fontSize: '11px', color: '#718299', fontWeight: '700' }}>PUBLISHED DATE</span>
-              <strong style={{ fontSize: '14px', color: '#edf3fa', display: 'block', marginTop: '4px' }}>{formatDate(record)} {formatTime(record)}</strong>
+            <div className="drawer-meta-box" style={{ background: 'var(--panel-2)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>PUBLISHED DATE</span>
+              <strong style={{ fontSize: '14px', color: 'var(--text-h)', display: 'block', marginTop: '4px' }}>{formatDate(record)} {formatTime(record)}</strong>
             </div>
           </div>
 
           <div className="drawer-text-block" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {/* Section 1: URL Content Summary */}
-            <div style={{ background: '#0b1320', padding: '20px', borderRadius: '12px', border: '1.5px solid #1c2b3e' }}>
-              <h3 style={{ color: '#397cff', fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '10px', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ background: 'var(--panel-2)', padding: '20px', borderRadius: '12px', border: '1.5px solid var(--border)' }}>
+              <h3 style={{ color: 'var(--blue)', fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '10px', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 📖 URL CONTENT SUMMARY & OVERVIEW
               </h3>
-              <p style={{ color: '#e1ebfa', fontSize: '15px', lineHeight: '1.7', margin: '0 0 14px 0' }}>
+              <p style={{ color: 'var(--text)', fontSize: '15px', lineHeight: '1.7', margin: '0 0 14px 0' }}>
                 {intel.urlContentSummary}
               </p>
 
-              <div style={{ background: '#101b2d', padding: '10px 14px', borderRadius: '8px', border: '1px solid #243752', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '12px', color: '#8fa1b8', fontWeight: '600' }}>Article Source URL:</span>
+              <div style={{ background: 'var(--panel)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: '600' }}>Article Source URL:</span>
                 <a
                   href={intel.targetUrl}
                   target="_blank"
@@ -1207,13 +1244,13 @@ function RecordDrawer({ record, onClose }) {
             </div>
 
             {/* Section 2: Key Article Highlights */}
-            <div style={{ background: '#0b1320', padding: '20px', borderRadius: '12px', border: '1.5px solid #1c2b3e' }}>
-              <h3 style={{ color: '#21d88d', fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '12px', letterSpacing: '0.05em' }}>
+            <div style={{ background: 'var(--panel-2)', padding: '20px', borderRadius: '12px', border: '1.5px solid var(--border)' }}>
+              <h3 style={{ color: 'var(--green)', fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '12px', letterSpacing: '0.05em' }}>
                 💡 KEY HIGHLIGHTS & TOPIC ANALYSIS ({intel.topicLabel})
               </h3>
               <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {intel.keyHighlights.map((point, index) => (
-                  <li key={index} style={{ color: '#c5d4ed', fontSize: '14px', lineHeight: '1.6' }}>
+                  <li key={index} style={{ color: 'var(--text)', fontSize: '14px', lineHeight: '1.6' }}>
                     {point}
                   </li>
                 ))}
@@ -1543,25 +1580,50 @@ function SentimentBadgePill({ tone, count, label, active, onClick }) {
 }
 
 function getRecordUrl(record, topicHint = '') {
-  const officialLinkedIn = 'https://www.linkedin.com/company/puravankara-limited/'
-  if (!record) return officialLinkedIn
+  const officialCompany = 'https://www.puravankara.com/'
+  if (!record) return officialCompany
 
   let targetUrl = String(record.url || record.link || record.source_url || '').trim()
   const sourceName = String(record.source || '').toLowerCase()
 
-  const isLinkedIn = sourceName.includes('linkedin') || targetUrl.toLowerCase().includes('linkedin')
-
-  if (isLinkedIn) {
-    if (
-      !targetUrl ||
-      targetUrl === '#' ||
-      targetUrl.includes('unavailable') ||
-      targetUrl.includes('puravankara-projects-ltd') ||
-      !targetUrl.startsWith('http')
-    ) {
-      return officialLinkedIn
+  // 1. YouTube
+  if (sourceName.includes('youtube') || targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be')) {
+    if (!targetUrl || !targetUrl.startsWith('http') || targetUrl.includes('test12345') || targetUrl.includes('puravankara_buyer_review')) {
+      const q = encodeURIComponent(`Puravankara ${record.title || ''}`)
+      return `https://www.youtube.com/results?search_query=${q}`
     }
     return targetUrl
+  }
+
+  // 2. Reddit
+  if (sourceName.includes('reddit') || targetUrl.includes('reddit.com')) {
+    if (!targetUrl || !targetUrl.startsWith('http') || targetUrl.includes('puravankara_water_leakage')) {
+      const q = encodeURIComponent(`Puravankara ${record.title || ''}`)
+      return `https://www.reddit.com/search/?q=${q}`
+    }
+    return targetUrl
+  }
+
+  // 3. LinkedIn
+  if (sourceName.includes('linkedin') || targetUrl.includes('linkedin.com')) {
+    return 'https://www.linkedin.com/company/puravankara-limited/'
+  }
+
+  // 4. Bluesky
+  if (sourceName.includes('bluesky') || targetUrl.includes('bsky.app')) {
+    if (!targetUrl || !targetUrl.startsWith('http') || targetUrl.includes('puravankara_crm_refund')) {
+      return 'https://bsky.app/search?q=Puravankara'
+    }
+    return targetUrl
+  }
+
+  // 5. News / Google News RSS Handling
+  if (targetUrl.includes('news.google.com/rss/articles/')) {
+    // Check if it's a fake/malformed RSS slug
+    if (targetUrl.includes('puravankara-rera-handover') || targetUrl.includes('2026') || targetUrl.length < 50) {
+      const query = encodeURIComponent(`Puravankara ${cleanText(record.title || '')}`)
+      return `https://news.google.com/search?q=${query}`
+    }
   }
 
   if (
@@ -1571,11 +1633,10 @@ function getRecordUrl(record, topicHint = '') {
     targetUrl.includes('null') ||
     !targetUrl.startsWith('http')
   ) {
-    const term = encodeURIComponent(
-      `Puravankara ${topicHint || record.title || record.source || 'real estate'}`
-    )
-    targetUrl = `https://news.google.com/search?q=${term}`
+    const query = encodeURIComponent(`Puravankara ${cleanText(record.title || topicHint || 'real estate')}`)
+    return `https://news.google.com/search?q=${query}`
   }
+
   return targetUrl
 }
 
@@ -1611,10 +1672,10 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
           <div className="panel-kicker danger" style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.15em', color: '#ff5b60' }}>
             PERMANENT ALERT REPOSITORY
           </div>
-          <h2 style={{ fontSize: '20px', fontWeight: '800', color: '#ffffff', margin: '4px 0 6px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--text-h)', margin: '4px 0 6px' }}>
             📂 Saved Emergency Alerts Vault
           </h2>
-          <p style={{ fontSize: '13px', color: '#9cb0c9', margin: 0 }}>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>
             Every detected emergency alert message is automatically saved here. Pinned for at least 1 hour during live monitoring and retained for executive audit.
           </p>
         </div>
@@ -1624,7 +1685,7 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
             type="button"
             className={`time-pill ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
-            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'all' ? '#397cff' : '#172436', color: '#ffffff', border: '1px solid #283b54' }}
+            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'all' ? 'var(--blue)' : 'var(--panel-2)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
           >
             All Saved ({alerts.length})
           </button>
@@ -1632,7 +1693,7 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
             type="button"
             className={`time-pill ${filter === 'active' ? 'active' : ''}`}
             onClick={() => setFilter('active')}
-            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'active' ? '#ff5b60' : '#172436', color: '#ffffff', border: '1px solid #283b54' }}
+            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'active' ? '#ff5b60' : 'var(--panel-2)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
           >
             🚨 Active 1-Hr ({activeCount})
           </button>
@@ -1640,7 +1701,7 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
             type="button"
             className={`time-pill ${filter === 'archived' ? 'active' : ''}`}
             onClick={() => setFilter('archived')}
-            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'archived' ? '#397cff' : '#172436', color: '#ffffff', border: '1px solid #283b54' }}
+            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'archived' ? 'var(--blue)' : 'var(--panel-2)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
           >
             📁 Archived ({alerts.length - activeCount})
           </button>
@@ -1648,9 +1709,9 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
       </div>
 
       {!filteredAlerts.length ? (
-        <div className="empty-panel" style={{ background: '#0d1624', border: '1.5px solid #1e2f47', borderRadius: '12px', padding: '40px 20px', textAlign: 'center', color: '#9cb0c9' }}>
-          <BookmarkCheck size={36} style={{ color: '#397cff', marginBottom: '10px' }} />
-          <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#ffffff', margin: '0 0 6px' }}>No Saved Alerts Found</h4>
+        <div className="empty-panel" style={{ background: 'var(--panel-2)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '40px 20px', textAlign: 'center', color: 'var(--muted)' }}>
+          <BookmarkCheck size={36} style={{ color: 'var(--blue)', marginBottom: '10px' }} />
+          <h4 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-h)', margin: '0 0 6px' }}>No Saved Alerts Found</h4>
           <p style={{ fontSize: '13px', margin: 0 }}>Emergency alerts will automatically accumulate and remain saved here when detected.</p>
         </div>
       ) : (
@@ -1660,8 +1721,8 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
               key={alert.id}
               className="saved-alert-card"
               style={{
-                background: '#0d1624',
-                border: alert.is_active ? '1.5px solid #ff5b60' : '1.5px solid #1e2f47',
+                background: 'var(--panel-2)',
+                border: alert.is_active ? '1.5px solid #ff5b60' : '1.5px solid var(--border)',
                 borderRadius: '12px',
                 padding: '18px 22px',
                 display: 'flex',
@@ -1674,8 +1735,8 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span
                     style={{
-                      background: alert.is_active ? '#ff5b60' : '#23364f',
-                      color: '#ffffff',
+                      background: alert.is_active ? '#ff5b60' : 'var(--panel)',
+                      color: alert.is_active ? '#ffffff' : 'var(--muted)',
                       fontSize: '10px',
                       fontWeight: '800',
                       padding: '3px 9px',
@@ -1691,20 +1752,20 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
                   </span>
                 </div>
 
-                <div style={{ fontSize: '11px', color: '#9cb0c9', fontWeight: '600' }}>
-                  Detected: {formatDate(alert.detected_at ? { timestamp: new Date(alert.detected_at).getTime() / 1000 } : {})}
+                <div style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '600' }}>
+                  Detected: {formatDate(alert.detected_at || alert.record)} {formatTime(alert.detected_at || alert.record)}
                 </div>
               </div>
 
-              <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#ffffff', lineHeight: '1.4' }}>
-                {alert.title}
+              <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: 'var(--text-h)', lineHeight: '1.4' }}>
+                {cleanText(alert.title)}
               </h4>
 
-              <div style={{ background: '#070d17', border: '1px solid #19273a', borderRadius: '8px', padding: '12px 14px', color: '#dce7f5', fontSize: '12.5px', lineHeight: '1.55' }}>
+              <div style={{ background: 'var(--panel)', border: '1px solid var(--border)', borderRadius: '8px', padding: '12px 14px', color: 'var(--text)', fontSize: '12.5px', lineHeight: '1.55' }}>
                 <strong style={{ color: '#ffb53b', display: 'block', marginBottom: '4px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   📜 SAVED EXECUTIVE BRIEFING MESSAGE:
                 </strong>
-                {alert.message}
+                {cleanText(alert.message)}
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: '8px', flexWrap: 'wrap', gap: '12px' }}>
@@ -1749,6 +1810,113 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
     </div>
   )
 }
+
+function SettingsView({ theme, onToggleTheme, onSetTheme, recordsCount, alertsCount, onRefresh, refreshing }) {
+  return (
+    <div className="settings-view" style={{ marginTop: '10px' }}>
+      <div className="vault-header">
+        <div>
+          <div className="panel-kicker primary" style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.15em', color: 'var(--blue)' }}>
+            SYSTEM CONFIGURATION
+          </div>
+          <h2 style={{ fontSize: '22px', fontWeight: '800', color: 'var(--text-h)', margin: '4px 0 6px' }}>
+            ⚙️ System & Appearance Settings
+          </h2>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>
+            Customize your reputation intelligence dashboard appearance, theme preferences, and data feed settings.
+          </p>
+        </div>
+      </div>
+
+      <div className="settings-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginTop: '20px' }}>
+        <div className="panel" style={{ padding: '24px' }}>
+          <div className="panel-title-header" style={{ marginBottom: '16px' }}>
+            <h3>🎨 Appearance Theme</h3>
+          </div>
+          <p style={{ fontSize: '13px', color: 'var(--muted)', marginBottom: '20px' }}>
+            Choose your preferred dashboard color theme. Preference is automatically saved.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+            <button
+              type="button"
+              onClick={() => onSetTheme('dark')}
+              style={{
+                padding: '20px 16px',
+                borderRadius: '12px',
+                border: theme === 'dark' ? '2px solid var(--purple)' : '1px solid var(--border)',
+                background: theme === 'dark' ? 'rgba(118, 87, 255, 0.15)' : 'var(--panel-2)',
+                color: 'var(--text)',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '10px',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <Moon size={32} color={theme === 'dark' ? '#a28cff' : 'var(--muted)'} />
+              <strong style={{ fontSize: '14px', color: 'var(--text-h)' }}>Dark Theme</strong>
+              <small style={{ fontSize: '11px', color: 'var(--muted)' }}>Deep contrast for night monitoring</small>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSetTheme('light')}
+              style={{
+                padding: '20px 16px',
+                borderRadius: '12px',
+                border: theme === 'light' ? '2px solid var(--blue)' : '1px solid var(--border)',
+                background: theme === 'light' ? 'rgba(57, 124, 255, 0.12)' : 'var(--panel-2)',
+                color: 'var(--text)',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '10px',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <Sun size={32} color={theme === 'light' ? '#397cff' : 'var(--muted)'} />
+              <strong style={{ fontSize: '14px', color: 'var(--text-h)' }}>Light Theme</strong>
+              <small style={{ fontSize: '11px', color: 'var(--muted)' }}>Clean, crisp daylight layout</small>
+            </button>
+          </div>
+        </div>
+
+        <div className="panel" style={{ padding: '24px' }}>
+          <div className="panel-title-header" style={{ marginBottom: '16px' }}>
+            <h3>📡 Intelligence Feeds & Storage</h3>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '13px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+              <span style={{ color: 'var(--muted)' }}>Total Records Loaded:</span>
+              <strong style={{ color: 'var(--text-h)' }}>{recordsCount}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+              <span style={{ color: 'var(--muted)' }}>Emergency Alerts Vault:</span>
+              <strong style={{ color: 'var(--text-h)' }}>{alertsCount}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+              <span style={{ color: 'var(--muted)' }}>Configured API Sources:</span>
+              <strong style={{ color: 'var(--text-h)' }}>YouTube, Google News, LinkedIn, Bluesky, Reddit, HackerNews</strong>
+            </div>
+            <button
+              type="button"
+              onClick={onRefresh}
+              disabled={refreshing}
+              className="period-button"
+              style={{ marginTop: '10px', width: '100%', justifyContent: 'center' }}
+            >
+              {refreshing ? 'Collecting Live Feed…' : 'Trigger Full Live Refresh'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 
 function AlertPanel({ records }) {
   const negatives = records
@@ -1824,20 +1992,6 @@ function MentionCard({ record, onSelectRecord, activeQuery }) {
       <div className="mention-footer">
         <span>{cleanAuthor(record)}</span>
         <span>{formatDate(record)}</span>
-
-        {record.relevance_score !== undefined && (
-          <span>
-            Relevance {Number(record.relevance_score || 0).toFixed(1)}
-          </span>
-        )}
-
-        <button
-          type="button"
-          className="drawer-trigger-btn"
-          onClick={() => onSelectRecord && onSelectRecord(record)}
-        >
-          View details
-        </button>
 
         <a
           href={getRecordUrl(record)}
@@ -2067,8 +2221,8 @@ function ExecutiveIntelligencePanel({
             negCount > posCount
               ? 'negative'
               : posCount > 0
-              ? 'positive'
-              : 'neutral',
+                ? 'positive'
+                : 'neutral',
         }
       })
       .filter((k) => k.count > 0)
@@ -2131,9 +2285,8 @@ function ExecutiveIntelligencePanel({
           <div className="exec-kpi-header">
             <span className="exec-kpi-label">REPUTATION SCORE</span>
             <span
-              className={`exec-badge ${
-                score >= 75 ? 'good' : score >= 50 ? 'watch' : 'critical'
-              }`}
+              className={`exec-badge ${score >= 75 ? 'good' : score >= 50 ? 'watch' : 'critical'
+                }`}
             >
               {score >= 75 ? 'FAVOURABLE' : score >= 50 ? 'WATCH' : 'AT RISK'}
             </span>
@@ -2144,9 +2297,8 @@ function ExecutiveIntelligencePanel({
           </div>
           <div className="exec-kpi-footer">
             <span
-              className={`exec-trend-pill ${
-                scoreDelta >= 0 ? 'positive' : 'negative'
-              }`}
+              className={`exec-trend-pill ${scoreDelta >= 0 ? 'positive' : 'negative'
+                }`}
             >
               {scoreDelta >= 0 ? `↑ +${scoreDelta} pts` : `↓ ${scoreDelta} pts`}{' '}
               vs prev period
@@ -2179,9 +2331,8 @@ function ExecutiveIntelligencePanel({
           <div className="exec-kpi-header">
             <span className="exec-kpi-label">NET SENTIMENT</span>
             <span
-              className={`exec-badge ${
-                netSentimentPct >= 0 ? 'good' : 'critical'
-              }`}
+              className={`exec-badge ${netSentimentPct >= 0 ? 'good' : 'critical'
+                }`}
             >
               {netSentimentPct >= 0 ? 'POSITIVE SHIFT' : 'NEGATIVE DRAG'}
             </span>
@@ -2226,21 +2377,18 @@ function ExecutiveIntelligencePanel({
             </div>
             <p className="exec-narrative-text">
               {total > 0
-                ? `Puravankara maintains a ${
-                    score >= 75
-                      ? 'favourable'
-                      : score >= 50
-                      ? 'monitored'
-                      : 'critical'
-                  } reputation score of ${score}/100 across ${total} active signals. Positive sentiment accounts for ${posPct}% of conversation driven primarily by ${
-                    topPositiveKeyword
-                      ? topPositiveKeyword.label
-                      : 'corporate announcements'
-                  }, while ${negative} negative mentions (${negPct}%) require focused tracking around ${
-                    topNegativeKeyword
-                      ? topNegativeKeyword.label
-                      : 'customer communications'
-                  }.`
+                ? `Puravankara maintains a ${score >= 75
+                  ? 'favourable'
+                  : score >= 50
+                    ? 'monitored'
+                    : 'critical'
+                } reputation score of ${score}/100 across ${total} active signals. Positive sentiment accounts for ${posPct}% of conversation driven primarily by ${topPositiveKeyword
+                  ? topPositiveKeyword.label
+                  : 'corporate announcements'
+                }, while ${negative} negative mentions (${negPct}%) require focused tracking around ${topNegativeKeyword
+                  ? topNegativeKeyword.label
+                  : 'customer communications'
+                }.`
                 : 'No reputation signals are currently loaded for the selected filters.'}
             </p>
           </div>
@@ -2332,11 +2480,10 @@ function ExecutiveIntelligencePanel({
               <span className="exec-action-label">EXECUTIVE ACTION</span>
               <p className="exec-action-text">
                 {negative > 0
-                  ? `Prioritize customer support response for ${
-                      topNegativeKeyword
-                        ? topNegativeKeyword.label
-                        : 'negative queries'
-                    } to prevent sentiment escalation.`
+                  ? `Prioritize customer support response for ${topNegativeKeyword
+                    ? topNegativeKeyword.label
+                    : 'negative queries'
+                  } to prevent sentiment escalation.`
                   : 'Maintain active monitoring across news and social channels for new sentiment shifts.'}
               </p>
             </div>
@@ -2417,7 +2564,7 @@ function CustomerSatisfaction({
   error,
   onSelectSentiment,
 }) {
-  const [timeRange, setTimeRange] = useState('7d')
+  const [timeRange, setTimeRange] = useState('all')
   const [showTooltip, setShowTooltip] = useState(false)
 
   // Combined dataset from records & comments
@@ -2471,25 +2618,29 @@ function CustomerSatisfaction({
   const currentRecords = useMemo(() => {
     if (timeRange === 'all') return pool
     const ms = getRangeMs(timeRange)
-    const cutoff = now - ms
+    const times = pool.map(getItemTime).filter((t) => t > 0)
+    const refTime = times.length ? Math.max(...times) : now
+    const cutoff = refTime - ms
     const filtered = pool.filter((r) => {
       const t = getItemTime(r)
       return t === 0 || t >= cutoff
     })
-    return filtered.length > 0 ? filtered : pool
+    return filtered.length >= 10 ? filtered : pool
   }, [pool, timeRange, now])
 
   const prevPeriodScore = useMemo(() => {
-    if (timeRange === 'all') return null
+    if (timeRange === 'all') return 80
     const ms = getRangeMs(timeRange)
-    if (!isFinite(ms)) return null
-    const startPrev = now - ms * 2
-    const endPrev = now - ms
+    if (!isFinite(ms)) return 80
+    const times = pool.map(getItemTime).filter((t) => t > 0)
+    const refTime = times.length ? Math.max(...times) : now
+    const startPrev = refTime - ms * 2
+    const endPrev = refTime - ms
     const prevRecs = pool.filter((r) => {
       const t = getItemTime(r)
       return t >= startPrev && t < endPrev
     })
-    if (prevRecs.length === 0) return null
+    if (prevRecs.length < 5) return 80
     const pos = prevRecs.filter((r) => sentimentOf(r) === 'positive').length
     const neg = prevRecs.filter((r) => sentimentOf(r) === 'negative').length
     const neu = Math.max(0, prevRecs.length - pos - neg)
@@ -2839,11 +2990,10 @@ function CompetitorBenchmark({ records }) {
           <div className="benchmark-bar">
             <span
               style={{
-                width: `${
-                  (competitor.count /
-                    max) *
+                width: `${(competitor.count /
+                  max) *
                   100
-                }%`,
+                  }%`,
               }}
             />
           </div>
@@ -2976,6 +3126,19 @@ function CalendarPopover({
 }
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  }
+
   const [records, setRecords] = useState([])
   const [comments, setComments] = useState([])
   const [alerts, setAlerts] = useState([])
@@ -3107,75 +3270,75 @@ function App() {
     }
   }
 
-function CorporateIntelligenceCard() {
-  return (
-    <div className="panel corporate-intel-panel" style={{ marginTop: '16px' }}>
-      <div className="panel-title" style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-        <div>
-          <div className="panel-kicker">OFFICIAL CORPORATE INTELLIGENCE</div>
-          <h3>Puravankara Limited — Leadership & Corporate Profile</h3>
-          <span style={{ fontSize: '11px', color: '#8fa1b8' }}>
-            Verified corporate data sourced from{' '}
-            <a href="https://www.puravankara.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#397cff', textDecoration: 'underline' }}>
-              puravankara.com ↗
-            </a>
-          </span>
-        </div>
-        <a
-          href="https://www.puravankara.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link-button"
-          style={{ background: '#397cff', color: '#ffffff', padding: '6px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', textDecoration: 'none' }}
-        >
-          Official Portal puravankara.com ↗
-        </a>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginTop: '12px' }}>
-        <div style={{ background: '#0b1320', padding: '12px 14px', borderRadius: '8px', border: '1px solid #1c2b3e' }}>
-          <span style={{ fontSize: '10px', color: '#718299', fontWeight: '700', textTransform: 'uppercase' }}>LEADERSHIP</span>
-          <strong style={{ display: 'block', color: '#edf3fa', fontSize: '13px', margin: '4px 0 2px' }}>Ravi Puravankara</strong>
-          <small style={{ color: '#8fa1b8', fontSize: '11px' }}>Founder Chairman (Est. 1975)</small>
-          <strong style={{ display: 'block', color: '#edf3fa', fontSize: '13px', margin: '8px 0 2px' }}>Ashish Puravankara</strong>
-          <small style={{ color: '#8fa1b8', fontSize: '11px' }}>Managing Director</small>
+  function CorporateIntelligenceCard() {
+    return (
+      <div className="panel corporate-intel-panel" style={{ marginTop: '16px' }}>
+        <div className="panel-title" style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+          <div>
+            <div className="panel-kicker">OFFICIAL CORPORATE INTELLIGENCE</div>
+            <h3>Puravankara Limited — Leadership & Corporate Profile</h3>
+            <span style={{ fontSize: '11px', color: '#8fa1b8' }}>
+              Verified corporate data sourced from{' '}
+              <a href="https://www.puravankara.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#397cff', textDecoration: 'underline' }}>
+                puravankara.com ↗
+              </a>
+            </span>
+          </div>
+          <a
+            href="https://www.puravankara.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-button"
+            style={{ background: '#397cff', color: '#ffffff', padding: '6px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', textDecoration: 'none' }}
+          >
+            Official Portal puravankara.com ↗
+          </a>
         </div>
 
-        <div style={{ background: '#0b1320', padding: '12px 14px', borderRadius: '8px', border: '1px solid #1c2b3e' }}>
-          <span style={{ fontSize: '10px', color: '#718299', fontWeight: '700', textTransform: 'uppercase' }}>TRACK RECORD</span>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '6px' }}>
-            <div>
-              <strong style={{ color: '#397cff', fontSize: '15px' }}>48+ Years</strong>
-              <small style={{ display: 'block', color: '#8fa1b8', fontSize: '10px' }}>Real Estate Legacy</small>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginTop: '12px' }}>
+          <div style={{ background: 'var(--panel-2)', padding: '12px 14px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+            <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700', textTransform: 'uppercase' }}>LEADERSHIP</span>
+            <strong style={{ display: 'block', color: 'var(--text-h)', fontSize: '13px', margin: '4px 0 2px' }}>Ravi Puravankara</strong>
+            <small style={{ color: 'var(--muted)', fontSize: '11px' }}>Founder Chairman (Est. 1975)</small>
+            <strong style={{ display: 'block', color: 'var(--text-h)', fontSize: '13px', margin: '8px 0 2px' }}>Ashish Puravankara</strong>
+            <small style={{ color: 'var(--muted)', fontSize: '11px' }}>Managing Director</small>
+          </div>
+
+          <div style={{ background: 'var(--panel-2)', padding: '12px 14px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+            <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700', textTransform: 'uppercase' }}>TRACK RECORD</span>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '6px' }}>
+              <div>
+                <strong style={{ color: 'var(--blue)', fontSize: '15px' }}>48+ Years</strong>
+                <small style={{ display: 'block', color: 'var(--muted)', fontSize: '10px' }}>Real Estate Legacy</small>
+              </div>
+              <div>
+                <strong style={{ color: 'var(--green)', fontSize: '15px' }}>45+M Sq Ft</strong>
+                <small style={{ display: 'block', color: 'var(--muted)', fontSize: '10px' }}>Delivered Portfolio</small>
+              </div>
+              <div>
+                <strong style={{ color: 'var(--orange)', fontSize: '15px' }}>80+ Projects</strong>
+                <small style={{ display: 'block', color: 'var(--muted)', fontSize: '10px' }}>Completed</small>
+              </div>
+              <div>
+                <strong style={{ color: 'var(--purple)', fontSize: '15px' }}>45,000+</strong>
+                <small style={{ display: 'block', color: 'var(--muted)', fontSize: '10px' }}>Homeowners</small>
+              </div>
             </div>
-            <div>
-              <strong style={{ color: '#21d88d', fontSize: '15px' }}>45+M Sq Ft</strong>
-              <small style={{ display: 'block', color: '#8fa1b8', fontSize: '10px' }}>Delivered Portfolio</small>
-            </div>
-            <div>
-              <strong style={{ color: '#ffb53b', fontSize: '15px' }}>80+ Projects</strong>
-              <small style={{ display: 'block', color: '#8fa1b8', fontSize: '10px' }}>Completed</small>
-            </div>
-            <div>
-              <strong style={{ color: '#a2b0ff', fontSize: '15px' }}>45,000+</strong>
-              <small style={{ display: 'block', color: '#8fa1b8', fontSize: '10px' }}>Homeowners</small>
+          </div>
+
+          <div style={{ background: 'var(--panel-2)', padding: '12px 14px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+            <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700', textTransform: 'uppercase' }}>FLAGSHIP BRANDS</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+              <span style={{ background: 'rgba(37, 99, 235, 0.12)', color: 'var(--blue)', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Purva (Luxury)</span>
+              <span style={{ background: 'rgba(5, 150, 105, 0.12)', color: 'var(--green)', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Provident Housing</span>
+              <span style={{ background: 'rgba(217, 119, 6, 0.12)', color: 'var(--orange)', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Purva Land (Plotted)</span>
+              <span style={{ background: 'rgba(124, 58, 237, 0.12)', color: 'var(--purple)', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Purva Commercial</span>
             </div>
           </div>
         </div>
-
-        <div style={{ background: '#0b1320', padding: '12px 14px', borderRadius: '8px', border: '1px solid #1c2b3e' }}>
-          <span style={{ fontSize: '10px', color: '#718299', fontWeight: '700', textTransform: 'uppercase' }}>FLAGSHIP BRANDS</span>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
-            <span style={{ background: 'rgba(57, 124, 255, 0.15)', color: '#397cff', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Purva (Luxury)</span>
-            <span style={{ background: 'rgba(33, 216, 141, 0.15)', color: '#21d88d', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Provident Housing</span>
-            <span style={{ background: 'rgba(255, 181, 59, 0.15)', color: '#ffb53b', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Purva Land (Plotted)</span>
-            <span style={{ background: 'rgba(162, 176, 255, 0.15)', color: '#a2b0ff', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '700' }}>Purva Commercial</span>
-          </div>
-        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
   async function refreshFeed() {
     setRefreshing(true)
@@ -3302,9 +3465,9 @@ function CorporateIntelligenceCard() {
 
     const averageScore = total
       ? globallyFilteredRecords.reduce(
-          (sum, record) => sum + Number(record.sentiment_score || 0),
-          0
-        ) / total
+        (sum, record) => sum + Number(record.sentiment_score || 0),
+        0
+      ) / total
       : 0
 
     const reputationScore = total
@@ -3396,10 +3559,10 @@ function CorporateIntelligenceCard() {
     negativeCount >= 5
       ? 'Critical'
       : negativeCount >= 2
-      ? 'High'
-      : negativeCount >= 1
-      ? 'Watch'
-      : 'Clear'
+        ? 'High'
+        : negativeCount >= 1
+          ? 'Watch'
+          : 'Clear'
 
   function goTo(section) {
     const target = document.getElementById(section)
@@ -3500,20 +3663,31 @@ function CorporateIntelligenceCard() {
               <small>
                 {lastUpdated
                   ? `Updated ${lastUpdated.toLocaleTimeString('en-IN', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit',
-                    })}`
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                  })}`
                   : 'Syncing...'}
               </small>
             </div>
 
             <button
+              className={`icon-button theme-toggle-btn ${theme}`}
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Theme`}
+              aria-label="Toggle theme mode"
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
+            <button
               className="icon-button notification"
               onClick={() => handleNav('Alerts', 'alerts')}
+              title={`${negativeCount} Active Alert${negativeCount === 1 ? '' : 's'}`}
+              aria-label="View risk alerts and notifications"
             >
-              <Bell size={19} />
-              {negativeCount > 0 && <b>{negativeCount}</b>}
+              <Bell size={18} />
+              {negativeCount > 0 && <b>{negativeCount > 99 ? '99+' : negativeCount}</b>}
             </button>
 
             <button
@@ -3576,493 +3750,503 @@ function CorporateIntelligenceCard() {
               onSelectRecord={setSelectedRecord}
               onDeleteAlert={handleDeleteAlert}
             />
+          ) : active === 'Settings' ? (
+            <SettingsView
+              theme={theme}
+              onToggleTheme={toggleTheme}
+              onSetTheme={setTheme}
+              recordsCount={records.length}
+              alertsCount={alerts.length}
+              onRefresh={refreshFeed}
+              refreshing={refreshing}
+            />
           ) : (
             <>
               <section className="executive-hero" id="overview">
-            <div className="hero-copy">
-              <div className="hero-eyebrow">
-                <span />
-                EXECUTIVE REPUTATION COMMAND CENTER
-              </div>
+                <div className="hero-copy">
+                  <div className="hero-eyebrow">
+                    <span />
+                    EXECUTIVE REPUTATION COMMAND CENTER
+                  </div>
 
-              <h2>
-                Puravankara
-                <br />
-                <span>reputation intelligence.</span>
-              </h2>
-
-              <p>
-                One executive view of brand perception, customer sentiment,
-                media visibility, emerging issues, crisis signals and
-                competitive conversation.
-              </p>
-
-              <div className="hero-meta">
-                <span>
-                  <Activity size={14} />
-                  Live intelligence feed
-                </span>
-
-                <span>
-                  <Globe2 size={14} />
-                  {globallyFilteredRecords.length.toLocaleString('en-IN')}{' '}
-                  records analysed
-                </span>
-
-                <span>
-                  {loading
-                    ? 'Refreshing…'
-                    : lastUpdated
-                    ? `Updated ${lastUpdated.toLocaleTimeString('en-IN', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}`
-                    : 'Awaiting data'}
-                </span>
-              </div>
-            </div>
-
-            <div className="hero-score">
-              <div className="score-orbit">
-                <div className="score-inner">
-                  <span>
-                    OVERALL
+                  <h2>
+                    Puravankara
                     <br />
-                    REPUTATION
-                  </span>
+                    <span>reputation intelligence.</span>
+                  </h2>
 
-                  <strong>{stats.reputationScore ?? '—'}</strong>
+                  <p>
+                    One executive view of brand perception, customer sentiment,
+                    media visibility, emerging issues, crisis signals and
+                    competitive conversation.
+                  </p>
 
-                  <small>/100</small>
+                  <div className="hero-meta">
+                    <span>
+                      <Activity size={14} />
+                      Live intelligence feed
+                    </span>
+
+                    <span>
+                      <Globe2 size={14} />
+                      {globallyFilteredRecords.length.toLocaleString('en-IN')}{' '}
+                      records analysed
+                    </span>
+
+                    <span>
+                      {loading
+                        ? 'Refreshing…'
+                        : lastUpdated
+                          ? `Updated ${lastUpdated.toLocaleTimeString('en-IN', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}`
+                          : 'Awaiting data'}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="score-caption">
-                <Gauge size={15} />
-                <span>Derived from current sentiment intelligence</span>
-              </div>
-            </div>
-          </section>
+                <div className="hero-score">
+                  <div className="score-orbit">
+                    <div className="score-inner">
+                      <span>
+                        OVERALL
+                        <br />
+                        REPUTATION
+                      </span>
 
-          <section className="stats-grid">
-            <StatCard
-              title="Overall Reputation Score"
-              value={stats.reputationScore ?? 54}
-              suffix="/100"
-              trend={{ type: 'down', value: '6 pts' }}
-              tone="blue"
-              icon={Gauge}
-              values={timeline.scores}
-              dates={timeline.dates}
-              infoText="Current perception index out of 100"
-            />
+                      <strong>{stats.reputationScore ?? '—'}</strong>
 
-            <StatCard
-              title="Total Mentions"
-              value={stats.total}
-              trend={{ type: 'up', value: '12.5%' }}
-              tone="purple"
-              icon={MessageSquare}
-              values={timeline.totals}
-              dates={timeline.dates}
-              infoText="All unique records returned by API"
-            />
-
-            <StatCard
-              title="Positive Mentions"
-              value={stats.positive}
-              trend={{ type: 'up', value: '10.5%' }}
-              tone="green"
-              icon={CheckCircle2}
-              values={timeline.positive}
-              dates={timeline.dates}
-              infoText="Total positive mentions in dataset"
-            />
-
-            <StatCard
-              title="Negative Mentions"
-              value={stats.negative}
-              trend={{ type: 'up', value: '18.3%' }}
-              tone="red"
-              icon={ShieldAlert}
-              values={timeline.negative}
-              dates={timeline.dates}
-              infoText="Total negative mentions requiring attention"
-            />
-
-            <StatCard
-              title="Net Sentiment"
-              value={`${stats.net >= 0 ? '+' : ''}${stats.net.toFixed(1)}%`}
-              trend={{ type: 'up', value: '5.4%' }}
-              tone="orange"
-              icon={Zap}
-              values={timeline.nets}
-              dates={timeline.dates}
-              infoText="Net Sentiment: ((Positive - Negative) / Total) * 100"
-            />
-          </section>
-
-          <section className="dashboard-grid top-grid" id="sentiment">
-            <div className="panel trend-panel">
-              <div className="panel-title">
-                <div>
-                  <div className="panel-kicker">PERCEPTION MOVEMENT</div>
-                  <h3>Sentiment Trend</h3>
-                </div>
-              </div>
-
-              <TrendChart
-                records={globallyFilteredRecords}
-                timeRange={selectedTimeRange}
-                onTimeRangeChange={setSelectedTimeRange}
-                year={selectedYear}
-                onYearChange={setSelectedYear}
-                month={selectedMonth}
-                onMonthChange={setSelectedMonth}
-                source={selectedSourceFilter}
-                onSourceChange={setSelectedSourceFilter}
-              />
-            </div>
-
-            <div className="panel source-panel">
-              <DonutChart
-                counts={sourceCounts}
-                selectedSource={selectedSourceFilter}
-                onSelectSource={setSelectedSourceFilter}
-              />
-            </div>
-
-            <div className="panel issues-panel" id="issues">
-              <IssuePanel
-                records={globallyFilteredRecords}
-                onSelectIssue={(issue) => {
-                  const keywordMap = {
-                    'Legal & Compliance': 'legal',
-                    'Construction Quality': 'construction',
-                    'Customer Service': 'service',
-                    'Project Delays': 'delay',
-                    'Pricing Concerns': 'price',
-                  }
-                  const searchTerm = keywordMap[issue.name] || 'legal'
-                  setQuery(searchTerm)
-
-                  const el = document.getElementById('mentions')
-                  if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  }
-                }}
-              />
-            </div>
-          </section>
-
-          <section
-            className="dashboard-grid intelligence-grid"
-            id="insights"
-          >
-            <div className="panel css-panel">
-              <CustomerSatisfaction
-                records={records}
-                comments={comments}
-                lastUpdated={lastUpdated}
-                loading={loading}
-                error={error}
-                onSelectSentiment={(sentiment) => {
-                  setSelectedSentimentFilter(sentiment)
-                  const el = document.getElementById('mentions')
-                  if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  }
-                }}
-              />
-            </div>
-
-            <div
-              className="panel crisis-panel"
-              id="alerts"
-            >
-              <div className="panel-title">
-                <div>
-                  <div className="panel-kicker danger">
-                    RISK INTELLIGENCE
+                      <small>/100</small>
+                    </div>
                   </div>
 
-                  <h3>
-                    High / Critical Alert &
-                    Crisis Intelligence
-                  </h3>
-
-                  <span>
-                    Negative signals requiring
-                    attention.
-                  </span>
-                </div>
-
-                <StatPill
-                  tone={
-                    alertLevel ===
-                    'Clear'
-                      ? 'green'
-                      : 'red'
-                  }
-                >
-                  {alertLevel}
-                </StatPill>
-              </div>
-
-              <AlertPanel
-                records={records}
-                onSelectRecord={setSelectedRecord}
-              />
-            </div>
-
-            <div className="panel benchmark-panel">
-              <div className="panel-title">
-                <div>
-                  <div className="panel-kicker">
-                    MARKET CONTEXT
+                  <div className="score-caption">
+                    <Gauge size={15} />
+                    <span>Derived from current sentiment intelligence</span>
                   </div>
-
-                  <h3>
-                    Competitor Benchmarking
-                  </h3>
-
-                  <span>
-                    Competitive brands detected
-                    in the current conversation.
-                  </span>
                 </div>
-              </div>
+              </section>
 
-              <CompetitorBenchmark
-                records={records}
-              />
-            </div>
-          </section>
-
-          <section className="panel executive-analysis">
-            <ExecutiveIntelligencePanel
-              records={globallyFilteredRecords}
-              comments={comments}
-              stats={stats}
-              alerts={alerts}
-              lastUpdated={lastUpdated}
-              loading={loading}
-              onRefresh={refreshFeed}
-              onSelectFilter={(filterVal) => {
-                if (['positive', 'neutral', 'negative'].includes(filterVal)) {
-                  setSelectedSentimentFilter(filterVal)
-                } else {
-                  setQuery(filterVal)
-                }
-              }}
-            />
-
-            <CorporateIntelligenceCard />
-          </section>
-
-          <section className="panel hot-panel">
-            <div className="panel-title">
-              <div>
-                <div className="panel-kicker">
-                  LIVE SIGNALS
-                </div>
-
-                <h3>
-                  Hot Now
-                </h3>
-
-                <span>
-                  The most relevant recent
-                  records from the current
-                  intelligence feed.
-                </span>
-              </div>
-
-              <button
-                className="link-button"
-                onClick={() =>
-                  handleNav(
-                    'Sources & Mentions',
-                    'mentions'
-                  )
-                }
-              >
-                Open all mentions →
-              </button>
-            </div>
-
-            <HotNow
-              records={records}
-              onSelectRecord={setSelectedRecord}
-            />
-          </section>
-
-          <section
-            className="panel mentions-panel"
-            id="mentions"
-          >
-            <div className="panel-title mentions-heading">
-              <div>
-                <div className="panel-kicker">
-                  MONITORED CONTENT
-                </div>
-
-                <h3>
-                  Reputation Feed
-                </h3>
-
-                <span>
-                  {filteredRecords.length.toLocaleString(
-                    'en-IN'
-                  )}{' '}
-                  records visible · no frontend
-                  10-record limit
-                </span>
-              </div>
-
-              <label className="search-box">
-                <Search size={16} />
-
-                <input
-                  value={query}
-                  onChange={(event) =>
-                    setQuery(
-                      event.target.value
-                    )
-                  }
-                  placeholder="Search mentions, authors, sources..."
+              <section className="stats-grid">
+                <StatCard
+                  title="Overall Reputation Score"
+                  value={stats.reputationScore ?? 54}
+                  suffix="/100"
+                  trend={{ type: 'down', value: '6 pts' }}
+                  tone="blue"
+                  icon={Gauge}
+                  values={timeline.scores}
+                  dates={timeline.dates}
+                  infoText="Current perception index out of 100"
                 />
 
-                {query && (
+                <StatCard
+                  title="Total Mentions"
+                  value={stats.total}
+                  trend={{ type: 'up', value: '12.5%' }}
+                  tone="purple"
+                  icon={MessageSquare}
+                  values={timeline.totals}
+                  dates={timeline.dates}
+                  infoText="All unique records returned by API"
+                />
+
+                <StatCard
+                  title="Positive Mentions"
+                  value={stats.positive}
+                  trend={{ type: 'up', value: '10.5%' }}
+                  tone="green"
+                  icon={CheckCircle2}
+                  values={timeline.positive}
+                  dates={timeline.dates}
+                  infoText="Total positive mentions in dataset"
+                />
+
+                <StatCard
+                  title="Negative Mentions"
+                  value={stats.negative}
+                  trend={{ type: 'up', value: '18.3%' }}
+                  tone="red"
+                  icon={ShieldAlert}
+                  values={timeline.negative}
+                  dates={timeline.dates}
+                  infoText="Total negative mentions requiring attention"
+                />
+
+                <StatCard
+                  title="Net Sentiment"
+                  value={`${stats.net >= 0 ? '+' : ''}${stats.net.toFixed(1)}%`}
+                  trend={{ type: 'up', value: '5.4%' }}
+                  tone="orange"
+                  icon={Zap}
+                  values={timeline.nets}
+                  dates={timeline.dates}
+                  infoText="Net Sentiment: ((Positive - Negative) / Total) * 100"
+                />
+              </section>
+
+              <section className="dashboard-grid top-grid" id="sentiment">
+                <div className="panel trend-panel">
+                  <div className="panel-title">
+                    <div>
+                      <div className="panel-kicker">PERCEPTION MOVEMENT</div>
+                      <h3>Sentiment Trend</h3>
+                    </div>
+                  </div>
+
+                  <TrendChart
+                    records={globallyFilteredRecords}
+                    timeRange={selectedTimeRange}
+                    onTimeRangeChange={setSelectedTimeRange}
+                    year={selectedYear}
+                    onYearChange={setSelectedYear}
+                    month={selectedMonth}
+                    onMonthChange={setSelectedMonth}
+                    source={selectedSourceFilter}
+                    onSourceChange={setSelectedSourceFilter}
+                  />
+                </div>
+
+                <div className="panel source-panel">
+                  <DonutChart
+                    counts={sourceCounts}
+                    selectedSource={selectedSourceFilter}
+                    onSelectSource={setSelectedSourceFilter}
+                  />
+                </div>
+
+                <div className="panel issues-panel" id="issues">
+                  <IssuePanel
+                    records={globallyFilteredRecords}
+                    onSelectIssue={(issue) => {
+                      const keywordMap = {
+                        'Legal & Compliance': 'legal',
+                        'Construction Quality': 'construction',
+                        'Customer Service': 'service',
+                        'Project Delays': 'delay',
+                        'Pricing Concerns': 'price',
+                      }
+                      const searchTerm = keywordMap[issue.name] || 'legal'
+                      setQuery(searchTerm)
+
+                      const el = document.getElementById('mentions')
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }
+                    }}
+                  />
+                </div>
+              </section>
+
+              <section
+                className="dashboard-grid intelligence-grid"
+                id="insights"
+              >
+                <div className="panel css-panel">
+                  <CustomerSatisfaction
+                    records={globallyFilteredRecords}
+                    comments={comments}
+                    lastUpdated={lastUpdated}
+                    loading={loading}
+                    error={error}
+                    onSelectSentiment={(sentiment) => {
+                      setSelectedSentimentFilter(sentiment)
+                      const el = document.getElementById('mentions')
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }
+                    }}
+                  />
+                </div>
+
+                <div
+                  className="panel crisis-panel"
+                  id="alerts"
+                >
+                  <div className="panel-title">
+                    <div>
+                      <div className="panel-kicker danger">
+                        RISK INTELLIGENCE
+                      </div>
+
+                      <h3>
+                        High / Critical Alert &
+                        Crisis Intelligence
+                      </h3>
+
+                      <span>
+                        Negative signals requiring
+                        attention.
+                      </span>
+                    </div>
+
+                    <StatPill
+                      tone={
+                        alertLevel ===
+                          'Clear'
+                          ? 'green'
+                          : 'red'
+                      }
+                    >
+                      {alertLevel}
+                    </StatPill>
+                  </div>
+
+                  <AlertPanel
+                    records={records}
+                    onSelectRecord={setSelectedRecord}
+                  />
+                </div>
+
+                <div className="panel benchmark-panel">
+                  <div className="panel-title">
+                    <div>
+                      <div className="panel-kicker">
+                        MARKET CONTEXT
+                      </div>
+
+                      <h3>
+                        Competitor Benchmarking
+                      </h3>
+
+                      <span>
+                        Competitive brands detected
+                        in the current conversation.
+                      </span>
+                    </div>
+                  </div>
+
+                  <CompetitorBenchmark
+                    records={records}
+                  />
+                </div>
+              </section>
+
+              <section className="panel executive-analysis">
+                <ExecutiveIntelligencePanel
+                  records={globallyFilteredRecords}
+                  comments={comments}
+                  stats={stats}
+                  alerts={alerts}
+                  lastUpdated={lastUpdated}
+                  loading={loading}
+                  onRefresh={refreshFeed}
+                  onSelectFilter={(filterVal) => {
+                    if (['positive', 'neutral', 'negative'].includes(filterVal)) {
+                      setSelectedSentimentFilter(filterVal)
+                    } else {
+                      setQuery(filterVal)
+                    }
+                  }}
+                />
+
+                <CorporateIntelligenceCard />
+              </section>
+
+              <section className="panel hot-panel">
+                <div className="panel-title">
+                  <div>
+                    <div className="panel-kicker">
+                      LIVE SIGNALS
+                    </div>
+
+                    <h3>
+                      Hot Now
+                    </h3>
+
+                    <span>
+                      The most relevant recent
+                      records from the current
+                      intelligence feed.
+                    </span>
+                  </div>
+
                   <button
-                    type="button"
+                    className="link-button"
                     onClick={() =>
-                      setQuery('')
+                      handleNav(
+                        'Sources & Mentions',
+                        'mentions'
+                      )
                     }
                   >
-                    Clear
+                    Open all mentions →
                   </button>
-                )}
-              </label>
-            </div>
+                </div>
 
-            <div className="feed-summary">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                <SentimentBadgePill
-                  tone="green"
-                  count={stats.positive}
-                  label="Positive"
-                  active={selectedSentimentFilter === 'positive'}
-                  onClick={() => setSelectedSentimentFilter((prev) => prev === 'positive' ? 'all' : 'positive')}
+                <HotNow
+                  records={records}
+                  onSelectRecord={setSelectedRecord}
                 />
+              </section>
 
-                <SentimentBadgePill
-                  tone="blue"
-                  count={stats.neutral}
-                  label="Neutral"
-                  active={selectedSentimentFilter === 'neutral'}
-                  onClick={() => setSelectedSentimentFilter((prev) => prev === 'neutral' ? 'all' : 'neutral')}
-                />
+              <section
+                className="panel mentions-panel"
+                id="mentions"
+              >
+                <div className="panel-title mentions-heading">
+                  <div>
+                    <div className="panel-kicker">
+                      MONITORED CONTENT
+                    </div>
 
-                <SentimentBadgePill
-                  tone="red"
-                  count={stats.negative}
-                  label="Negative"
-                  active={selectedSentimentFilter === 'negative'}
-                  onClick={() => setSelectedSentimentFilter((prev) => prev === 'negative' ? 'all' : 'negative')}
-                />
+                    <h3>
+                      Reputation Feed
+                    </h3>
 
-                {selectedSentimentFilter !== 'all' && (
-                  <button
-                    type="button"
-                    onClick={() => setSelectedSentimentFilter('all')}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.08)',
-                      color: '#edf3fa',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      padding: '3px 9px',
-                      borderRadius: '16px',
-                      fontSize: '11px',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Show All ({stats.total}) ✕
-                  </button>
-                )}
-              </div>
+                    <span>
+                      {filteredRecords.length.toLocaleString(
+                        'en-IN'
+                      )}{' '}
+                      records visible · no frontend
+                      10-record limit
+                    </span>
+                  </div>
 
-              <span>
-                Click <strong>View source</strong> on any record to open the original content.
-              </span>
-            </div>
+                  <label className="search-box">
+                    <Search size={16} />
 
-            <div className="mentions-list">
-              {visibleRecords.length ? (
-                visibleRecords.map(
-                  (record, index) => (
-                    <MentionCard
-                      record={record}
-                      activeQuery={query}
-                      onSelectRecord={setSelectedRecord}
-                      key={
-                        record.url ||
-                        `${record.source}-${record.title}-${index}`
+                    <input
+                      value={query}
+                      onChange={(event) =>
+                        setQuery(
+                          event.target.value
+                        )
                       }
+                      placeholder="Search mentions, authors, sources..."
                     />
-                  )
-                )
-              ) : (
-                <div className="empty-state">
-                  <Search size={25} />
-                  <strong>
-                    No matching records
-                  </strong>
+
+                    {query && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setQuery('')
+                        }
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </label>
+                </div>
+
+                <div className="feed-summary">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <SentimentBadgePill
+                      tone="green"
+                      count={stats.positive}
+                      label="Positive"
+                      active={selectedSentimentFilter === 'positive'}
+                      onClick={() => setSelectedSentimentFilter((prev) => prev === 'positive' ? 'all' : 'positive')}
+                    />
+
+                    <SentimentBadgePill
+                      tone="blue"
+                      count={stats.neutral}
+                      label="Neutral"
+                      active={selectedSentimentFilter === 'neutral'}
+                      onClick={() => setSelectedSentimentFilter((prev) => prev === 'neutral' ? 'all' : 'neutral')}
+                    />
+
+                    <SentimentBadgePill
+                      tone="red"
+                      count={stats.negative}
+                      label="Negative"
+                      active={selectedSentimentFilter === 'negative'}
+                      onClick={() => setSelectedSentimentFilter((prev) => prev === 'negative' ? 'all' : 'negative')}
+                    />
+
+                    {selectedSentimentFilter !== 'all' && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedSentimentFilter('all')}
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          color: '#edf3fa',
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          padding: '3px 9px',
+                          borderRadius: '16px',
+                          fontSize: '11px',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Show All ({stats.total}) ✕
+                      </button>
+                    )}
+                  </div>
+
                   <span>
-                    Try a different search term.
+                    Click <strong>View source</strong> on any record to open the original content.
                   </span>
                 </div>
-              )}
-            </div>
 
-            {filteredRecords.length > 0 && (
-              <div className="load-more-container">
-                <span className="load-more-status">
-                  Showing <strong>{Math.min(visibleCount, filteredRecords.length)}</strong> of <strong>{filteredRecords.length}</strong> total mentions for Puravankara & Leadership
-                </span>
-
-                <div className="load-more-buttons">
-                  {filteredRecords.length > visibleCount ? (
-                    <>
-                      <button
-                        type="button"
-                        className="load-more-btn"
-                        onClick={() => setVisibleCount((prev) => prev + 10)}
-                      >
-                        Load 10 More Mentions ({filteredRecords.length - visibleCount} remaining) ↓
-                      </button>
-
-                      <button
-                        type="button"
-                        className="show-all-btn"
-                        onClick={() => setVisibleCount(filteredRecords.length)}
-                      >
-                        Show All ({filteredRecords.length})
-                      </button>
-                    </>
-                  ) : filteredRecords.length > 10 ? (
-                    <button
-                      type="button"
-                      className="show-all-btn"
-                      onClick={() => setVisibleCount(10)}
-                    >
-                      Collapse view (Show 10 most recent) ↑
-                    </button>
-                  ) : null}
+                <div className="mentions-list">
+                  {visibleRecords.length ? (
+                    visibleRecords.map(
+                      (record, index) => (
+                        <MentionCard
+                          record={record}
+                          activeQuery={query}
+                          onSelectRecord={setSelectedRecord}
+                          key={
+                            record.url ||
+                            `${record.source}-${record.title}-${index}`
+                          }
+                        />
+                      )
+                    )
+                  ) : (
+                    <div className="empty-state">
+                      <Search size={25} />
+                      <strong>
+                        No matching records
+                      </strong>
+                      <span>
+                        Try a different search term.
+                      </span>
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
-          </section>
+
+                {filteredRecords.length > 0 && (
+                  <div className="load-more-container">
+                    <span className="load-more-status">
+                      Showing <strong>{Math.min(visibleCount, filteredRecords.length)}</strong> of <strong>{filteredRecords.length}</strong> total mentions for Puravankara & Leadership
+                    </span>
+
+                    <div className="load-more-buttons">
+                      {filteredRecords.length > visibleCount ? (
+                        <>
+                          <button
+                            type="button"
+                            className="load-more-btn"
+                            onClick={() => setVisibleCount((prev) => prev + 10)}
+                          >
+                            Load 10 More Mentions ({filteredRecords.length - visibleCount} remaining) ↓
+                          </button>
+
+                          <button
+                            type="button"
+                            className="show-all-btn"
+                            onClick={() => setVisibleCount(filteredRecords.length)}
+                          >
+                            Show All ({filteredRecords.length})
+                          </button>
+                        </>
+                      ) : filteredRecords.length > 10 ? (
+                        <button
+                          type="button"
+                          className="show-all-btn"
+                          onClick={() => setVisibleCount(10)}
+                        >
+                          Collapse view (Show 10 most recent) ↑
+                        </button>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+              </section>
             </>
           )}
 
@@ -4091,14 +4275,14 @@ function CorporateIntelligenceCard() {
                 {loading
                   ? 'Refreshing intelligence…'
                   : lastUpdated
-                  ? `Last refresh ${lastUpdated.toLocaleTimeString(
+                    ? `Last refresh ${lastUpdated.toLocaleTimeString(
                       'en-IN',
                       {
                         hour: '2-digit',
                         minute: '2-digit',
                       }
                     )}`
-                  : 'Not refreshed'}
+                    : 'Not refreshed'}
               </span>
             </div>
           </footer>

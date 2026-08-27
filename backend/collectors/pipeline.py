@@ -138,20 +138,31 @@ def collect_all(query="Puravankara", limit=MAX_RESULTS_PER_SOURCE):
     except Exception as e:
         print(f"Bluesky ERROR: {e}")
 
+    # -------------------------
+    # HackerNews
+    # -------------------------
+    try:
+        hn_results = search_hackernews(query, limit)
+
+        for item in hn_results:
+            mention = analyze_if_needed(to_mention(item, "hackernews"))
+            mentions.append(mention)
+
+        print(f"HackerNews: {len(hn_results)} results")
+
+    except Exception as e:
+        print(f"HackerNews ERROR: {e}")
+
     return mentions
 
 
 if __name__ == "__main__":
-
     print("=" * 70)
     print("PURAVANKARA REPUTATION INTELLIGENCE")
     print("LIVE COLLECTION + GEMINI ANALYSIS")
     print("=" * 70)
 
     results = collect_all("Puravankara")
-
-    # Export dashboard-ready data
-    export_mentions(results)
 
     print()
     print("=" * 70)

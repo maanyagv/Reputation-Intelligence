@@ -40,20 +40,32 @@ def classify_sentiment(item):
     if not isinstance(item, dict):
         return "neutral"
 
-    raw = str(
-        item.get("sentiment") or
-        item.get("sentiment_label") or
-        item.get("sentiment_class") or
-        ""
-    ).strip().lower()
+    text = f"{item.get('title', '')} {item.get('text', '')} {item.get('description', '')}".lower()
 
-    if raw in ["positive", "pos"]:
+    # 1. Financial Turnaround & Strong Positive Context Phrases
+    strong_pos_phrases = [
+        "profit at", "profit of", "posts profit", "profit turns positive",
+        "turns positive", "profit swings", "revenue up", "revenue surges",
+        "revenue surged", "ebitda margin expands", "net profit", "after last year's loss",
+        "after loss", "from loss", "record sales", "strong demand", "expansion",
+        "allotment of", "channel partner", "new launch", "unveiled", "show residence",
+        "appreciation", "refined design", "prime location"
+    ]
+    if any(sp in text for sp in strong_pos_phrases):
         return "positive"
-    if raw in ["negative", "neg"]:
-        return "negative"
-    if raw in ["neutral", "neu"]:
-        return "neutral"
 
+    # 2. Critical Business Threat / Legal Emergency Phrases
+    strong_neg_phrases = [
+        "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
+        "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
+        "scam", "cheated", "embezzlement", "stalled project", "construction halt",
+        "building collapse", "structural defect", "buyer protest", "water leakage issue",
+        "severe delay", "penalty imposed", "breach of contract", "nclt", "insolvency"
+    ]
+    if any(sn in text for sn in strong_neg_phrases):
+        return "negative"
+
+    # 3. Explicit AI sentiment score if present
     score = item.get("sentiment_score")
     if score is None:
         score = item.get("sentimentScore")
@@ -72,30 +84,42 @@ def classify_sentiment(item):
         except (ValueError, TypeError):
             pass
 
-    text = f"{item.get('title', '')} {item.get('text', '')} {item.get('description', '')}".lower()
+    raw = str(
+        item.get("sentiment") or
+        item.get("sentiment_label") or
+        item.get("sentiment_class") or
+        ""
+    ).strip().lower()
+
+    if raw in ["positive", "pos"]:
+        return "positive"
+    if raw in ["negative", "neg"]:
+        return "negative"
+    if raw in ["neutral", "neu"]:
+        return "neutral"
+
+    # 4. Keyword balance analysis
     neg_kw = [
-        'delay', 'complaint', 'court', 'rera', 'issue', 'legal', 'expensive', 'quality', 'problem',
-        'bad', 'worst', 'fraud', 'scam', 'defect', 'leakage', 'leak', 'poor', 'disappointed',
-        'warning', 'risk', 'fail', 'cancel', 'dispute', 'notice', 'penalty', 'violation', 'lawsuit',
-        'loss', 'fine', 'stuck', 'protest', 'cheated', 'halt', 'stalled'
+        'delay', 'complaint', 'court', 'rera', 'legal', 'expensive', 'defect', 'leakage',
+        'fraud', 'scam', 'penalty', 'violation', 'lawsuit', 'stuck', 'protest', 'cheated',
+        'halt', 'stalled', 'bad', 'worst', 'poor', 'disappointed', 'cancelling'
     ]
     pos_kw = [
-        'best', 'premium', 'great', 'luxury', 'excellent', 'top', 'launch', 'opportunity', 'growth',
-        'landmark', 'beautiful', 'wonderful', 'superb', 'highlight', 'successful', 'reward',
-        'profit', 'surged', 'gains', 'award', 'leader', 'joined'
+        'profit', 'surged', 'surges', 'growth', 'gains', 'best', 'premium', 'great',
+        'luxury', 'excellent', 'top', 'launch', 'successful', 'reward', 'award', 'leader'
     ]
 
     neg_hits = sum(1 for k in neg_kw if k in text)
     pos_hits = sum(1 for k in pos_kw if k in text)
 
-    if neg_hits > pos_hits:
-        return "negative"
     if pos_hits > neg_hits:
         return "positive"
-    if neg_hits > 0:
+    if neg_hits > pos_hits:
         return "negative"
-    if pos_hits > 0:
+    if pos_hits > 0 and neg_hits == 0:
         return "positive"
+    if neg_hits > 0 and pos_hits == 0:
+        return "negative"
 
     return "neutral"
 
@@ -305,7 +329,7 @@ def refresh_reputation_feed(limit: int = 50):
 
     return {
         "status": "ok",
-        "sources": ["youtube", "news", "reddit", "bluesky"],
+        "sources": ["youtube", "news", "reddit", "linkedin", "bluesky", "hackernews"],
         "records_collected": len(mentions),
         "per_source_limit": limit,
     }

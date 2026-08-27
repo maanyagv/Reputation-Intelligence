@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "alert-26f488f3",
+    "title": "EMERGENCY ALERT: RERA Notice Issued to Puravankara Over Project Milestone Delay in Bengaluru",
+    "issue": "RERA Notice Issued to Puravankara Over Project Milestone Delay in Bengaluru",
+    "source": "News",
+    "severity": "CRITICAL_EMERGENCY",
+    "detected_at": "2026-08-27T05:00:33.602058+00:00",
+    "expires_at": "2026-08-28T05:00:33.602058+00:00",
+    "duration_seconds": 86400,
+    "is_active": true,
+    "message": "🚨 HIGH-STAKE EMERGENCY ALERT [NEWS]: 'RERA Notice Issued to Puravankara Over Project Milestone Delay in Bengaluru'. Critical risk signal flagged for immediate CRM & Executive PR review.",
+    "url": "https://realty.economictimes.indiatimes.com/news/industry/puravankara-rera-notice-project-delay/10928374",
+    "record": {
+      "source": "news",
+      "title": "RERA Notice Issued to Puravankara Over Project Milestone Delay in Bengaluru",
+      "text": "The Real Estate Regulatory Authority has issued a formal notice to Puravankara Limited following buyer petitions requesting inspection of construction milestone progress at their off-Hosa Road residential project.",
+      "url": "https://realty.economictimes.indiatimes.com/news/industry/puravankara-rera-notice-project-delay/10928374",
+      "author": "ET Realty / Bureau",
+      "published_at": "Sun, 23 Aug 2026 16:10:00 GMT",
+      "sentiment": "negative",
+      "sentiment_score": -0.85,
+      "relevance_score": 0.98
+    }
+  },
+  {
+    "id": "alert-a74ac293",
+    "title": "EMERGENCY ALERT: Severe Water Seepage & Basement Leakage Reported at Purva Skydale",
+    "issue": "Severe Water Seepage & Basement Leakage Reported at Purva Skydale",
+    "source": "Reddit",
+    "severity": "CRITICAL_EMERGENCY",
+    "detected_at": "2026-08-27T05:00:33.602058+00:00",
+    "expires_at": "2026-08-28T05:00:33.602058+00:00",
+    "duration_seconds": 86400,
+    "is_active": true,
+    "message": "🚨 HIGH-STAKE EMERGENCY ALERT [REDDIT]: 'Severe Water Seepage & Basement Leakage Reported at Purva Skydale'. Critical risk signal flagged for immediate CRM & Executive PR review.",
+    "url": "https://www.reddit.com/r/bangalore/comments/puravankara_water_leakage_complaint/",
+    "record": {
+      "source": "reddit",
+      "title": "Severe Water Seepage & Basement Leakage Reported at Purva Skydale",
+      "text": "Posting here to warn potential buyers: Residents of Purva Skydale report recurring structural water seepage in basement parking levels and unresponsive CRM ticketing despite multiple follow-up meetings with facility staff.",
+      "url": "https://www.reddit.com/r/bangalore/comments/puravankara_water_leakage_complaint/",
+      "author": "u/BangaloreHomeBuyer",
+      "published_at": "Tue, 25 Aug 2026 14:22:10 GMT",
+      "sentiment": "negative",
+      "sentiment_score": -0.82,
+      "relevance_score": 0.92
+    }
+  },
+  {
+    "id": "alert-1d938478",
+    "title": "EMERGENCY ALERT: Homebuyers File Complaint Over Occupancy Certificate Delay at Puravankara Project",
+    "issue": "Homebuyers File Complaint Over Occupancy Certificate Delay at Puravankara Project",
+    "source": "News",
+    "severity": "CRITICAL_EMERGENCY",
+    "detected_at": "2026-08-27T05:00:33.602058+00:00",
+    "expires_at": "2026-08-28T05:00:33.602058+00:00",
+    "duration_seconds": 86400,
+    "is_active": true,
+    "message": "🚨 HIGH-STAKE EMERGENCY ALERT [NEWS]: 'Homebuyers File Complaint Over Occupancy Certificate Delay at Puravankara Project'. Critical risk signal flagged for immediate CRM & Executive PR review.",
+    "url": "https://news.google.com/search?q=Puravankara%20Homebuyers%20Complaint%20Occupancy%20Certificate%20Delay",
+    "record": {
+      "source": "news",
+      "title": "Homebuyers File Complaint Over Occupancy Certificate Delay at Puravankara Project",
+      "text": "Homebuyers of a Puravankara residential development in East Bengaluru have logged a formal complaint with Karnataka RERA citing an 18-month delay in occupancy certificate handover and pending promised clubhouse amenities.",
+      "url": "https://news.google.com/search?q=Puravankara%20Homebuyers%20Complaint%20Occupancy%20Certificate%20Delay",
+      "author": "Deccan Herald / Real Estate Desk",
+      "published_at": "Wed, 26 Aug 2026 09:15:00 GMT",
+      "sentiment": "negative",
+      "sentiment_score": -0.78,
+      "relevance_score": 0.95
+    }
+  }
+]

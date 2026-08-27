@@ -1,5 +1,6 @@
 import json
 import uuid
+import html
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
@@ -20,84 +21,122 @@ def save_alerts(alerts):
     with open(ALERTS_FILE, "w", encoding="utf-8") as f:
         json.dump(alerts, f, indent=2, ensure_ascii=False)
 
+def is_major_critical_alert(record):
+    if not isinstance(record, dict):
+        return False
+
+    title = str(record.get("title") or "")
+    text = str(record.get("text") or record.get("description") or "")
+    combined = f"{title} {text}".lower()
+
+    # 1. Ignore routine promotional, marketing, and sales listing items
+    ignore_promotional = [
+        "bhk", "for sale", "channel partner", "walkthrough", "tour", "project launch",
+        "quarterly results", "demat", "stock price", "unveiled", "allotment", "brochure",
+        "inaugurated", "show residence"
+    ]
+
+    # If it's promotional and contains no critical threat keywords, do not treat as emergency
+    has_critical_keyword = any(k in combined for k in [
+        "rera", "lawsuit", "court", "fraud", "scam", "fir", "penalty", "defect",
+        "stalled", "protest", "nclt", "insolvency", "collapse", "cheated", "leakage"
+    ])
+
+    if any(p in combined for p in ignore_promotional) and not has_critical_keyword:
+        return False
+
+    # 2. Explicit High-Stake Emergency Keywords (Legal, Regulatory, Fraud, Severe Defects, Major Halts)
+    high_stake_keywords = [
+        "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
+        "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
+        "scam", "cheated", "embezzlement", "stalled project", "construction halt",
+        "building collapse", "structural defect", "buyer protest", "nclt", "insolvency",
+        "penalty imposed", "breach of contract", "water leakage issue", "severe delay"
+    ]
+
+    if any(kw in combined for kw in high_stake_keywords):
+        return True
+
+    # 3. High severity AI negative sentiment score threshold (score <= -0.6)
+    raw_sentiment = str(record.get("sentiment") or "").strip().lower()
+    score = record.get("sentiment_score")
+
+    if raw_sentiment == "negative" and score is not None:
+        try:
+            if float(score) <= -0.6 and has_critical_keyword:
+                return True
+        except (ValueError, TypeError):
+            pass
+
+    return False
+
 def process_emergency_alerts(records):
     """
-    Scans records STRICTLY for negative reputation signals (sentiment == 'negative'),
-    creates alerts that stay active for AT LEAST 1 HOUR (3600 seconds), and saves alert messages.
-    Positive and neutral records are NEVER saved as alerts.
+    Scans records STRICTLY for HIGH-STAKE EMERGENCY ALERTS (RERA notices, lawsuits,
+    fraud/scams, structural defects, buyer protests, NCLT/insolvency).
+    Routine negative posts or promotional videos are NOT saved.
     """
     existing_alerts = load_alerts()
 
-    # STRICT PURGE: Only keep alerts that belong to genuine negative records
-    cleaned_existing = []
-    for a in existing_alerts:
-        rec = a.get("record") or {}
-        raw = str(rec.get("sentiment") or "").strip().lower()
-        if raw == "negative" or raw == "neg":
-            cleaned_existing.append(a)
-
-    existing_alerts = cleaned_existing
+    # Keep existing saved alerts ONLY if they meet the strict high-stake emergency criteria
+    existing_alerts = [a for a in existing_alerts if is_major_critical_alert(a.get("record") or a)]
 
     existing_urls = {a.get("url") for a in existing_alerts if a.get("url")}
-    existing_titles = {a.get("title") for a in existing_alerts if a.get("title")}
+    existing_titles = {a.get("issue") or a.get("title") for a in existing_alerts if a.get("issue") or a.get("title")}
 
     now_dt = datetime.now(timezone.utc)
 
     for record in records:
-        title = record.get("title") or "Puravankara Risk Signal"
-        text = record.get("text") or record.get("description") or ""
-        raw = str(record.get("sentiment") or "").strip().lower()
-        score = record.get("sentiment_score")
+        raw_title = record.get("title") or "Puravankara Risk Signal"
+        title = html.unescape(raw_title).strip()
+        url = record.get("url") or ""
+        source = str(record.get("source") or "web").capitalize()
 
-        is_negative = (raw == "negative" or raw == "neg")
-        if not is_negative and score is not None:
-            try:
-                if float(score) < -0.05:
-                    is_negative = True
-            except Exception:
-                pass
-
-        # STRICT NEGATIVE FILTER: Record MUST be negative
-        if not is_negative:
+        if not is_major_critical_alert(record):
             continue
 
-        if url not in existing_urls if url else title not in existing_titles:
+        if (url and url not in existing_urls) or (not url and title not in existing_titles):
             detected_at = now_dt.isoformat()
-            expires_at = (now_dt + timedelta(hours=1)).isoformat()
+            expires_at = (now_dt + timedelta(hours=24)).isoformat()
 
             alert_id = f"alert-{uuid.uuid4().hex[:8]}"
-            alert_msg = (
-                f"🚨 REPUTATION ALERT [{source.upper()}]: '{title}'. "
-                f"Negative signal flagged for immediate CRM & Executive PR review. "
-                f"Alert active for 1 hour (Expires: {expires_at[:19].replace('T', ' ')} UTC)."
+            alert_msg = html.unescape(
+                f"🚨 HIGH-STAKE EMERGENCY ALERT [{source.upper()}]: '{title}'. "
+                f"Critical risk signal flagged for immediate CRM & Executive PR review."
             )
+
+            clean_rec = dict(record)
+            clean_rec["title"] = title
 
             alert_obj = {
                 "id": alert_id,
-                "title": f"NEGATIVE ALERT: {title}",
+                "title": f"EMERGENCY ALERT: {title}",
                 "issue": title,
                 "source": source,
                 "severity": "CRITICAL_EMERGENCY",
                 "detected_at": detected_at,
                 "expires_at": expires_at,
-                "duration_seconds": 3600,
+                "duration_seconds": 86400,
                 "is_active": True,
                 "message": alert_msg,
                 "url": url,
-                "record": record
+                "record": clean_rec
             }
 
             existing_alerts.insert(0, alert_obj)
-            existing_urls.add(url)
+            if url:
+                existing_urls.add(url)
             existing_titles.add(title)
 
-    # Update active status based on 1-hour expiration window
+    # Update active status based on 24-hour expiration window
     for alert in existing_alerts:
         try:
             exp_str = alert.get("expires_at", "")
             if exp_str:
                 exp_dt = datetime.fromisoformat(exp_str.replace("Z", "+00:00"))
                 alert["is_active"] = now_dt < exp_dt
+            else:
+                alert["is_active"] = True
         except Exception:
             alert["is_active"] = True
 
