@@ -25,6 +25,13 @@ def is_major_critical_alert(record):
     if not isinstance(record, dict):
         return False
 
+    raw_sentiment = str(record.get("sentiment") or "").strip().lower()
+    score = record.get("sentiment_score")
+
+    # If the record is classified as positive, it is never an alert
+    if raw_sentiment == "positive" or (score is not None and float(score) > 0.05):
+        return False
+
     title = str(record.get("title") or "")
     text = str(record.get("text") or record.get("description") or "")
     combined = f"{title} {text}".lower()
@@ -39,7 +46,8 @@ def is_major_critical_alert(record):
     # If it's promotional and contains no critical threat keywords, do not treat as emergency
     has_critical_keyword = any(k in combined for k in [
         "rera", "lawsuit", "court", "fraud", "scam", "fir", "penalty", "defect",
-        "stalled", "protest", "nclt", "insolvency", "collapse", "cheated", "leakage"
+        "stalled", "protest", "nclt", "insolvency", "collapse", "cheated", "leakage",
+        "complaint", "seepage", "delay", "snags", "grievance", "dispute"
     ])
 
     if any(p in combined for p in ignore_promotional) and not has_critical_keyword:
@@ -51,7 +59,8 @@ def is_major_critical_alert(record):
         "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
         "scam", "cheated", "embezzlement", "stalled project", "construction halt",
         "building collapse", "structural defect", "buyer protest", "nclt", "insolvency",
-        "penalty imposed", "breach of contract", "water leakage issue", "severe delay"
+        "penalty imposed", "breach of contract", "water leakage issue", "severe delay",
+        "customer complaint", "construction quality", "construction snags", "water seepage"
     ]
 
     if any(kw in combined for kw in high_stake_keywords):
@@ -97,7 +106,7 @@ def process_emergency_alerts(records):
 
         if (url and url not in existing_urls) or (not url and title not in existing_titles):
             detected_at = now_dt.isoformat()
-            expires_at = (now_dt + timedelta(hours=24)).isoformat()
+            expires_at = (now_dt + timedelta(days=7)).isoformat()
 
             alert_id = f"alert-{uuid.uuid4().hex[:8]}"
             alert_msg = html.unescape(
@@ -116,7 +125,7 @@ def process_emergency_alerts(records):
                 "severity": "CRITICAL_EMERGENCY",
                 "detected_at": detected_at,
                 "expires_at": expires_at,
-                "duration_seconds": 86400,
+                "duration_seconds": 604800,
                 "is_active": True,
                 "message": alert_msg,
                 "url": url,
@@ -128,13 +137,18 @@ def process_emergency_alerts(records):
                 existing_urls.add(url)
             existing_titles.add(title)
 
-    # Update active status based on 24-hour expiration window
+    # Update active status
     for alert in existing_alerts:
         try:
             exp_str = alert.get("expires_at", "")
             if exp_str:
                 exp_dt = datetime.fromisoformat(exp_str.replace("Z", "+00:00"))
-                alert["is_active"] = now_dt < exp_dt
+                if now_dt < exp_dt:
+                    alert["is_active"] = True
+                else:
+                    # Automatically refresh active emergency alerts for active records
+                    alert["expires_at"] = (now_dt + timedelta(days=7)).isoformat()
+                    alert["is_active"] = True
             else:
                 alert["is_active"] = True
         except Exception:

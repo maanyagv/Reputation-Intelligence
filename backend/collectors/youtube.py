@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from googleapiclient.discovery import build
 
 from backend.models.mention import Mention
+from backend.utils.relevance import is_puravankara_related
 
 
 load_dotenv()
@@ -28,7 +29,7 @@ def search_youtube(query="Puravankara", max_results=50):
             q=query,
             part="snippet",
             type="video",
-            maxResults=max_results,
+            maxResults=min(max_results * 2, 50),
             order="date",
         )
         .execute()
@@ -39,7 +40,9 @@ def search_youtube(query="Puravankara", max_results=50):
     for item in response.get("items", []):
         snippet = item["snippet"]
 
-        video_id = item["id"]["videoId"]
+        video_id = item["id"].get("videoId")
+        if not video_id:
+            continue
 
         published_at = None
 
@@ -57,14 +60,16 @@ def search_youtube(query="Puravankara", max_results=50):
             published_at=published_at,
         )
 
-        mentions.append(mention)
+        if is_puravankara_related(mention):
+            mentions.append(mention)
+            if len(mentions) >= max_results:
+                break
 
     return mentions
 
 
 if __name__ == "__main__":
     results = search_youtube("Puravankara", 5)
-
     for mention in results:
         print("=" * 70)
         print(mention.to_dict())

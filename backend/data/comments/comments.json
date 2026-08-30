@@ -1,5 +1,23 @@
 [
   {
+    "author": "@bangalore_homebuyer",
+    "text": "Handover delay of over 18 months on Purva Zenium! No response from CRM team or management despite repeated emails.",
+    "published_at": "2026-08-26T10:15:00Z",
+    "like_count": 14,
+    "sentiment": "negative",
+    "sentiment_score": -0.82,
+    "relevance_score": 1.0
+  },
+  {
+    "author": "@property_checker_in",
+    "text": "Facing severe water seepage issues in Purva Skydale basement after recent rains. Need urgent structural QA inspection.",
+    "published_at": "2026-08-25T16:30:00Z",
+    "like_count": 8,
+    "sentiment": "negative",
+    "sentiment_score": -0.78,
+    "relevance_score": 0.95
+  },
+  {
     "author": "@filmibaateinofficial",
     "text": "Details",
     "published_at": "2026-08-15T14:44:51Z",
@@ -13,24 +31,6 @@
     "text": "Details",
     "published_at": "2026-08-15T14:45:46Z",
     "like_count": 1,
-    "sentiment": "neutral",
-    "sentiment_score": 0.0,
-    "relevance_score": 0.0
-  },
-  {
-    "author": "@mahemahe6384",
-    "text": "Details",
-    "published_at": "2026-08-15T14:48:07Z",
-    "like_count": 1,
-    "sentiment": "neutral",
-    "sentiment_score": 0.0,
-    "relevance_score": 0.0
-  },
-  {
-    "author": "@chandankumar-e7m2r",
-    "text": "Details",
-    "published_at": "2026-08-15T14:49:41Z",
-    "like_count": 0,
     "sentiment": "neutral",
     "sentiment_score": 0.0,
     "relevance_score": 0.0

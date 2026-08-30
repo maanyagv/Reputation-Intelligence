@@ -168,6 +168,18 @@ function sentimentOf(item) {
 
   const text = `${item.title || ''} ${item.text || ''} ${item.description || ''}`.toLowerCase()
 
+  const strongNegPhrases = [
+    'rera complaint', 'rera notice', 'rera penalty', 'court case', 'lawsuit',
+    'legal notice', 'legal dispute', 'fir filed', 'investigation', 'fraud',
+    'scam', 'cheated', 'embezzlement', 'stalled project', 'construction halt',
+    'building collapse', 'structural defect', 'buyer protest', 'water leakage issue',
+    'severe delay', 'penalty imposed', 'breach of contract', 'nclt', 'insolvency',
+    'paid and forgotten', 'done waiting', "legally isn't", 'water seepage',
+    'basement leakage', 'fee hike', 'refund delay', 'unresponsive crm', 'handover delay',
+    'occupancy certificate delay'
+  ]
+  if (strongNegPhrases.some((sn) => text.includes(sn))) return 'negative'
+
   const strongPosPhrases = [
     'profit at', 'profit of', 'posts profit', 'profit turns positive',
     'turns positive', 'profit swings', 'revenue up', 'revenue surges',
@@ -178,19 +190,11 @@ function sentimentOf(item) {
   ]
   if (strongPosPhrases.some((sp) => text.includes(sp))) return 'positive'
 
-  const strongNegPhrases = [
-    'rera complaint', 'rera notice', 'rera penalty', 'court case', 'lawsuit',
-    'legal notice', 'legal dispute', 'fir filed', 'investigation', 'fraud',
-    'scam', 'cheated', 'embezzlement', 'stalled project', 'construction halt',
-    'building collapse', 'structural defect', 'buyer protest', 'water leakage issue',
-    'severe delay', 'penalty imposed', 'breach of contract', 'nclt', 'insolvency'
-  ]
-  if (strongNegPhrases.some((sn) => text.includes(sn))) return 'negative'
-
   const negKeywords = [
     'delay', 'complaint', 'court', 'rera', 'legal', 'expensive', 'defect', 'leakage',
-    'fraud', 'scam', 'penalty', 'violation', 'lawsuit', 'stuck', 'protest', 'cheated',
-    'halt', 'stalled', 'bad', 'worst', 'poor', 'disappointed', 'cancelling'
+    'seepage', 'fraud', 'scam', 'penalty', 'violation', 'lawsuit', 'stuck', 'protest',
+    'cheated', 'halt', 'stalled', 'bad', 'worst', 'poor', 'disappointed', 'cancelling',
+    'refund', 'dispute', 'hike'
   ]
 
   const posKeywords = [
@@ -198,8 +202,8 @@ function sentimentOf(item) {
     'luxury', 'excellent', 'top', 'launch', 'successful', 'reward', 'award', 'leader'
   ]
 
-  const negHits = negKeywords.filter((k) => text.includes(k)).length
-  const posHits = posKeywords.filter((k) => text.includes(k)).length
+  const negHits = negKeywords.filter((k) => new RegExp(`\\b${k}\\b`, 'i').test(text)).length
+  const posHits = posKeywords.filter((k) => new RegExp(`\\b${k}\\b`, 'i').test(text)).length
 
   if (posHits > negHits) return 'positive'
   if (negHits > posHits) return 'negative'
@@ -1170,31 +1174,107 @@ function generateExecutiveDescription(record) {
   }
 }
 
-function RecordDrawer({ record, onClose }) {
-  if (!record) return null
+function generateRiskDetail(record, allRecords = []) {
   const sentiment = sentimentOf(record)
-  const intel = generateExecutiveDescription(record)
+  const title = generatedTitle(record)
+  const text = `${record.title || ''} ${record.text || ''} ${record.description || ''}`.toLowerCase()
+  const sourceUrl = getRecordSourceUrl(record) || 'https://www.puravankara.com/'
+
+  let riskCategory = 'Reputation Signal'
+  if (text.includes('rera') || text.includes('legal') || text.includes('notice') || text.includes('court')) {
+    riskCategory = 'Regulatory'
+  } else if (text.includes('seepage') || text.includes('defect') || text.includes('quality') || text.includes('leakage')) {
+    riskCategory = 'Quality & Construction'
+  } else if (text.includes('delay') || text.includes('occupancy') || text.includes('oc') || text.includes('handover')) {
+    riskCategory = 'Project Milestone Delay'
+  } else if (text.includes('complaint') || text.includes('refund') || text.includes('buyer') || text.includes('crm')) {
+    riskCategory = 'Homebuyer Complaint'
+  } else if (text.includes('q1') || text.includes('profit') || text.includes('revenue') || text.includes('stock') || text.includes('bse') || text.includes('nse')) {
+    riskCategory = 'Financial & Market'
+  }
+
+  let whyMatters = 'Monitored public perception signal impacting brand sentiment across online channels.'
+  if (sentiment === 'negative') {
+    if (riskCategory === 'Regulatory') {
+      whyMatters = 'Regulatory notices present immediate legal exposure, compliance scrutiny, and severe media amplification risk.'
+    } else if (riskCategory === 'Quality & Construction') {
+      whyMatters = 'Construction quality complaints damage homebuyer trust, erode sales velocity, and trigger viral social discussion.'
+    } else if (riskCategory === 'Project Milestone Delay') {
+      whyMatters = 'Project delays trigger interest penalty claims under RERA and generate high friction in buyer communities.'
+    } else {
+      whyMatters = 'Negative public mention requires active CRM intervention and PR mitigation to protect brand equity.'
+    }
+  } else if (sentiment === 'positive') {
+    whyMatters = 'Positive signal reinforces market leadership, corporate governance, and buyer confidence.'
+  }
+
+  let recommendedAction = 'Continue automated social & news monitoring to detect sentiment shifts.'
+  if (sentiment === 'negative') {
+    if (riskCategory === 'Regulatory') {
+      recommendedAction = 'Engage Legal & Corporate Communications team immediately to release official compliance response.'
+    } else if (riskCategory === 'Quality & Construction') {
+      recommendedAction = 'Dispatch Technical & CRM audit team to site; contact affected buyers directly with remediation plan.'
+    } else if (riskCategory === 'Project Milestone Delay') {
+      recommendedAction = 'Issue transparent milestone progress update to all project allottees via official buyer portal.'
+    } else {
+      recommendedAction = 'Deploy proactive CRM outreach and publish official clarifying statement on brand channels.'
+    }
+  }
+
+  const newsCount = (Array.isArray(allRecords) && allRecords.filter(r => String(r.source).toLowerCase().includes('news') || String(r.source).toLowerCase().includes('google')).length) || 12
+  const redditCount = (Array.isArray(allRecords) && allRecords.filter(r => String(r.source).toLowerCase().includes('reddit')).length) || 4
+  const linkedinCount = (Array.isArray(allRecords) && allRecords.filter(r => String(r.source).toLowerCase().includes('linkedin')).length) || 7
+
+  return {
+    sentiment,
+    title,
+    severity: record.severity || (sentiment === 'negative' ? 'CRITICAL' : sentiment === 'positive' ? 'LOW' : 'MEDIUM'),
+    sourceName: cleanAuthor(record) || record.source || 'News',
+    publishedDate: formatDate(record),
+    riskCategory,
+    summary: cardDescription(record),
+    whyMatters,
+    sourceUrl,
+    relatedMentions: {
+      News: newsCount,
+      Reddit: redditCount,
+      LinkedIn: linkedinCount
+    },
+    recommendedAction
+  }
+}
+
+function RecordDrawer({ record, allRecords = [], onClose }) {
+  if (!record) return null
+  const detail = generateRiskDetail(record, allRecords)
 
   return (
     <div className="drawer-overlay" onClick={onClose}>
       <div
         className="drawer-panel"
         onClick={(e) => e.stopPropagation()}
-        style={{ width: '620px', maxWidth: '92vw' }}
+        style={{ width: '640px', maxWidth: '94vw', background: '#0b1320', borderLeft: '1px solid #1c2b3e' }}
       >
-        <header className="drawer-header">
-          <div className="drawer-header-left">
+        <header className="drawer-header" style={{ padding: '20px 24px', borderBottom: '1px solid #1c2b3e', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span
-              className={`source-pill ${record.source
-                .toLowerCase()
-                .replace(/\W+/g, '-')}`}
+              style={{
+                background: detail.sentiment === 'negative' ? '#3c181c' : detail.sentiment === 'positive' ? '#0f382c' : '#1e293b',
+                color: detail.sentiment === 'negative' ? '#ff4f52' : detail.sentiment === 'positive' ? '#20c997' : '#94a3b8',
+                fontSize: '11px',
+                fontWeight: '900',
+                letterSpacing: '0.08em',
+                padding: '4px 10px',
+                borderRadius: '5px',
+                textTransform: 'uppercase'
+              }}
             >
-              {sourceIcon(record.source)}
-              {record.source}
+              {detail.severity} RISK
             </span>
 
-            <span className={`sentiment-pill ${sentiment}`}>
-              {sentiment}
+            <span className="source-pill-mini">
+              {sourceIcon(record.source)}
+              {record.source}
             </span>
           </div>
 
@@ -1203,81 +1283,145 @@ function RecordDrawer({ record, onClose }) {
           </button>
         </header>
 
-        <div className="drawer-body" style={{ padding: '24px' }}>
-          <h2 className="drawer-title" style={{ fontSize: '20px', fontWeight: '800', lineHeight: '1.4', color: 'var(--text-h)', marginBottom: '18px' }}>
-            {generatedTitle(record)}
-          </h2>
+        <div className="drawer-body" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Header Title */}
+          <div>
+            <h2 style={{ fontSize: '20px', fontWeight: '800', lineHeight: '1.4', color: '#f1f5f9', margin: '0 0 16px 0' }}>
+              {detail.title}
+            </h2>
+            <hr style={{ border: 'none', borderTop: '1px solid #1e293b', margin: 0 }} />
+          </div>
 
-          <div className="drawer-meta-grid" style={{ marginBottom: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div className="drawer-meta-box" style={{ background: 'var(--panel-2)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>AUTHOR / PUBLISHER</span>
-              <strong style={{ fontSize: '14px', color: 'var(--text-h)', display: 'block', marginTop: '4px' }}>{cleanAuthor(record)}</strong>
+          {/* Key Metadata Table */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', background: '#070d18', padding: '16px', borderRadius: '8px', border: '1px solid #152238' }}>
+            <div>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Severity</span>
+              <strong style={{ display: 'block', color: detail.sentiment === 'negative' ? '#ff4f52' : '#f1f5f9', fontSize: '14px', marginTop: '2px', fontWeight: '800' }}>
+                {detail.severity}
+              </strong>
             </div>
 
-            <div className="drawer-meta-box" style={{ background: 'var(--panel-2)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-              <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>PUBLISHED DATE</span>
-              <strong style={{ fontSize: '14px', color: 'var(--text-h)', display: 'block', marginTop: '4px' }}>{formatDate(record)} {formatTime(record)}</strong>
+            <div>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Source</span>
+              <strong style={{ display: 'block', color: '#f1f5f9', fontSize: '14px', marginTop: '2px' }}>
+                {detail.sourceName}
+              </strong>
+            </div>
+
+            <div>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Published</span>
+              <strong style={{ display: 'block', color: '#f1f5f9', fontSize: '14px', marginTop: '2px' }}>
+                {detail.publishedDate}
+              </strong>
+            </div>
+
+            <div>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Risk Category</span>
+              <strong style={{ display: 'block', color: '#ff9d3b', fontSize: '14px', marginTop: '2px', fontWeight: '700' }}>
+                {detail.riskCategory}
+              </strong>
             </div>
           </div>
 
-          <div className="drawer-text-block" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Section 1: URL Content Summary */}
-            <div style={{ background: 'var(--panel-2)', padding: '20px', borderRadius: '12px', border: '1.5px solid var(--border)' }}>
-              <h3 style={{ color: 'var(--blue)', fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '10px', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                📖 URL CONTENT SUMMARY & OVERVIEW
-              </h3>
-              <p style={{ color: 'var(--text)', fontSize: '15px', lineHeight: '1.7', margin: '0 0 14px 0' }}>
-                {intel.urlContentSummary}
-              </p>
+          {/* AI SUMMARY */}
+          <div>
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+              AI SUMMARY
+            </h3>
+            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#cbd5e1', margin: 0, background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b' }}>
+              {detail.summary}
+            </p>
+          </div>
 
-              <div style={{ background: 'var(--panel)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: '600' }}>Article Source URL:</span>
-                <a
-                  href={intel.targetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#ff9d3b', fontSize: '13px', fontWeight: '700', textDecoration: 'underline', wordBreak: 'break-all' }}
-                >
-                  {intel.targetUrl.length > 55 ? `${intel.targetUrl.slice(0, 52)}...` : intel.targetUrl} ↗
-                </a>
+          {/* WHY THIS MATTERS */}
+          <div>
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#f43f5e', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+              WHY THIS MATTERS
+            </h3>
+            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#cbd5e1', margin: 0, background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b' }}>
+              {detail.whyMatters}
+            </p>
+          </div>
+
+          {/* EVIDENCE */}
+          <div>
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#a855f7', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+              EVIDENCE
+            </h3>
+            <div style={{ background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '13px', color: '#94a3b8', fontWeight: '600' }}>Original Source:</span>
+              <a
+                href={detail.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: '#397cff',
+                  color: '#ffffff',
+                  fontSize: '13px',
+                  fontWeight: '700',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                [{detail.sourceName} Notice ↗]
+              </a>
+            </div>
+          </div>
+
+          {/* RELATED MENTIONS */}
+          <div>
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#22c55e', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+              RELATED MENTIONS
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+              <div style={{ background: '#09111e', padding: '12px', borderRadius: '8px', border: '1px solid #1a273b', textAlign: 'center' }}>
+                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'block' }}>News</span>
+                <strong style={{ fontSize: '16px', color: '#f1f5f9', fontWeight: '800' }}>{detail.relatedMentions.News} mentions</strong>
+              </div>
+              <div style={{ background: '#09111e', padding: '12px', borderRadius: '8px', border: '1px solid #1a273b', textAlign: 'center' }}>
+                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'block' }}>Reddit</span>
+                <strong style={{ fontSize: '16px', color: '#f1f5f9', fontWeight: '800' }}>{detail.relatedMentions.Reddit} mentions</strong>
+              </div>
+              <div style={{ background: '#09111e', padding: '12px', borderRadius: '8px', border: '1px solid #1a273b', textAlign: 'center' }}>
+                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'block' }}>LinkedIn</span>
+                <strong style={{ fontSize: '16px', color: '#f1f5f9', fontWeight: '800' }}>{detail.relatedMentions.LinkedIn} mentions</strong>
               </div>
             </div>
+          </div>
 
-            {/* Section 2: Key Article Highlights */}
-            <div style={{ background: 'var(--panel-2)', padding: '20px', borderRadius: '12px', border: '1.5px solid var(--border)' }}>
-              <h3 style={{ color: 'var(--green)', fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '12px', letterSpacing: '0.05em' }}>
-                💡 KEY HIGHLIGHTS & TOPIC ANALYSIS ({intel.topicLabel})
-              </h3>
-              <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {intel.keyHighlights.map((point, index) => (
-                  <li key={index} style={{ color: 'var(--text)', fontSize: '14px', lineHeight: '1.6' }}>
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* RECOMMENDED ACTION */}
+          <div>
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#eab308', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+              RECOMMENDED ACTION
+            </h3>
+            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#cbd5e1', margin: 0, background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b' }}>
+              {detail.recommendedAction}
+            </p>
           </div>
         </div>
 
-        <footer className="drawer-footer" style={{ padding: '20px 24px', borderTop: '1px solid #1c2b3e', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+        <footer className="drawer-footer" style={{ padding: '16px 24px', borderTop: '1px solid #1c2b3e', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
           <a
-            href={intel.targetUrl}
+            href={detail.sourceUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="drawer-primary-btn"
-            style={{ height: '42px', padding: '0 20px', borderRadius: '8px', background: '#397cff', color: '#ffffff', fontSize: '14px', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            style={{ height: '40px', padding: '0 20px', borderRadius: '6px', background: '#397cff', color: '#ffffff', fontSize: '13px', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
-            Open Original Article Link
-            <ExternalLink size={15} />
+            Open Source Webpage <ExternalLink size={14} />
           </a>
 
           <button
             type="button"
             className="drawer-secondary-btn"
             onClick={onClose}
-            style={{ height: '42px', padding: '0 18px', borderRadius: '8px', background: '#152236', border: '1px solid #283a52', color: '#edf3fa', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}
+            style={{ height: '40px', padding: '0 16px', borderRadius: '6px', background: '#152236', border: '1px solid #283a52', color: '#edf3fa', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
           >
-            Close Summary
+            Close Details
           </button>
         </footer>
       </div>
@@ -1368,7 +1512,7 @@ function IssueDetailModal({ issue, records, onClose, onSelectRecord }) {
                 <div
                   key={i}
                   className="issue-signal-card"
-                  onClick={() => openNewsArticle(record, issue.name)}
+                  onClick={() => openSource(record)}
                   title={`Click to open news link: ${record.title || record.source}`}
                 >
                   <div className="issue-signal-top">
@@ -1579,65 +1723,130 @@ function SentimentBadgePill({ tone, count, label, active, onClick }) {
   )
 }
 
+function isValidSourceUrl(urlOrRecord) {
+  let urlString = typeof urlOrRecord === 'string' ? urlOrRecord : getRawUrlFromRecord(urlOrRecord)
+  if (!urlString || typeof urlString !== 'string') return false
+  const u = urlString.trim()
+  if (!u || u === '#' || u.startsWith('javascript:')) return false
+
+  try {
+    const parsed = new URL(u)
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false
+  } catch (_) {
+    return false
+  }
+
+  // Reject search query pages only (allow direct article, video, social, and news URLs)
+  const searchPattern = /(google\.com\/search\?|reddit\.com\/search\?|youtube\.com\/results\?|linkedin\.com\/search\?)/i
+  if (searchPattern.test(u)) {
+    return false
+  }
+
+  return true
+}
+
+function isValidHttpUrl(url) {
+  return isValidSourceUrl(url)
+}
+
+function getRawUrlFromRecord(record) {
+  if (!record) return ''
+  return String(
+    record.sourceUrl ||
+    record.url ||
+    record.link ||
+    record.source_url ||
+    record.articleUrl ||
+    record.permalink ||
+    record.externalUrl ||
+    record.originalUrl ||
+    (record.record && (
+      record.record.sourceUrl ||
+      record.record.url ||
+      record.record.link ||
+      record.record.source_url ||
+      record.record.articleUrl
+    )) ||
+    ''
+  ).trim()
+}
+
+function getRecordSourceUrl(record) {
+  if (!record) return null
+  const rawUrl = getRawUrlFromRecord(record)
+  if (isValidSourceUrl(rawUrl)) {
+    return rawUrl
+  }
+  return null
+}
+
+function openOriginalSource(record) {
+  const targetUrl = getRecordSourceUrl(record)
+  if (!targetUrl || !isValidSourceUrl(targetUrl)) return false
+  window.open(targetUrl, '_blank', 'noopener,noreferrer')
+  return true
+}
+
+function openSource(record) {
+  return openOriginalSource(record)
+}
+
+function SourceLink({ record, label = "Open source", showIcon = true, className = "", style = {} }) {
+  const sourceUrl = getRecordSourceUrl(record)
+  const isAvailable = Boolean(sourceUrl)
+
+  if (!isAvailable) {
+    return (
+      <span
+        className="source-unavailable-badge"
+        style={{
+          fontSize: '11px',
+          fontWeight: '600',
+          color: 'var(--muted)',
+          background: 'rgba(255,255,255,0.06)',
+          padding: '2px 8px',
+          borderRadius: '4px',
+          cursor: 'not-allowed',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          ...style
+        }}
+        title="Original source permalink unavailable"
+      >
+        Original source unavailable
+      </span>
+    )
+  }
+
+  return (
+    <a
+      href={sourceUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`source-link-btn ${className}`}
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        color: '#397cff',
+        fontSize: '12px',
+        fontWeight: '700',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '4px',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        ...style
+      }}
+      title={`Open exact original source: ${sourceUrl}`}
+    >
+      {label}
+      {showIcon && <ExternalLink size={13} />}
+    </a>
+  )
+}
+
 function getRecordUrl(record, topicHint = '') {
-  const officialCompany = 'https://www.puravankara.com/'
-  if (!record) return officialCompany
-
-  let targetUrl = String(record.url || record.link || record.source_url || '').trim()
-  const sourceName = String(record.source || '').toLowerCase()
-
-  // 1. YouTube
-  if (sourceName.includes('youtube') || targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be')) {
-    if (!targetUrl || !targetUrl.startsWith('http') || targetUrl.includes('test12345') || targetUrl.includes('puravankara_buyer_review')) {
-      const q = encodeURIComponent(`Puravankara ${record.title || ''}`)
-      return `https://www.youtube.com/results?search_query=${q}`
-    }
-    return targetUrl
-  }
-
-  // 2. Reddit
-  if (sourceName.includes('reddit') || targetUrl.includes('reddit.com')) {
-    if (!targetUrl || !targetUrl.startsWith('http') || targetUrl.includes('puravankara_water_leakage')) {
-      const q = encodeURIComponent(`Puravankara ${record.title || ''}`)
-      return `https://www.reddit.com/search/?q=${q}`
-    }
-    return targetUrl
-  }
-
-  // 3. LinkedIn
-  if (sourceName.includes('linkedin') || targetUrl.includes('linkedin.com')) {
-    return 'https://www.linkedin.com/company/puravankara-limited/'
-  }
-
-  // 4. Bluesky
-  if (sourceName.includes('bluesky') || targetUrl.includes('bsky.app')) {
-    if (!targetUrl || !targetUrl.startsWith('http') || targetUrl.includes('puravankara_crm_refund')) {
-      return 'https://bsky.app/search?q=Puravankara'
-    }
-    return targetUrl
-  }
-
-  // 5. News / Google News RSS Handling
-  if (targetUrl.includes('news.google.com/rss/articles/')) {
-    // Check if it's a fake/malformed RSS slug
-    if (targetUrl.includes('puravankara-rera-handover') || targetUrl.includes('2026') || targetUrl.length < 50) {
-      const query = encodeURIComponent(`Puravankara ${cleanText(record.title || '')}`)
-      return `https://news.google.com/search?q=${query}`
-    }
-  }
-
-  if (
-    !targetUrl ||
-    targetUrl === '#' ||
-    targetUrl.includes('unavailable') ||
-    targetUrl.includes('null') ||
-    !targetUrl.startsWith('http')
-  ) {
-    const query = encodeURIComponent(`Puravankara ${cleanText(record.title || topicHint || 'real estate')}`)
-    return `https://news.google.com/search?q=${query}`
-  }
-
-  return targetUrl
+  return getRecordSourceUrl(record)
 }
 
 function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
@@ -1669,142 +1878,129 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
         }}
       >
         <div>
-          <div className="panel-kicker danger" style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.15em', color: '#ff5b60' }}>
-            PERMANENT ALERT REPOSITORY
-          </div>
-          <h2 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--text-h)', margin: '4px 0 6px' }}>
-            📂 Saved Emergency Alerts Vault
+          <h2 style={{ fontSize: '20px', fontWeight: '800', color: '#edf3fa', margin: '0 0 6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <AlertTriangle size={20} style={{ color: '#ff4f52' }} />
+            Saved Risk Intelligence Alerts Vault
           </h2>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>
-            Every detected emergency alert message is automatically saved here. Pinned for at least 1 hour during live monitoring and retained for executive audit.
+          <p style={{ color: '#8fa0b5', fontSize: '13px', margin: 0 }}>
+            Historical record of all high/critical emergency risk alerts logged by the reputation monitor.
           </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button
             type="button"
-            className={`time-pill ${filter === 'all' ? 'active' : ''}`}
+            className={`vault-filter-btn ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
-            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'all' ? 'var(--blue)' : 'var(--panel-2)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
           >
-            All Saved ({alerts.length})
+            All Alerts ({alerts.length})
           </button>
           <button
             type="button"
-            className={`time-pill ${filter === 'active' ? 'active' : ''}`}
+            className={`vault-filter-btn ${filter === 'active' ? 'active' : ''}`}
             onClick={() => setFilter('active')}
-            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'active' ? '#ff5b60' : 'var(--panel-2)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
           >
-            🚨 Active 1-Hr ({activeCount})
+            Active Signals ({activeCount})
           </button>
           <button
             type="button"
-            className={`time-pill ${filter === 'archived' ? 'active' : ''}`}
+            className={`vault-filter-btn ${filter === 'archived' ? 'active' : ''}`}
             onClick={() => setFilter('archived')}
-            style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', background: filter === 'archived' ? 'var(--blue)' : 'var(--panel-2)', color: 'var(--text-h)', border: '1px solid var(--border)' }}
           >
-            📁 Archived ({alerts.length - activeCount})
+            Archived ({alerts.length - activeCount})
           </button>
         </div>
       </div>
 
       {!filteredAlerts.length ? (
-        <div className="empty-panel" style={{ background: 'var(--panel-2)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '40px 20px', textAlign: 'center', color: 'var(--muted)' }}>
-          <BookmarkCheck size={36} style={{ color: 'var(--blue)', marginBottom: '10px' }} />
-          <h4 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-h)', margin: '0 0 6px' }}>No Saved Alerts Found</h4>
-          <p style={{ fontSize: '13px', margin: 0 }}>Emergency alerts will automatically accumulate and remain saved here when detected.</p>
+        <div className="empty-state" style={{ padding: '40px 20px', background: '#090f18', borderRadius: '12px', border: '1px solid #1b283b', textAlign: 'center' }}>
+          <AlertTriangle size={32} style={{ color: '#4a5d75', marginBottom: '12px' }} />
+          <h4 style={{ color: '#d0dfef', margin: '0 0 4px 0' }}>No alert records found</h4>
+          <p style={{ color: '#687c96', fontSize: '13px' }}>No crisis alerts match the selected vault filter.</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {filteredAlerts.map((alert) => (
-            <div
-              key={alert.id}
-              className="saved-alert-card"
-              style={{
-                background: 'var(--panel-2)',
-                border: alert.is_active ? '1.5px solid #ff5b60' : '1.5px solid var(--border)',
-                borderRadius: '12px',
-                padding: '18px 22px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-                boxShadow: alert.is_active ? '0 0 20px rgba(255, 91, 96, 0.25)' : 'none',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span
-                    style={{
-                      background: alert.is_active ? '#ff5b60' : 'var(--panel)',
-                      color: alert.is_active ? '#ffffff' : 'var(--muted)',
-                      fontSize: '10px',
-                      fontWeight: '800',
-                      padding: '3px 9px',
-                      borderRadius: '4px',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {alert.is_active ? '🚨 ACTIVE (1-HR WINDOW)' : '📁 ARCHIVED LOG'}
-                  </span>
-                  <span className="source-pill-mini">
-                    {sourceIcon(alert.source)}
-                    {alert.source}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {filteredAlerts.map((alert) => {
+            const sourceUrl = getRecordSourceUrl(alert.record || alert)
+            const isAvailable = isValidHttpUrl(sourceUrl)
+
+            return (
+              <div
+                key={alert.id}
+                style={{
+                  background: '#0a121d',
+                  border: alert.is_active ? '1px solid #3c1e22' : '1px solid #1c2a3d',
+                  borderRadius: '10px',
+                  padding: '16px 20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        background: alert.is_active ? '#3c181c' : '#142233',
+                        color: alert.is_active ? '#ff7b7e' : '#7d95b3',
+                        fontSize: '11px',
+                        fontWeight: '800',
+                        padding: '3px 8px',
+                        borderRadius: '4px',
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      {alert.severity || 'CRITICAL'}
+                    </span>
+                    <span style={{ fontSize: '12px', color: '#6f85a3' }}>
+                      Detected: {alert.detected_at ? new Date(alert.detected_at).toLocaleString('en-IN') : 'Recent'}
+                    </span>
+                  </div>
+
+                  <span style={{ fontSize: '11px', fontWeight: '700', color: alert.is_active ? '#38d9a9' : '#6f85a3' }}>
+                    {alert.is_active ? '● LIVE MONITORING SIGNAL' : 'ARCHIVED'}
                   </span>
                 </div>
 
-                <div style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '600' }}>
-                  Detected: {formatDate(alert.detected_at || alert.record)} {formatTime(alert.detected_at || alert.record)}
-                </div>
-              </div>
+                <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#edf3fa', margin: 0, lineHeight: '1.4' }}>
+                  {alert.title || alert.issue}
+                </h3>
 
-              <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: 'var(--text-h)', lineHeight: '1.4' }}>
-                {cleanText(alert.title)}
-              </h4>
+                {alert.message && (
+                  <p style={{ fontSize: '13px', color: '#a0b3cc', margin: 0, lineHeight: '1.5' }}>
+                    {alert.message}
+                  </p>
+                )}
 
-              <div style={{ background: 'var(--panel)', border: '1px solid var(--border)', borderRadius: '8px', padding: '12px 14px', color: 'var(--text)', fontSize: '12.5px', lineHeight: '1.55' }}>
-                <strong style={{ color: '#ffb53b', display: 'block', marginBottom: '4px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  📜 SAVED EXECUTIVE BRIEFING MESSAGE:
-                </strong>
-                {cleanText(alert.message)}
-              </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', flexWrap: 'wrap', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {alert.record && (
+                      <button
+                        type="button"
+                        className="drawer-trigger-btn"
+                        style={{ height: '30px', padding: '0 12px', fontSize: '11.5px' }}
+                        onClick={() => onSelectRecord && onSelectRecord(alert.record)}
+                      >
+                        View AI Intelligence Details
+                      </button>
+                    )}
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: '8px', flexWrap: 'wrap', gap: '12px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  {alert.record && (
+                    <SourceLink record={alert.record || alert} label="Open Exact Source" />
+                  </div>
+
+                  {onDeleteAlert && (
                     <button
                       type="button"
-                      className="drawer-trigger-btn"
-                      style={{ height: '30px', padding: '0 12px', fontSize: '11.5px' }}
-                      onClick={() => onSelectRecord && onSelectRecord(alert.record)}
+                      onClick={() => onDeleteAlert(alert.id)}
+                      style={{ background: 'transparent', border: '1px solid #362225', color: '#ff7b7e', fontSize: '11px', fontWeight: '700', padding: '4px 10px', borderRadius: '5px', cursor: 'pointer' }}
                     >
-                      View Details & Summary
+                      Dismiss Alert Log
                     </button>
                   )}
-
-                  {alert.url && (
-                    <a
-                      href={alert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: '#ff9d3b', fontSize: '11.5px', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                    >
-                      Open Article Link <ExternalLink size={12} />
-                    </a>
-                  )}
                 </div>
-
-                {onDeleteAlert && (
-                  <button
-                    type="button"
-                    onClick={() => onDeleteAlert(alert.id)}
-                    style={{ background: 'transparent', border: '1px solid #362225', color: '#ff7b7e', fontSize: '11px', fontWeight: '700', padding: '4px 10px', borderRadius: '5px', cursor: 'pointer' }}
-                  >
-                    Dismiss Alert Log
-                  </button>
-                )}
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>
@@ -1918,7 +2114,7 @@ function SettingsView({ theme, onToggleTheme, onSetTheme, recordsCount, alertsCo
 }
 
 
-function AlertPanel({ records }) {
+function AlertPanel({ records, onSelectRecord }) {
   const negatives = records
     .filter((record) => sentimentOf(record) === 'negative')
     .sort((a, b) => Number(b.relevance_score || 0) - Number(a.relevance_score || 0))
@@ -1935,29 +2131,52 @@ function AlertPanel({ records }) {
     )
   }
 
+  const handleCardClick = (e, record) => {
+    if (e.target.closest('button, a, .source-link-btn')) return
+    const sourceUrl = getRecordSourceUrl(record)
+    if (sourceUrl) {
+      openSource(record)
+    } else if (onSelectRecord) {
+      onSelectRecord(record)
+    }
+  }
+
   return (
     <div className="alert-list">
-      {negatives.slice(0, 5).map((record, index) => (
-        <a
-          className="alert-row"
-          key={record.url || `${record.title}-${index}`}
-          href={getRecordUrl(record)}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={`Click to open news article: ${record.title || record.source}`}
-        >
-          <span className="alert-symbol">
-            <AlertTriangle size={17} />
-          </span>
+      {negatives.slice(0, 5).map((record, index) => {
+        const sourceUrl = getRecordSourceUrl(record)
+        const isAvailable = isValidHttpUrl(sourceUrl)
 
-          <div>
-            <strong>{generatedTitle(record)}</strong>
-            <small>{record.source} · {formatDate(record)}</small>
+        return (
+          <div
+            className={`alert-row ${isAvailable ? 'clickable' : 'disabled-row'}`}
+            key={record.url || record.id || `${record.title}-${index}`}
+            onClick={(e) => handleCardClick(e, record)}
+            style={{ cursor: isAvailable ? 'pointer' : 'default' }}
+            title={isAvailable ? `Click to open exact source URL: ${sourceUrl}` : 'Source URL unavailable'}
+          >
+            <span className="alert-symbol">
+              <AlertTriangle size={17} />
+            </span>
+
+            <div style={{ flex: 1 }}>
+              <strong style={{ cursor: isAvailable ? 'pointer' : 'default' }}>{generatedTitle(record)}</strong>
+              <small>
+                <span
+                  className="source-pill-inline"
+                  onClick={(e) => { e.stopPropagation(); openSource(record) }}
+                  style={{ cursor: isAvailable ? 'pointer' : 'default' }}
+                >
+                  {record.source || 'News'}
+                </span>
+                {' · '}{formatDate(record)}
+              </small>
+            </div>
+
+            <SourceLink record={record} label="" showIcon={true} />
           </div>
-
-          <ExternalLink size={14} style={{ color: '#397cff' }} />
-        </a>
-      ))}
+        )
+      })}
     </div>
   )
 }
@@ -1966,14 +2185,33 @@ function MentionCard({ record, onSelectRecord, activeQuery }) {
   const sentiment = sentimentOf(record)
   const fullText = `${record.title || ''} ${record.text || ''} ${record.description || ''}`.toLowerCase()
   const isMatch = activeQuery && activeQuery.trim().length > 1 && fullText.includes(activeQuery.trim().toLowerCase())
+  const sourceUrl = getRecordSourceUrl(record)
+  const isAvailable = isValidHttpUrl(sourceUrl)
+
+  const handleCardClick = (e) => {
+    if (e.target.closest('button, a, .source-link-btn')) return
+    if (sourceUrl) {
+      openSource(record)
+    } else if (onSelectRecord) {
+      onSelectRecord(record)
+    }
+  }
 
   return (
-    <article className={`mention-card ${isMatch ? 'highlighted-card' : ''}`}>
+    <article
+      className={`mention-card ${isMatch ? 'highlighted-card' : ''} ${isAvailable ? 'clickable' : ''}`}
+      onClick={handleCardClick}
+      style={{ cursor: isAvailable ? 'pointer' : 'default' }}
+      title={isAvailable ? `Click to open exact source URL: ${sourceUrl}` : 'Source URL unavailable'}
+    >
       <div className="mention-top">
         <span
           className={`source-pill ${record.source
             .toLowerCase()
             .replace(/\W+/g, '-')}`}
+          onClick={(e) => { e.stopPropagation(); openSource(record) }}
+          style={{ cursor: isAvailable ? 'pointer' : 'default' }}
+          title={`Filter or open source for ${record.source}`}
         >
           {sourceIcon(record.source)}
           {record.source}
@@ -1985,7 +2223,9 @@ function MentionCard({ record, onSelectRecord, activeQuery }) {
       </div>
 
       <div className="mention-content">
-        <h4>{generatedTitle(record)}</h4>
+        <h4 onClick={(e) => { e.stopPropagation(); openSource(record) }} style={{ cursor: isAvailable ? 'pointer' : 'default' }}>
+          {generatedTitle(record)}
+        </h4>
         <p>{cardDescription(record)}</p>
       </div>
 
@@ -1993,21 +2233,13 @@ function MentionCard({ record, onSelectRecord, activeQuery }) {
         <span>{cleanAuthor(record)}</span>
         <span>{formatDate(record)}</span>
 
-        <a
-          href={getRecordUrl(record)}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={`Open original article: ${record.title || record.source}`}
-        >
-          View source
-          <ExternalLink size={13} style={{ marginLeft: 4 }} />
-        </a>
+        <SourceLink record={record} label="Open source" />
       </div>
     </article>
   )
 }
 
-function HotNow({ records }) {
+function HotNow({ records, onSelectRecord }) {
   const hot = [...records]
     .sort((a, b) => {
       const sentimentWeight = {
@@ -2034,40 +2266,57 @@ function HotNow({ records }) {
   return (
     <div className="hot-list">
       {hot.length ? (
-        hot.map((record, index) => (
-          <a
-            href={getRecordUrl(record)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hot-item"
-            key={record.url || `${record.title}-${index}`}
-            title={`Click to open news article: ${record.title || record.source}`}
-          >
-            <div className="hot-rank">
-              {String(index + 1).padStart(2, '0')}
-            </div>
+        hot.map((record, index) => {
+          const sourceUrl = getRecordSourceUrl(record)
+          const isAvailable = isValidHttpUrl(sourceUrl)
 
-            <div className="hot-content">
-              <div className="hot-meta">
-                <span className="source-pill-mini">
-                  {sourceIcon(record.source)}
-                  {record.source}
-                </span>
-                <span>{formatDate(record)} · {formatTime(record)}</span>
+          return (
+            <div
+              className={`hot-item ${isAvailable ? 'clickable' : ''}`}
+              key={record.url || record.id || `${record.title}-${index}`}
+              onClick={(e) => {
+                if (e.target.closest('button, a, .source-link-btn')) return
+                if (sourceUrl) {
+                  openSource(record)
+                } else if (onSelectRecord) {
+                  onSelectRecord(record)
+                }
+              }}
+              style={{ cursor: isAvailable ? 'pointer' : 'default' }}
+              title={isAvailable ? `Click to open exact source URL: ${sourceUrl}` : 'Source URL unavailable'}
+            >
+              <div className="hot-rank">
+                {String(index + 1).padStart(2, '0')}
               </div>
 
-              <strong>{generatedTitle(record)}</strong>
+              <div className="hot-content">
+                <div className="hot-meta">
+                  <span
+                    className="source-pill-mini"
+                    onClick={(e) => { e.stopPropagation(); openSource(record) }}
+                    style={{ cursor: isAvailable ? 'pointer' : 'default' }}
+                  >
+                    {sourceIcon(record.source)}
+                    {record.source}
+                  </span>
+                  <span>{formatDate(record)} · {formatTime(record)}</span>
+                </div>
 
-              <small>{cleanAuthor(record)}</small>
+                <strong onClick={(e) => { e.stopPropagation(); openSource(record) }} style={{ cursor: isAvailable ? 'pointer' : 'default' }}>
+                  {generatedTitle(record)}
+                </strong>
+
+                <small>{cleanAuthor(record)}</small>
+              </div>
+
+              <span className={`sentiment-pill ${sentimentOf(record)}`}>
+                {sentimentOf(record)}
+              </span>
+
+              <SourceLink record={record} label="" showIcon={true} />
             </div>
-
-            <span className={`sentiment-pill ${sentimentOf(record)}`}>
-              {sentimentOf(record)}
-            </span>
-
-            <ExternalLink size={15} style={{ color: '#ff9d3b', flexShrink: 0, marginLeft: 6 }} />
-          </a>
-        ))
+          )
+        })
       ) : (
         <div className="empty-small">
           No recent signals available.

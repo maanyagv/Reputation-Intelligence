@@ -36,36 +36,28 @@ def load_json(path: Path):
         return json.load(file)
 
 
+import re
+
 def classify_sentiment(item):
     if not isinstance(item, dict):
         return "neutral"
 
-    text = f"{item.get('title', '')} {item.get('text', '')} {item.get('description', '')}".lower()
+    # 1. Explicit sentiment string if present
+    raw = str(
+        item.get("sentiment") or
+        item.get("sentiment_label") or
+        item.get("sentiment_class") or
+        ""
+    ).strip().lower()
 
-    # 1. Financial Turnaround & Strong Positive Context Phrases
-    strong_pos_phrases = [
-        "profit at", "profit of", "posts profit", "profit turns positive",
-        "turns positive", "profit swings", "revenue up", "revenue surges",
-        "revenue surged", "ebitda margin expands", "net profit", "after last year's loss",
-        "after loss", "from loss", "record sales", "strong demand", "expansion",
-        "allotment of", "channel partner", "new launch", "unveiled", "show residence",
-        "appreciation", "refined design", "prime location"
-    ]
-    if any(sp in text for sp in strong_pos_phrases):
+    if raw in ["positive", "pos"]:
         return "positive"
-
-    # 2. Critical Business Threat / Legal Emergency Phrases
-    strong_neg_phrases = [
-        "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
-        "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
-        "scam", "cheated", "embezzlement", "stalled project", "construction halt",
-        "building collapse", "structural defect", "buyer protest", "water leakage issue",
-        "severe delay", "penalty imposed", "breach of contract", "nclt", "insolvency"
-    ]
-    if any(sn in text for sn in strong_neg_phrases):
+    if raw in ["negative", "neg"]:
         return "negative"
+    if raw in ["neutral", "neu"]:
+        return "neutral"
 
-    # 3. Explicit AI sentiment score if present
+    # 2. Explicit AI sentiment score if present
     score = item.get("sentiment_score")
     if score is None:
         score = item.get("sentimentScore")
@@ -84,33 +76,48 @@ def classify_sentiment(item):
         except (ValueError, TypeError):
             pass
 
-    raw = str(
-        item.get("sentiment") or
-        item.get("sentiment_label") or
-        item.get("sentiment_class") or
-        ""
-    ).strip().lower()
+    text = f"{item.get('title', '')} {item.get('text', '')} {item.get('description', '')}".lower()
 
-    if raw in ["positive", "pos"]:
-        return "positive"
-    if raw in ["negative", "neg"]:
+    # 3. Critical Business Threat / Legal Emergency / Complaint Phrases
+    strong_neg_phrases = [
+        "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
+        "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
+        "scam", "cheated", "embezzlement", "stalled project", "construction halt",
+        "building collapse", "structural defect", "buyer protest", "water leakage issue",
+        "severe delay", "penalty imposed", "breach of contract", "nclt", "insolvency",
+        "paid and forgotten", "done waiting", "legally isn't", "water seepage",
+        "basement leakage", "fee hike", "refund delay", "unresponsive crm", "handover delay",
+        "occupancy certificate delay"
+    ]
+    if any(sn in text for sn in strong_neg_phrases):
         return "negative"
-    if raw in ["neutral", "neu"]:
-        return "neutral"
 
-    # 4. Keyword balance analysis
+    # 4. Financial Turnaround & Strong Positive Context Phrases
+    strong_pos_phrases = [
+        "profit at", "profit of", "posts profit", "profit turns positive",
+        "turns positive", "profit swings", "revenue up", "revenue surges",
+        "revenue surged", "ebitda margin expands", "net profit", "after last year's loss",
+        "after loss", "from loss", "record sales", "strong demand", "expansion",
+        "allotment of", "channel partner", "new launch", "unveiled", "show residence",
+        "appreciation", "refined design", "prime location"
+    ]
+    if any(sp in text for sp in strong_pos_phrases):
+        return "positive"
+
+    # 5. Keyword balance analysis with exact word boundaries
     neg_kw = [
         'delay', 'complaint', 'court', 'rera', 'legal', 'expensive', 'defect', 'leakage',
-        'fraud', 'scam', 'penalty', 'violation', 'lawsuit', 'stuck', 'protest', 'cheated',
-        'halt', 'stalled', 'bad', 'worst', 'poor', 'disappointed', 'cancelling'
+        'seepage', 'fraud', 'scam', 'penalty', 'violation', 'lawsuit', 'stuck', 'protest',
+        'cheated', 'halt', 'stalled', 'bad', 'worst', 'poor', 'disappointed', 'cancelling',
+        'refund', 'dispute', 'hike'
     ]
     pos_kw = [
         'profit', 'surged', 'surges', 'growth', 'gains', 'best', 'premium', 'great',
         'luxury', 'excellent', 'top', 'launch', 'successful', 'reward', 'award', 'leader'
     ]
 
-    neg_hits = sum(1 for k in neg_kw if k in text)
-    pos_hits = sum(1 for k in pos_kw if k in text)
+    neg_hits = sum(1 for k in neg_kw if re.search(r'\b' + re.escape(k) + r'\b', text))
+    pos_hits = sum(1 for k in pos_kw if re.search(r'\b' + re.escape(k) + r'\b', text))
 
     if pos_hits > neg_hits:
         return "positive"
@@ -139,6 +146,49 @@ def parse_timestamp(item):
 
 
 from backend.alerts.engine import process_emergency_alerts, load_alerts, delete_alert
+from backend.utils.relevance import is_puravankara_related
+
+
+def is_valid_source_url(url):
+    if not url or not isinstance(url, str):
+        return False
+    u = url.strip()
+    if not (u.lower().startswith('http://') or u.lower().startswith('https://')):
+        return False
+
+    # Reject actual search query pages, but accept direct article, video, social, and news URLs
+    search_patterns = [
+        'google.com/search?', 'reddit.com/search?', 'youtube.com/results?', 'linkedin.com/search?'
+    ]
+    u_lower = u.lower()
+    if any(pat in u_lower for pat in search_patterns):
+        return False
+
+    return True
+
+
+def map_source_url(item):
+    if not isinstance(item, dict):
+        return item
+    raw_url = str(
+        item.get("sourceUrl") or
+        item.get("url") or
+        item.get("link") or
+        item.get("source_url") or
+        item.get("articleUrl") or
+        item.get("permalink") or
+        item.get("externalUrl") or
+        item.get("originalUrl") or
+        ""
+    ).strip()
+
+    if is_valid_source_url(raw_url):
+        item["sourceUrl"] = raw_url
+        item["url"] = raw_url
+    else:
+        item["sourceUrl"] = None
+        item["url"] = None
+    return item
 
 
 @app.get("/api/health")
@@ -152,6 +202,7 @@ def health():
 @app.get("/api/reputation")
 def get_reputation():
     records = load_json(REPUTATION_FILE)
+    records = [map_source_url(r) for r in records if is_puravankara_related(r)]
     process_emergency_alerts(records)
     return records
 
@@ -159,8 +210,9 @@ def get_reputation():
 @app.get("/api/alerts")
 def get_alerts():
     records = load_json(REPUTATION_FILE)
+    records = [map_source_url(r) for r in records if is_puravankara_related(r)]
     alerts = process_emergency_alerts(records)
-    active_alerts = [a for a in alerts if a.get("is_active")]
+    active_alerts = [a for a in alerts if a.get("is_active") and is_puravankara_related(a.get("record") or a)]
     return {
         "active_alerts": active_alerts,
         "all_alerts": alerts,
@@ -184,13 +236,13 @@ def delete_alert_endpoint(alert_id: str):
 @app.get("/api/comments")
 def get_comments():
     comments = load_json(COMMENTS_FILE)
-    return [{**c, "sentiment": classify_sentiment(c)} for c in comments]
+    return [map_source_url({**c, "sentiment": classify_sentiment(c)}) for c in comments if is_puravankara_related(c)]
 
 
 @app.get("/api/mentions")
 def get_mentions():
-    reputation = load_json(REPUTATION_FILE)
-    comments = load_json(COMMENTS_FILE)
+    reputation = [map_source_url(r) for r in load_json(REPUTATION_FILE) if is_puravankara_related(r)]
+    comments = [map_source_url(c) for c in load_json(COMMENTS_FILE) if is_puravankara_related(c)]
 
     return {
         "reputation": reputation,
@@ -208,8 +260,8 @@ def get_sentiment_analytics(
     sentiment: Optional[str] = None,
     granularity: str = Query("day", pattern="^(hour|day|week|month)$"),
 ):
-    reputation = load_json(REPUTATION_FILE)
-    comments = load_json(COMMENTS_FILE)
+    reputation = [r for r in load_json(REPUTATION_FILE) if is_puravankara_related(r)]
+    comments = [c for c in load_json(COMMENTS_FILE) if is_puravankara_related(c)]
     all_records = reputation + comments
 
     parsed = []
