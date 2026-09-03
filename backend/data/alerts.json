@@ -1,12 +1,12 @@
 [
   {
-    "id": "alert-8f52d409",
+    "id": "alert-a73a3050",
     "title": "EMERGENCY ALERT: Puravankara: RERA Compliance Notices & Project Milestone Tracking in Bengaluru",
     "issue": "Puravankara: RERA Compliance Notices & Project Milestone Tracking in Bengaluru",
     "source": "Google_news",
     "severity": "CRITICAL_EMERGENCY",
-    "detected_at": "2026-08-30T13:47:06.304397+00:00",
-    "expires_at": "2026-09-06T13:47:06.304397+00:00",
+    "detected_at": "2026-09-02T05:54:33.130933+00:00",
+    "expires_at": "2026-09-09T05:54:33.130933+00:00",
     "duration_seconds": 604800,
     "is_active": true,
     "message": "🚨 HIGH-STAKE EMERGENCY ALERT [GOOGLE_NEWS]: 'Puravankara: RERA Compliance Notices & Project Milestone Tracking in Bengaluru'. Critical risk signal flagged for immediate CRM & Executive PR review.",
@@ -25,13 +25,13 @@
     }
   },
   {
-    "id": "alert-f98a7c4a",
+    "id": "alert-f0c756bb",
     "title": "EMERGENCY ALERT: Puravankara & Purva Projects: Construction Quality Discussions & Handover Reviews",
     "issue": "Puravankara & Purva Projects: Construction Quality Discussions & Handover Reviews",
     "source": "Reddit",
     "severity": "CRITICAL_EMERGENCY",
-    "detected_at": "2026-08-30T13:47:06.304397+00:00",
-    "expires_at": "2026-09-06T13:47:06.304397+00:00",
+    "detected_at": "2026-09-02T05:54:33.130933+00:00",
+    "expires_at": "2026-09-09T05:54:33.130933+00:00",
     "duration_seconds": 604800,
     "is_active": true,
     "message": "🚨 HIGH-STAKE EMERGENCY ALERT [REDDIT]: 'Puravankara & Purva Projects: Construction Quality Discussions & Handover Reviews'. Critical risk signal flagged for immediate CRM & Executive PR review.",
