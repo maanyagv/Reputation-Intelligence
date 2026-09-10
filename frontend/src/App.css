@@ -954,58 +954,6 @@ a {
   100% { transform: scale(1); }
 }
 
-/* Topbar Live Scores */
-.topbar-live-scores {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.topbar-score-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 11.5px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.topbar-score-chip.rep {
-  background: rgba(57, 124, 255, 0.1);
-  border: 1px solid rgba(57, 124, 255, 0.25);
-  color: #93c5fd;
-}
-
-.topbar-score-chip.rep strong {
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.topbar-score-chip.rep small {
-  font-size: 9.5px;
-  color: #73839a;
-}
-
-.topbar-score-chip.csat {
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  color: #6ee7b7;
-}
-
-.topbar-score-chip.csat strong {
-  color: #34d399;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.topbar-score-chip.flash {
-  box-shadow: 0 0 16px rgba(57, 124, 255, 0.5);
-  transform: translateY(-1px);
-}
-
 /* Light Theme adaptations */
 [data-theme='light'] .score-inner {
   background: #ffffff;
@@ -1040,30 +988,6 @@ a {
   background: rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.3);
   color: #2563eb;
-}
-
-[data-theme='light'] .topbar-score-chip.rep {
-  background: #eff6ff;
-  border-color: #bfdbfe;
-  color: #1d4ed8;
-}
-
-[data-theme='light'] .topbar-score-chip.rep strong {
-  color: #1e3a8a;
-}
-
-[data-theme='light'] .topbar-score-chip.rep small {
-  color: #64748b;
-}
-
-[data-theme='light'] .topbar-score-chip.csat {
-  background: #ecfdf5;
-  border-color: #a7f3d0;
-  color: #047857;
-}
-
-[data-theme='light'] .topbar-score-chip.csat strong {
-  color: #065f46;
 }
 
 .score-caption svg {

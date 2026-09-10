@@ -5065,20 +5065,6 @@ function App() {
               </small>
             </div>
 
-            <div className="topbar-live-scores" title="Real-time synchronized Corporate Reputation & CSAT scores">
-              <div className={`topbar-score-chip rep ${scoreFlash ? 'flash' : ''}`} title="Corporate Reputation Score (0-100)">
-                <Gauge size={12} />
-                <span>Corp Rep</span>
-                <strong>{stats.reputationScore ?? '—'}</strong>
-                <small>/100</small>
-              </div>
-              <div className={`topbar-score-chip csat ${scoreFlash ? 'flash' : ''}`} title="Customer Satisfaction Score (CSAT)">
-                <Smile size={12} />
-                <span>CSAT</span>
-                <strong>{stats.csatScore ?? '—'}%</strong>
-              </div>
-            </div>
-
             <button
               className={`icon-button theme-toggle-btn ${theme}`}
               onClick={toggleTheme}
