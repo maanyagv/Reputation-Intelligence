@@ -232,6 +232,90 @@ function sentimentOf(item) {
   return 'neutral'
 }
 
+const IRRELEVANT_PATTERNS_CLIENT = [
+  // Classical Dance & Arts (e.g. dancer Purva Dhanashree, Vilasini Natyam)
+  /\bdhanashree\b/i,
+  /\bvilasini natyam\b/i,
+  /\bnatyam\b/i,
+  /\bbharatanatyam\b/i,
+  /\bkathak\b/i,
+  /\bodissi\b/i,
+  /\bclassical dance\b/i,
+
+  // Astrology, Horoscope & Nakshatra
+  /\bnakshatra\b/i,
+  /\bbhadrapada\b/i,
+  /\bphalguni\b/i,
+  /\bashadha\b/i,
+  /\bpanchang\b/i,
+  /\bhoroscope\b/i,
+  /\bastrology\b/i,
+  /\brashi\b/i,
+  /\bkundali\b/i,
+  /\bvenus transit\b/i,
+  /\bleo moon\b/i,
+
+  // Entertainment & Web Series
+  /\bbhoot purva\b/i,
+  /\bweb series\b/i,
+  /\bomkar kapoor\b/i,
+  /\bbaba sehgal\b/i,
+  /\bpurva mantri\b/i,
+
+  // Unrelated Individuals (first name 'Purva')
+  /\bpurva garg\b/i,
+  /\bpurva patel\b/i,
+  /\bpurva desai\b/i,
+  /\bpurva gujarathi\b/i,
+  /\bpurva chawla\b/i,
+  /\bpurva date\b/i,
+  /\bpurva trivedi\b/i,
+  /\bpurva anand\b/i,
+  /\bpurva naigaonkar\b/i,
+  /\bpurva bhasin\b/i,
+  /\bpurva naik\b/i,
+  /\bpurva ragit\b/i,
+  /\bpurva kharbikar\b/i,
+  /\bpurva thakur\b/i,
+  /\bpurva badhe\b/i,
+  /\bpurva zarapkar\b/i,
+  /\bpurva asrani\b/i,
+  /\bpurva danke\b/i,
+  /\bpurva khandeparker\b/i,
+  /\bpurva borkar\b/i,
+  /\bpurva mathiya\b/i,
+  /\bpurva marfatia\b/i,
+  /\bpurva bhise\b/i,
+  /\bpurva jadhav\b/i,
+  /\bpurva bandwadkar\b/i,
+  /\bpurva goswami\b/i,
+  /\bpurva palliwal\b/i,
+  /\bpurva takkar\b/i,
+  /\bpurva parekh\b/i,
+  /\bpurva sane\b/i,
+  /\bpurva bankar\b/i,
+  /\bpurva ambekar\b/i,
+  /\bpurva reddy\b/i,
+  /\bpurvanshi\b/i,
+  /\bathira purva\b/i,
+
+  // Unrelated Companies & Localities
+  /\bpurva sharegistry\b/i,
+  /\bpurva cansarvornem\b/i,
+  /\bpurvanchal\b/i,
+  /\bpurvx\b/i,
+  /\bdigital vidya\b/i,
+]
+
+function isPuravankaraRelatedClient(item) {
+  if (!item) return false
+  const text = `${item.title || ''} ${item.text || ''} ${item.description || ''} ${item.url || ''} ${item.author || ''}`.toLowerCase()
+  for (const pat of IRRELEVANT_PATTERNS_CLIENT) {
+    if (pat.test(text)) return false
+  }
+  return true
+}
+
 const CUSTOMER_TOUCHPOINT_KEYWORDS = [
   'customer', 'buyer', 'buyers', 'resident', 'residents',
   'homeowner', 'homebuyer', 'homebuyers', 'flat', 'flats',
@@ -2982,6 +3066,7 @@ function SettingsView({
 
 function AlertPanel({ records, onSelectRecord }) {
   const negatives = records
+    .filter(isPuravankaraRelatedClient)
     .filter((record) => sentimentOf(record) === 'negative')
     .sort((a, b) => Number(b.relevance_score || 0) - Number(a.relevance_score || 0))
 
@@ -4388,7 +4473,7 @@ function App() {
   const [records, setRecords] = useState(() => {
     try {
       const cached = localStorage.getItem('puravankara_cached_records')
-      return cached ? JSON.parse(cached) : []
+      return cached ? JSON.parse(cached).filter(isPuravankaraRelatedClient) : []
     } catch {
       return []
     }
@@ -4526,15 +4611,17 @@ function App() {
 
         const [reputation, mentions, commentData, alertPayload, metricsPayload] = payloads
 
-        const repArray = Array.isArray(reputation) ? reputation : []
-        const menArray = Array.isArray(mentions) ? mentions : (mentions?.reputation || [])
-        const combined = uniqueRecords(repArray, menArray)
+        const repArray = (Array.isArray(reputation) ? reputation : []).filter(isPuravankaraRelatedClient)
+        const menArray = (Array.isArray(mentions) ? mentions : (mentions?.reputation || [])).filter(isPuravankaraRelatedClient)
+        const combined = uniqueRecords(repArray, menArray).filter(isPuravankaraRelatedClient)
 
         if (combined.length) setRecords(combined)
-        if (Array.isArray(commentData)) setComments(commentData.map(normaliseRecord))
+        if (Array.isArray(commentData)) setComments(commentData.map(normaliseRecord).filter(isPuravankaraRelatedClient))
         if (alertPayload && typeof alertPayload === 'object' && !Array.isArray(alertPayload)) {
-          setAlerts(alertPayload.all_alerts || [])
-          setActiveAlert((alertPayload.active_alerts && alertPayload.active_alerts[0]) || null)
+          const cleanAlerts = (alertPayload.all_alerts || []).filter((a) => isPuravankaraRelatedClient(a.record || a))
+          setAlerts(cleanAlerts)
+          const cleanActives = (alertPayload.active_alerts || []).filter((a) => isPuravankaraRelatedClient(a.record || a))
+          setActiveAlert((cleanActives && cleanActives[0]) || null)
         }
         if (metricsPayload && typeof metricsPayload === 'object' && metricsPayload.reputation_score !== undefined) {
           setLiveExecutiveMetrics(metricsPayload)
@@ -4705,7 +4792,7 @@ function App() {
   }
 
   const globallyFilteredRecords = useMemo(() => {
-    let result = records
+    let result = records.filter(isPuravankaraRelatedClient)
 
     const now = Date.now()
     if (selectedTimeRange === '24h') {

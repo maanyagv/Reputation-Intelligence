@@ -23,8 +23,13 @@ def save_alerts(alerts):
         json.dump(alerts, f, indent=2, ensure_ascii=False)
     tmp_file.replace(ALERTS_FILE)
 
+from backend.utils.relevance import is_puravankara_related
+
 def is_major_critical_alert(record):
     if not isinstance(record, dict):
+        return False
+
+    if not is_puravankara_related(record):
         return False
 
     raw_sentiment = str(record.get("sentiment") or "").strip().lower()

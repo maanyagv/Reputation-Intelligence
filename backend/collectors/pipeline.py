@@ -11,6 +11,7 @@ from backend.collectors.mouthshut import search_mouthshut
 from backend.models.mention import Mention
 from backend.ai.analyzer import analyze_mention
 from backend.exporter import export_mentions
+from backend.utils.relevance import is_puravankara_related
 
 
 def to_mention(item, source):
@@ -46,7 +47,7 @@ def analyze_if_needed(mention):
 TARGET_SEARCH_QUERIES = [
     "Puravankara",
     "Puravankara Limited",
-    "Purva",
+    "Purva projects",
     "Provident Housing",
     "Purva Land",
     "Ashish Puravankara",
@@ -100,6 +101,8 @@ def collect_all(queries=None, limit=MAX_RESULTS_PER_SOURCE):
 
     def add_mention(mention):
         if not mention:
+            return
+        if not is_puravankara_related(mention):
             return
         identifier = mention.url or mention.title
         if identifier and identifier not in seen_identifiers:

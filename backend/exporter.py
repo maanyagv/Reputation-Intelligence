@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from backend.collectors.news import decode_url
+from backend.utils.relevance import is_puravankara_related
 
 OUTPUT_FILE = Path(__file__).resolve().parent / "data" / "reputation.json"
 
@@ -16,13 +17,13 @@ def export_mentions(mentions):
         except Exception:
             existing_data = []
 
-    # Identify existing negative risk mentions to preserve
+    # Identify existing negative risk mentions to preserve (strictly Puravankara-related)
     negative_benchmark_items = [
         item for item in existing_data
-        if isinstance(item, dict) and item.get("sentiment") == "negative"
+        if isinstance(item, dict) and item.get("sentiment") == "negative" and is_puravankara_related(item)
     ]
 
-    new_data = [m.to_dict() if hasattr(m, "to_dict") else m for m in mentions]
+    new_data = [m.to_dict() if hasattr(m, "to_dict") else m for m in mentions if is_puravankara_related(m)]
 
     # Clean up and decode URLs in new data
     for item in new_data:
@@ -50,10 +51,15 @@ def export_mentions(mentions):
 
     # Priority 3: Remaining historical items to maintain history
     for item in existing_data:
+        if not is_puravankara_related(item):
+            continue
         key = item.get("url") or item.get("title")
         if key and key not in seen_keys:
             seen_keys.add(key)
             combined.append(item)
+
+    # Final strict relevance validation pass
+    combined = [item for item in combined if is_puravankara_related(item)]
 
     temporary_file = OUTPUT_FILE.with_suffix(".tmp")
 
