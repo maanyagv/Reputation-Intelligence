@@ -229,7 +229,6 @@ def health():
 def get_reputation():
     records = load_json(REPUTATION_FILE)
     records = [map_source_url(r) for r in records if is_puravankara_related(r)]
-    process_emergency_alerts(records)
     return records
 
 

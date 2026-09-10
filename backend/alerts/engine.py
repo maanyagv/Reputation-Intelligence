@@ -25,11 +25,50 @@ def save_alerts(alerts):
 
 from backend.utils.relevance import is_puravankara_related
 
+
+def is_person_profile_record(record):
+    if not isinstance(record, dict):
+        return False
+    title = str(record.get("title") or "")
+    text = str(record.get("text") or record.get("description") or "")
+    author = str(record.get("author") or "")
+    source = str(record.get("source") or "").lower()
+    combined = f"{title} {text} {author}".lower()
+
+    # Explicit profile phrases / role patterns / credentials
+    role_phrases = [
+        "senior legal manager", "legal manager", "general manager", "deputy manager",
+        "assistant general manager", "chief financial officer", "chief executive officer",
+        "managing director", "vice president", "avp -", "sr. manager", "senior manager",
+        "deputy sales manager", "crm deputy manager", "contracts manager", "quality manager",
+        "senior engineer", "project manager", "marketing manager", "brand marketing",
+        "human capital", "head of", "lead -", "counsel", "advocate", "gold medalist",
+        "rank 1", "college of law", "kslu", "pmp", "ll.b", "llm", "alumni", "alumnus",
+        "alumna", "expertise in consumer & rera", "litigation & dispute resolution",
+        "real estate litigation & dispute"
+    ]
+    if any(rp in combined for rp in role_phrases):
+        return True
+
+    # Check structural personal headline pattern on LinkedIn: e.g. "Name - Title | Company"
+    if (" | " in title or " - " in title) and any(r in combined for r in [
+        "manager", "director", "counsel", "lead", "officer", "vp", "engineer", "advocate", "specialist", "analyst"
+    ]):
+        if source == "linkedin" or "linkedin" in str(record.get("url") or "").lower():
+            return True
+
+    return False
+
+
 def is_major_critical_alert(record):
     if not isinstance(record, dict):
         return False
 
     if not is_puravankara_related(record):
+        return False
+
+    # Guard: A person's profile, resume, or employee credential is NEVER an alert
+    if is_person_profile_record(record):
         return False
 
     raw_sentiment = str(record.get("sentiment") or "").strip().lower()

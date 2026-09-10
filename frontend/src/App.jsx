@@ -147,8 +147,46 @@ function formatTime(item) {
   })
 }
 
+export function isPersonProfile(item) {
+  if (!item) return false
+  const title = String(item.title || '')
+  const text = `${item.title || ''} ${item.text || ''} ${item.description || ''} ${item.author || ''}`.toLowerCase()
+  const source = String(item.source || '').toLowerCase()
+
+  const rolePhrases = [
+    'senior legal manager', 'legal manager', 'general manager', 'deputy manager',
+    'assistant general manager', 'chief financial officer', 'chief executive officer',
+    'managing director', 'vice president', 'avp -', 'sr. manager', 'senior manager',
+    'deputy sales manager', 'crm deputy manager', 'contracts manager', 'quality manager',
+    'senior engineer', 'project manager', 'marketing manager', 'brand marketing',
+    'human capital', 'head of', 'lead -', 'counsel', 'advocate', 'gold medalist',
+    'rank 1', 'college of law', 'kslu', 'pmp', 'll.b', 'llm', 'alumni', 'alumnus',
+    'alumna', 'expertise in consumer', 'litigation & dispute resolution',
+    'real estate litigation'
+  ]
+  if (rolePhrases.some((rp) => text.includes(rp))) return true
+
+  if ((title.includes(' | ') || title.includes(' - ')) &&
+      ['manager', 'director', 'counsel', 'lead', 'officer', 'vp', 'engineer', 'advocate', 'specialist', 'analyst'].some((r) => text.includes(r))) {
+    if (source === 'linkedin' || text.includes('linkedin')) return true
+  }
+
+  return false
+}
+
 function sentimentOf(item) {
   if (!item) return 'neutral'
+
+  // 0. Person profiles, employee credentials, and legal counsel bios are NEVER negative
+  if (isPersonProfile(item)) {
+    const textLower = `${item.title || ''} ${item.text || ''}`.toLowerCase()
+    const posAccolades = [
+      'gold medalist', 'rank 1', 'excellence', 'merit', 'promoted', 'elevated',
+      'appointed', 'taken charge', 'leadership', 'senior legal manager', 'general manager'
+    ]
+    if (posAccolades.some((pa) => textLower.includes(pa))) return 'positive'
+    return 'neutral'
+  }
 
   const text = `${item.title || ''} ${item.text || ''} ${item.description || ''} ${item.url || ''} ${item.sourceUrl || ''}`.toLowerCase()
 
@@ -298,13 +336,37 @@ const IRRELEVANT_PATTERNS_CLIENT = [
   /\bpurva reddy\b/i,
   /\bpurvanshi\b/i,
   /\bathira purva\b/i,
+  /\bpurva gaikar\b/i,
+  /\bpurva phanse\b/i,
+  /\bpurva jaiswal\b/i,
+  /\bpurva sangal\b/i,
+  /\bpurva wagh\b/i,
+  /\bpurva ajmera\b/i,
+  /\bpurva khetan\b/i,
+  /\bpurva dahat\b/i,
+  /\bpurva katariya\b/i,
+  /\bpurva mittal\b/i,
+  /\bpurva sule\b/i,
+  /\bpurva pantawane\b/i,
+  /\bpurva paksha\b/i,
 
-  // Unrelated Companies & Localities
+  // Unrelated Companies, Philosophy & Localities
   /\bpurva sharegistry\b/i,
   /\bpurva cansarvornem\b/i,
   /\bpurvanchal\b/i,
   /\bpurvx\b/i,
   /\bdigital vidya\b/i,
+  /\bcoca-cola\b/i,
+  /\bhitachi vantara\b/i,
+  /\bapex group\b/i,
+  /\batomic energy regulatory board\b/i,
+  /\bemployees provident fund\b/i,
+  /\bepfo\b/i,
+  /\bbaystate services\b/i,
+  /\bspice money\b/i,
+  /\bconcorde group\b/i,
+  /\bnikitha build-tech\b/i,
+  /\bsagar institute of technology\b/i,
 ]
 
 function isPuravankaraRelatedClient(item) {
@@ -3067,7 +3129,7 @@ function SettingsView({
 function AlertPanel({ records, onSelectRecord }) {
   const negatives = records
     .filter(isPuravankaraRelatedClient)
-    .filter((record) => sentimentOf(record) === 'negative')
+    .filter((record) => !isPersonProfile(record) && sentimentOf(record) === 'negative')
     .sort((a, b) => Number(b.relevance_score || 0) - Number(a.relevance_score || 0))
 
   if (!negatives.length) {

@@ -12,11 +12,49 @@ api_key = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key) if api_key else None
 
 
+def is_person_profile(text: str) -> bool:
+    t = text.lower()
+    role_phrases = [
+        "senior legal manager", "legal manager", "general manager", "deputy manager",
+        "assistant general manager", "chief financial officer", "chief executive officer",
+        "managing director", "vice president", "avp -", "sr. manager", "senior manager",
+        "deputy sales manager", "crm deputy manager", "contracts manager", "quality manager",
+        "senior engineer", "project manager", "marketing manager", "brand marketing",
+        "human capital", "head of", "lead -", "counsel", "advocate", "gold medalist",
+        "rank 1", "college of law", "kslu", "pmp", "ll.b", "llm", "alumni", "alumnus",
+        "alumna", "expertise in consumer", "litigation & dispute resolution",
+        "real estate litigation"
+    ]
+    if any(rp in t for rp in role_phrases):
+        return True
+    if (" | " in text or " - " in text) and any(r in t for r in [
+        "manager", "director", "counsel", "lead", "officer", "vp", "engineer", "advocate", "specialist", "analyst"
+    ]):
+        return True
+    return False
+
+
 def fallback_analysis(mention: Mention) -> Mention:
     """
     Fast rule-based reputation intelligence analyzer fallback if Gemini API is unavailable or rate-limited.
     """
-    text = f"{mention.title or ''} {mention.text or ''}".lower()
+    raw_text = f"{mention.title or ''} {mention.text or ''}"
+    text = raw_text.lower()
+
+    # 0. Individual Employee Profiles, Resumes & Legal Credentials are NEVER Negative
+    if is_person_profile(raw_text):
+        pos_accolades = [
+            "gold medalist", "rank 1", "excellence", "merit", "promoted", "elevated",
+            "appointed", "taken charge", "leadership", "senior legal manager", "general manager"
+        ]
+        if any(pa in text for pa in pos_accolades):
+            mention.sentiment = "positive"
+            mention.sentiment_score = 0.70
+        else:
+            mention.sentiment = "neutral"
+            mention.sentiment_score = 0.0
+        mention.relevance_score = 1.0
+        return mention
 
     # 1. Critical Legal/Regulatory/Threat & Customer Grievance Negative
     strong_neg = [
@@ -126,6 +164,7 @@ Rules:
 sentiment must be exactly one of: positive, neutral, negative
 sentiment_score: -1.0 to +1.0
 relevance_score: 0.0 to 1.0
+CRITICAL RULE: Never classify a person's professional profile, employee resume, job title, or legal counsel credentials as negative. In-house counsel or employees mentioning 'Litigation', 'Dispute Resolution', or 'RERA' in their job title or practice area represent corporate legal capability, NOT a negative corporate event. Classify professional profiles as positive (if honors/leadership) or neutral, NEVER negative.
 Do not include markdown or any explanation.
 """
 

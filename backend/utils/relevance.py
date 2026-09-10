@@ -183,13 +183,37 @@ IRRELEVANT_PATTERNS = [
     r"\bpurva reddy\b",
     r"\bpurvanshi\b",
     r"\bathira purva\b",
-    
-    # Unrelated Companies & Localities
+    r"\bpurva gaikar\b",
+    r"\bpurva phanse\b",
+    r"\bpurva jaiswal\b",
+    r"\bpurva sangal\b",
+    r"\bpurva wagh\b",
+    r"\bpurva ajmera\b",
+    r"\bpurva khetan\b",
+    r"\bpurva dahat\b",
+    r"\bpurva katariya\b",
+    r"\bpurva mittal\b",
+    r"\bpurva sule\b",
+    r"\bpurva pantawane\b",
+    r"\bpurva paksha\b",
+
+    # Unrelated Companies, Philosophy & Localities
     r"\bpurva sharegistry\b",
     r"\bpurva cansarvornem\b",
     r"\bpurvanchal\b",
     r"\bpurvx\b",
     r"\bdigital vidya\b",
+    r"\bcoca-cola\b",
+    r"\bhitachi vantara\b",
+    r"\bapex group\b",
+    r"\batomic energy regulatory board\b",
+    r"\bemployees provident fund\b",
+    r"\bepfo\b",
+    r"\bbaystate services\b",
+    r"\bspice money\b",
+    r"\bconcorde group\b",
+    r"\bnikitha build-tech\b",
+    r"\bsagar institute of technology\b",
 ]
 
 REAL_ESTATE_CONTEXT_KEYWORDS = [
@@ -198,29 +222,29 @@ REAL_ESTATE_CONTEXT_KEYWORDS = [
     "rera", "construction", "bengaluru", "bangalore", "chennai", "hyderabad",
     "mumbai", "pune", "coimbatore", "kochi", "bhk", "possession", "amenities",
     "buyer", "buyers", "homebuyer", "homebuyers", "residential", "commercial",
-    "sq ft", "sqft", "crore", "resale", "booking", "sales office", "handover"
+    "land acquisition", "redevelopment", "plotted", "plots", "sales", "revenue",
+    "booking", "bookings", "pre-launch", "launch", "tower", "cr gdv", "jda"
 ]
 
 def is_puravankara_related(item) -> bool:
     """
-    Validates whether a given mention/record/dictionary is strictly related to
-    Puravankara Limited, Purva projects, or Provident Housing.
+    Strict multi-tier validator verifying that an ingested public mention is legitimately
+    relevant to Puravankara Limited, Provident Housing, Starworth Infrastructure,
+    or official brand projects.
     """
-    if not item:
-        return False
-
     if isinstance(item, dict):
-        title = str(item.get("title") or "")
-        text = str(item.get("text") or item.get("description") or item.get("content") or "")
-        author = str(item.get("author") or item.get("channelTitle") or "")
-        url = str(item.get("url") or item.get("sourceUrl") or "")
+        title = str(item.get("title", "") or "")
+        text = str(item.get("text", "") or item.get("description", "") or "")
+        author = str(item.get("author", "") or "")
+        url = str(item.get("url", "") or "")
     else:
         title = str(getattr(item, "title", "") or "")
-        text = str(getattr(item, "text", "") or "")
+        text = str(getattr(item, "text", "") or getattr(item, "description", "") or "")
         author = str(getattr(item, "author", "") or "")
         url = str(getattr(item, "url", "") or "")
 
     combined_all = f"{title} {text} {author} {url}".lower()
+    title_and_text = f"{title} {text}".lower()
     title_lower = title.lower()
 
     # 1. Reject anything matching strict irrelevant patterns (dance, astrology, unrelated names)
@@ -234,29 +258,33 @@ def is_puravankara_related(item) -> bool:
             if not ("puravankara" in title_lower or "provident housing" in title_lower):
                 return False
 
-    # 3. Explicit Puravankara / Provident Housing / Starworth mentions
-    if "puravankara" in combined_all:
+    # 3. Explicit Puravankara / Provident Housing / Starworth mentions in content or URL
+    if "puravankara" in title_and_text or "puravankara" in url:
         return True
 
-    if "provident housing" in combined_all or "provident group" in combined_all:
+    if "provident housing" in title_and_text or "provident group" in title_and_text or "provident housing" in url:
         return True
 
-    if "starworth" in combined_all and ("puravankara" in combined_all or "infrastructure" in combined_all or "construction" in combined_all):
+    if "starworth" in title_and_text and ("puravankara" in combined_all or "infrastructure" in title_and_text or "construction" in title_and_text):
         return True
 
-    # 4. Check explicit brand projects list
-    if any(kw in combined_all for kw in PURAVANKARA_BRAND_KEYWORDS):
+    # 4. Check explicit brand projects list in content
+    if any(kw in title_and_text for kw in PURAVANKARA_BRAND_KEYWORDS):
         return True
 
     # 5. Check if word 'purva' or 'provident' appears alongside real estate context
-    has_purva_word = bool(re.search(r"\bpurva\b", combined_all))
-    has_provident_word = bool(re.search(r"\bprovident\b", combined_all))
-    has_re_context = any(re_kw in combined_all for re_kw in REAL_ESTATE_CONTEXT_KEYWORDS)
+    has_purva_word = bool(re.search(r"\bpurva\b", title_and_text))
+    has_provident_word = bool(re.search(r"\bprovident\b", title_and_text))
+    has_re_context = any(re_kw in title_and_text for re_kw in REAL_ESTATE_CONTEXT_KEYWORDS)
 
     if (has_purva_word or has_provident_word) and has_re_context:
         # Extra guard: Ensure it's not a personal LinkedIn profile of someone named Purva
-        if "linkedin" in combined_all and not ("puravankara" in combined_all or "provident" in combined_all):
+        if "linkedin" in combined_all and not ("puravankara" in title_and_text or "provident" in title_and_text):
             return False
+        return True
+
+    # 6. Consumer review platforms (e.g. MouthShut) already queried specifically for Puravankara
+    if isinstance(item, dict) and item.get("source") == "mouthshut":
         return True
 
     return False

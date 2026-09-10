@@ -58,15 +58,32 @@ def search_linkedin(query="Puravankara", limit=10):
                     except Exception:
                         pass
 
+                author_name = "Puravankara Limited / LinkedIn"
+                if " - " in clean_title:
+                    parts = clean_title.split(" - ")
+                    if len(parts) >= 2 and len(parts[0].split()) <= 4:
+                        author_name = f"{parts[0].strip()} / LinkedIn"
+
                 cand = {
                     "source": "linkedin",
                     "title": clean_title,
                     "text": clean_title,
                     "url": direct_url,
-                    "author": "Puravankara Limited / LinkedIn",
+                    "author": author_name,
                     "published_at": published_at,
                 }
                 if is_puravankara_related(cand):
+                    # Guarantee professional profiles and employee credentials are never classified as negative
+                    t_lower = clean_title.lower()
+                    if any(r in t_lower for r in ["manager", "director", "counsel", "lead", "officer", "vp", "engineer", "advocate", "analyst"]):
+                        if any(pos in t_lower for pos in ["gold medalist", "rank 1", "excellence", "merit", "promoted", "elevated", "leadership", "senior"]):
+                            cand["sentiment"] = "positive"
+                            cand["sentiment_score"] = 0.75
+                        else:
+                            cand["sentiment"] = "neutral"
+                            cand["sentiment_score"] = 0.0
+                        cand["relevance_score"] = 1.0
+
                     seen_urls.add(direct_url)
                     mentions.append(cand)
                     if len(mentions) >= limit:
