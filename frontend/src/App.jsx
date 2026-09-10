@@ -230,6 +230,52 @@ function sentimentOf(item) {
   return 'neutral'
 }
 
+const CUSTOMER_TOUCHPOINT_KEYWORDS = [
+  'customer', 'buyer', 'buyers', 'resident', 'residents',
+  'homeowner', 'homebuyer', 'homebuyers', 'flat', 'flats',
+  'apartment', 'apartments', 'possession', 'handover',
+  'booking', 'refund', 'crm', 'service', 'support',
+  'leakage', 'seepage', 'maintenance', 'amenities',
+  'complaint', 'complaints', 'grievance', 'grievances',
+  'delay', 'delays', 'snag', 'snagging', 'water supply',
+  'lift', 'parking', 'clubhouse', 'workmanship',
+  'carpet area', 'possession date', 'allotment'
+]
+
+const EXCLUDE_CORP_TERMS = [
+  'appointed as', 'elevation to', 'elevated to', 'takes charge as',
+  'financial results', 'investor presentation', 'ebitda', 'ncd',
+  'bse filing', 'nse filing', 'board meeting', 'share price',
+  'debenture', 'credit rating'
+]
+
+export function isCustomerTouchpoint(item) {
+  if (!item) return false
+  const src = String(item.source || '').toLowerCase()
+  if (src.includes('mouthshut')) return false
+  if (src.includes('comment') || src.includes('reddit')) return true
+
+  const title = String(item.title || '').toLowerCase()
+  const text = String(item.text || item.description || item.snippet || '').toLowerCase()
+  const combined = `${title} ${text}`
+
+  for (const ex of EXCLUDE_CORP_TERMS) {
+    if (
+      combined.includes(ex) &&
+      !['complaint', 'possession', 'handover', 'delay', 'buyer', 'resident'].some((k) =>
+        combined.includes(k)
+      )
+    ) {
+      return false
+    }
+  }
+
+  return CUSTOMER_TOUCHPOINT_KEYWORDS.some((k) => {
+    const reg = new RegExp(`\\b${k}\\b`, 'i')
+    return reg.test(combined)
+  })
+}
+
 function sourceName(source = '') {
   const s = String(source).toLowerCase()
 
@@ -3293,9 +3339,24 @@ function ExecutiveIntelligencePanel({
     riskAdvice = 'Monitor negative feedback & delays'
   }
 
-  // Customer Satisfaction Score (CSAT: 0 - 100) calculated without mouthshut
-  const csatScore = scoringTotal
-    ? Math.round(((positive + neutral * 0.5) / scoringTotal) * 100)
+  // Customer Satisfaction Score (CSAT: 0 - 100) evaluated strictly on verified customer touchpoints
+  const customerPool = useMemo(() => {
+    return reputationPool.filter((r) => isCustomerTouchpoint(r))
+  }, [reputationPool])
+
+  const custTotal = customerPool.length
+  const custPositive = useMemo(
+    () => customerPool.filter((r) => sentimentOf(r) === 'positive').length,
+    [customerPool]
+  )
+  const custNegative = useMemo(
+    () => customerPool.filter((r) => sentimentOf(r) === 'negative').length,
+    [customerPool]
+  )
+  const custNeutral = Math.max(0, custTotal - custPositive - custNegative)
+
+  const csatScore = custTotal
+    ? Math.round(((custPositive + custNeutral * 0.5) / custTotal) * 100)
     : 0
 
   // Risk Score Index (0 - 100)
@@ -3399,7 +3460,10 @@ function ExecutiveIntelligencePanel({
       {/* 5-Column Executive Metric Blocks */}
       <div className="exec-kpi-grid">
         {/* Metric 1: Reputation Status */}
-        <div className="exec-kpi-card">
+        <div
+          className="exec-kpi-card"
+          title={`Macro enterprise reputation score calculated across ${scoringTotal} corporate news, market updates, and digital brand signals.`}
+        >
           <div className="exec-kpi-header">
             <span className="exec-kpi-label">REPUTATION SCORE</span>
           </div>
@@ -3471,7 +3535,10 @@ function ExecutiveIntelligencePanel({
         </div>
 
         {/* Metric 4: Customer Satisfaction (CSAT) */}
-        <div className="exec-kpi-card">
+        <div
+          className="exec-kpi-card"
+          title={`Customer Satisfaction Score (CSAT) calculated specifically from ${custTotal} verified resident, homebuyer, and CRM touchpoints (excluding macro corporate PR/filings).`}
+        >
           <div className="exec-kpi-header">
             <span className="exec-kpi-label">CUSTOMER SATISFACTION</span>
           </div>
@@ -3489,7 +3556,7 @@ function ExecutiveIntelligencePanel({
           </div>
           <div className="exec-kpi-footer">
             <span className="exec-sub-info">
-              {positive} positive signals
+              {custPositive} of {custTotal} satisfied touchpoints
             </span>
           </div>
         </div>
@@ -3718,7 +3785,7 @@ function CustomerSatisfaction({
   const [timeRange, setTimeRange] = useState('all')
   const [showTooltip, setShowTooltip] = useState(false)
 
-  // Combined dataset from records & comments
+  // Combined customer touchpoint dataset from records & comments
   const pool = useMemo(() => {
     const combined = [...records, ...comments]
     const seen = new Set()
@@ -3726,7 +3793,7 @@ function CustomerSatisfaction({
       const id = r.url || r.title || r.text || r.id
       if (!id || seen.has(id)) return false
       seen.add(id)
-      return true
+      return isCustomerTouchpoint(r)
     })
   }, [records, comments])
 
@@ -3776,13 +3843,13 @@ function CustomerSatisfaction({
       const t = getItemTime(r)
       return t === 0 || t >= cutoff
     })
-    return filtered.length >= 10 ? filtered : pool
+    return filtered.length >= 3 ? filtered : pool
   }, [pool, timeRange, now])
 
   const prevPeriodScore = useMemo(() => {
-    if (timeRange === 'all') return 80
+    if (timeRange === 'all') return 60
     const ms = getRangeMs(timeRange)
-    if (!isFinite(ms)) return 80
+    if (!isFinite(ms)) return 60
     const times = pool.map(getItemTime).filter((t) => t > 0)
     const refTime = times.length ? Math.max(...times) : now
     const startPrev = refTime - ms * 2
@@ -3791,7 +3858,7 @@ function CustomerSatisfaction({
       const t = getItemTime(r)
       return t >= startPrev && t < endPrev
     })
-    if (prevRecs.length < 5) return 80
+    if (prevRecs.length < 3) return 60
     const pos = prevRecs.filter((r) => sentimentOf(r) === 'positive').length
     const neg = prevRecs.filter((r) => sentimentOf(r) === 'negative').length
     const neu = Math.max(0, prevRecs.length - pos - neg)
@@ -3956,9 +4023,9 @@ function CustomerSatisfaction({
       {/* Header Row */}
       <div className="css-header-row">
         <div className="css-title-block">
-          <span className="css-kicker">CUSTOMER VOICE</span>
+          <span className="css-kicker">RESIDENT & BUYER VOICE</span>
           <h3 className="css-card-title">
-            Customer Satisfaction Score
+            Customer Satisfaction Score (CSAT)
             <div
               className="css-info-wrapper"
               onMouseEnter={() => setShowTooltip(true)}
@@ -3971,11 +4038,10 @@ function CustomerSatisfaction({
               />
               {showTooltip && (
                 <div className="css-tooltip">
-                  Customer Satisfaction Score is calculated from customer
-                  sentiment records during the selected period.
+                  Customer Satisfaction Score (CSAT) evaluates direct resident and homebuyer experiences (possession timelines, CRM response, build quality, amenities, complaints). Macro corporate finance and SEC/BSE filings are excluded.
                   <br />
                   <strong>Formula:</strong> ((Positive + Neutral × 0.5) /
-                  Total) × 100
+                  Customer Touchpoints) × 100
                 </div>
               )}
             </div>
@@ -4079,7 +4145,7 @@ function CustomerSatisfaction({
       {/* Footer Metadata */}
       <div className="css-footer-meta">
         <span className="css-footer-text">
-          Calculated from <strong>{total}</strong> customer sentiment records
+          Calculated from <strong>{total}</strong> verified customer touchpoints
         </span>
         <span className="css-live-tag">
           <span className="css-live-dot" />

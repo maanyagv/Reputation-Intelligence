@@ -1,4 +1,5 @@
 import asyncio
+import re
 from pathlib import Path
 import json
 import email.utils
@@ -493,11 +494,51 @@ def get_autofetch_status():
     }
 
 
+CUSTOMER_TOUCHPOINT_KEYWORDS = [
+    r'\bcustomer\b', r'\bbuyer\b', r'\bbuyers\b', r'\bresident\b', r'\bresidents\b',
+    r'\bhomeowner\b', r'\bhomebuyer\b', r'\bhomebuyers\b', r'\bflat\b', r'\bflats\b',
+    r'\bapartment\b', r'\bapartments\b', r'\bpossession\b', r'\bhandover\b',
+    r'\bbooking\b', r'\brefund\b', r'\bcrm\b', r'\bservice\b', r'\bsupport\b',
+    r'\bleakage\b', r'\bseepage\b', r'\bmaintenance\b', r'\bamenities\b',
+    r'\bcomplaint\b', r'\bcomplaints\b', r'\bgrievance\b', r'\bgrievances\b',
+    r'\bdelay\b', r'\bdelays\b', r'\bsnag\b', r'\bsnagging\b', r'\bwater supply\b',
+    r'\blift\b', r'\bparking\b', r'\bclubhouse\b', r'\bworkmanship\b',
+    r'\bcarpet area\b', r'\bpossession date\b', r'\ballotment\b'
+]
+CUSTOMER_TOUCHPOINT_PATTERN = re.compile('|'.join(CUSTOMER_TOUCHPOINT_KEYWORDS), re.IGNORECASE)
+
+EXCLUDE_CORP_TERMS = [
+    'appointed as', 'elevation to', 'elevated to', 'takes charge as',
+    'financial results', 'investor presentation', 'ebitda', 'ncd',
+    'bse filing', 'nse filing', 'board meeting', 'share price',
+    'debenture', 'credit rating by care', 'credit rating by icra'
+]
+
+def is_customer_touchpoint(item):
+    if not isinstance(item, dict):
+        return False
+    src = str(item.get("source") or "").lower()
+    if "mouthshut" in src:
+        return False
+    if "comment" in src or "reddit" in src:
+        return True
+
+    title = str(item.get("title") or "")
+    text = str(item.get("text") or item.get("description") or item.get("snippet") or "")
+    combined = f"{title} {text}".lower()
+
+    for ex in EXCLUDE_CORP_TERMS:
+        if ex in combined and not any(k in combined for k in ['complaint', 'possession', 'handover', 'delay', 'buyer', 'resident']):
+            return False
+
+    return bool(CUSTOMER_TOUCHPOINT_PATTERN.search(combined))
+
+
 @app.get("/api/analytics/metrics")
 def get_executive_metrics():
     """
     Computes real-time executive reputation scores, net sentiment,
-    risk index, and customer satisfaction (CSAT) score.
+    risk index, and distinct customer satisfaction (CSAT) score.
     """
     reputation = [r for r in load_json(REPUTATION_FILE) if is_puravankara_related(r)]
     comments = [c for c in load_json(COMMENTS_FILE) if is_puravankara_related(c)]
@@ -517,11 +558,16 @@ def get_executive_metrics():
     # Net Sentiment (-100% to +100%) computed on core reputation pool
     net_sentiment = round(((positive - negative) / max(total, 1)) * 100, 1)
 
-    # Reputation Score (0 - 100) computed on core reputation pool
+    # Reputation Score (0 - 100) computed on core corporate brand & media reputation pool
     reputation_score = round(((positive + neutral * 0.5) / max(total, 1)) * 100)
 
-    # Customer Satisfaction Score (CSAT: 0 - 100)
-    customer_satisfaction_score = round(((positive + neutral * 0.5) / max(total, 1)) * 100)
+    # Customer Satisfaction Score (CSAT: 0 - 100) evaluated strictly on verified resident & buyer touchpoints
+    customer_records = [r for r in scoring_records if is_customer_touchpoint(r)]
+    cust_total = len(customer_records)
+    cust_positive = sum(1 for r in customer_records if classify_sentiment(r) == "positive")
+    cust_negative = sum(1 for r in customer_records if classify_sentiment(r) == "negative")
+    cust_neutral = max(0, cust_total - cust_positive - cust_negative)
+    customer_satisfaction_score = round(((cust_positive + cust_neutral * 0.5) / max(cust_total, 1)) * 100)
 
     # Risk Score & Level
     alerts = process_emergency_alerts([map_source_url(r) for r in reputation])
@@ -542,7 +588,7 @@ def get_executive_metrics():
     else:
         risk_level = "LOW"
         risk_tone = "good"
-        risk_advice = "Reputation narrative stable"
+        risk_advice = "Corporate brand equity stable"
 
     return {
         "reputation_score": reputation_score,
@@ -552,6 +598,12 @@ def get_executive_metrics():
         "risk_tone": risk_tone,
         "risk_advice": risk_advice,
         "customer_satisfaction_score": customer_satisfaction_score,
+        "customer_metrics": {
+            "total_touchpoints": cust_total,
+            "positive": cust_positive,
+            "neutral": cust_neutral,
+            "negative": cust_negative
+        },
         "counts": {
             "total": total,
             "positive": positive,
