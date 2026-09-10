@@ -4273,6 +4273,39 @@ function CalendarPopover({
   )
 }
 
+function ExecutiveDisclaimer() {
+  return (
+    <section className="executive-disclaimer-card" aria-label="Methodology & Data Scope Disclaimer">
+      <div className="disclaimer-header">
+        <div className="disclaimer-title-wrap">
+          <ShieldCheck size={16} className="disclaimer-icon" />
+          <h4>Data Scope & Intelligence Methodology Notice</h4>
+        </div>
+        <span className="disclaimer-badge">Enterprise Advisory</span>
+      </div>
+
+      <p className="disclaimer-text">
+        This executive intelligence dashboard aggregates observational brand perception signals from publicly indexed digital channels (Google News, YouTube, Reddit, Bluesky, HackerNews, and MouthShut). Data collection is subject to search engine indexing depth, third-party platform rate limits, and automated background sync cycles. Consumer reviews (including MouthShut.com) are monitored as informative field feedback and are <strong>strictly quarantined from the official corporate reputation index</strong>. Sentiment categorizations, risk severity levels, and CSAT models are algorithmically evaluated via automated heuristic and NLP pipelines for executive decision-support and trend monitoring, and do not constitute statutory audit, legal counsel, or financial advice.
+      </p>
+
+      <div className="disclaimer-tags">
+        <span className="disclaimer-tag">
+          <span className="dot" /> Sampled Public Coverage
+        </span>
+        <span className="disclaimer-tag">
+          <span className="dot" /> MouthShut Excluded from Reputation Index
+        </span>
+        <span className="disclaimer-tag">
+          <span className="dot" /> Automated NLP Sentiment
+        </span>
+        <span className="disclaimer-tag">
+          <span className="dot" /> Advisory Decision Support
+        </span>
+      </div>
+    </section>
+  )
+}
+
 function App() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark'
@@ -5448,6 +5481,8 @@ function App() {
               </section>
             </>
           )}
+
+          <ExecutiveDisclaimer />
 
           <footer className="footer">
             <div>

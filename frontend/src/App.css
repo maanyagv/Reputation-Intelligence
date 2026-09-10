@@ -6496,3 +6496,155 @@ html[data-theme='light'] .sentiment-filter-pill:not(.active),
 [data-theme='light'] .sentiment-filter-pill:not(.active) {
   background: rgba(15, 23, 42, 0.05) !important;
 }
+
+/* Executive Methodology & Scope Disclaimer Card */
+.executive-disclaimer-card {
+  margin: 32px 0 16px 0;
+  padding: 20px 24px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.executive-disclaimer-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.disclaimer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.disclaimer-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.disclaimer-icon {
+  color: #ffad2f;
+  flex-shrink: 0;
+}
+
+.disclaimer-title-wrap h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.disclaimer-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffad2f;
+  background: rgba(255, 173, 47, 0.12);
+  border: 1px solid rgba(255, 173, 47, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.disclaimer-text {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: #94a3b8;
+}
+
+.disclaimer-text strong {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.disclaimer-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.disclaimer-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.disclaimer-tag .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c7bd;
+}
+
+/* Light mode styles for executive disclaimer */
+html[data-theme='light'] .executive-disclaimer-card,
+[data-theme='light'] .executive-disclaimer-card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+html[data-theme='light'] .executive-disclaimer-card:hover,
+[data-theme='light'] .executive-disclaimer-card:hover {
+  border-color: #94a3b8 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+html[data-theme='light'] .disclaimer-icon,
+[data-theme='light'] .disclaimer-icon {
+  color: #d97706 !important;
+}
+
+html[data-theme='light'] .disclaimer-title-wrap h4,
+[data-theme='light'] .disclaimer-title-wrap h4 {
+  color: #0f172a !important;
+}
+
+html[data-theme='light'] .disclaimer-badge,
+[data-theme='light'] .disclaimer-badge {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+
+html[data-theme='light'] .disclaimer-text,
+[data-theme='light'] .disclaimer-text {
+  color: #475569 !important;
+}
+
+html[data-theme='light'] .disclaimer-text strong,
+[data-theme='light'] .disclaimer-text strong {
+  color: #0f172a !important;
+}
+
+html[data-theme='light'] .disclaimer-tag,
+[data-theme='light'] .disclaimer-tag {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+html[data-theme='light'] .disclaimer-tag .dot,
+[data-theme='light'] .disclaimer-tag .dot {
+  background: #0d9488 !important;
+}
