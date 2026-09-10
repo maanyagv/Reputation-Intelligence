@@ -3267,10 +3267,12 @@ function ExecutiveIntelligencePanel({
   const neuPct = scoringTotal ? Math.round((neutral / scoringTotal) * 100) : 0
   const negPct = scoringTotal ? Math.max(0, 100 - posPct - neuPct) : 0
 
-  // Reputation Score (0 - 100) calculated without mouthshut
-  const score = scoringTotal
-    ? Math.round(((positive + neutral * 0.5) / scoringTotal) * 100)
-    : 0
+  // Reputation Score (0 - 100) calculated without mouthshut - aligned with shared stats
+  const score = stats?.reputationScore !== undefined && stats?.reputationScore !== null
+    ? stats.reputationScore
+    : scoringTotal
+      ? Math.round(((positive + neutral * 0.5) / scoringTotal) * 100)
+      : 0
 
   // Total volume sentiment breakdown across all signals
   const allPositive = useMemo(
@@ -3344,23 +3346,20 @@ function ExecutiveIntelligencePanel({
 
   // Customer Satisfaction Score (CSAT: 0 - 100) evaluated strictly on verified customer touchpoints
   const customerPool = useMemo(() => {
+    if (stats?.customerFiltered) return stats.customerFiltered
     return reputationPool.filter((r) => isCustomerTouchpoint(r))
-  }, [reputationPool])
+  }, [reputationPool, stats])
 
-  const custTotal = customerPool.length
-  const custPositive = useMemo(
-    () => customerPool.filter((r) => sentimentOf(r) === 'positive').length,
-    [customerPool]
-  )
-  const custNegative = useMemo(
-    () => customerPool.filter((r) => sentimentOf(r) === 'negative').length,
-    [customerPool]
-  )
-  const custNeutral = Math.max(0, custTotal - custPositive - custNegative)
+  const custTotal = stats?.custTotal !== undefined ? stats.custTotal : customerPool.length
+  const custPositive = stats?.custPos !== undefined ? stats.custPos : customerPool.filter((r) => sentimentOf(r) === 'positive').length
+  const custNegative = stats?.custNeg !== undefined ? stats.custNeg : customerPool.filter((r) => sentimentOf(r) === 'negative').length
+  const custNeutral = stats?.custNeu !== undefined ? stats.custNeu : Math.max(0, custTotal - custPositive - custNegative)
 
-  const csatScore = custTotal
-    ? Math.round(((custPositive + custNeutral * 0.5) / custTotal) * 100)
-    : 0
+  const csatScore = stats?.csatScore !== undefined && stats?.csatScore !== null
+    ? stats.csatScore
+    : custTotal
+      ? Math.round(((custPositive + custNeutral * 0.5) / custTotal) * 100)
+      : 0
 
   // Risk Score Index (0 - 100)
   const riskScore = Math.min(
@@ -3784,12 +3783,22 @@ function CustomerSatisfaction({
   loading,
   error,
   onSelectSentiment,
+  timeRange = 'all',
+  onTimeRangeChange,
+  stats = null,
 }) {
-  const [timeRange, setTimeRange] = useState('all')
+  const [localTimeRange, setLocalTimeRange] = useState('all')
+  const activeTimeRange = timeRange || localTimeRange
+  const handleTimeRangeChange = (val) => {
+    setLocalTimeRange(val)
+    if (onTimeRangeChange) onTimeRangeChange(val)
+  }
+
   const [showTooltip, setShowTooltip] = useState(false)
 
   // Combined customer touchpoint dataset from records & comments
   const pool = useMemo(() => {
+    if (stats?.customerFiltered) return stats.customerFiltered
     const combined = [...records, ...comments]
     const seen = new Set()
     return combined.filter((r) => {
@@ -3798,7 +3807,7 @@ function CustomerSatisfaction({
       seen.add(id)
       return isCustomerTouchpoint(r)
     })
-  }, [records, comments])
+  }, [records, comments, stats])
 
   const getItemTime = (item) => {
     const raw =
@@ -3836,22 +3845,11 @@ function CustomerSatisfaction({
     }
   }
 
-  const currentRecords = useMemo(() => {
-    if (timeRange === 'all') return pool
-    const ms = getRangeMs(timeRange)
-    const times = pool.map(getItemTime).filter((t) => t > 0)
-    const refTime = times.length ? Math.max(...times) : now
-    const cutoff = refTime - ms
-    const filtered = pool.filter((r) => {
-      const t = getItemTime(r)
-      return t === 0 || t >= cutoff
-    })
-    return filtered.length >= 3 ? filtered : pool
-  }, [pool, timeRange, now])
+  const currentRecords = pool
 
   const prevPeriodScore = useMemo(() => {
-    if (timeRange === 'all') return 60
-    const ms = getRangeMs(timeRange)
+    if (activeTimeRange === 'all') return 60
+    const ms = getRangeMs(activeTimeRange)
     if (!isFinite(ms)) return 60
     const times = pool.map(getItemTime).filter((t) => t > 0)
     const refTime = times.length ? Math.max(...times) : now
@@ -3866,26 +3864,24 @@ function CustomerSatisfaction({
     const neg = prevRecs.filter((r) => sentimentOf(r) === 'negative').length
     const neu = Math.max(0, prevRecs.length - pos - neg)
     return Math.round(((pos + neu * 0.5) / prevRecs.length) * 100)
-  }, [pool, timeRange, now])
+  }, [pool, activeTimeRange, now])
 
-  const positive = currentRecords.filter(
+  const positive = stats?.custPos !== undefined ? stats.custPos : currentRecords.filter(
     (r) => sentimentOf(r) === 'positive'
   ).length
 
-  const negative = currentRecords.filter(
+  const negative = stats?.custNeg !== undefined ? stats.custNeg : currentRecords.filter(
     (r) => sentimentOf(r) === 'negative'
   ).length
 
-  const neutral = Math.max(
-    0,
-    currentRecords.length - positive - negative
-  )
+  const total = stats?.custTotal !== undefined ? stats.custTotal : currentRecords.length
+  const neutral = stats?.custNeu !== undefined ? stats.custNeu : Math.max(0, total - positive - negative)
 
-  const total = currentRecords.length
-
-  const css = total
-    ? Math.round(((positive + neutral * 0.5) / total) * 100)
-    : null
+  const css = stats?.csatScore !== undefined && stats?.csatScore !== null
+    ? stats.csatScore
+    : total
+      ? Math.round(((positive + neutral * 0.5) / total) * 100)
+      : null
 
   const delta =
     css !== null && prevPeriodScore !== null ? css - prevPeriodScore : null
@@ -4051,7 +4047,7 @@ function CustomerSatisfaction({
           </h3>
         </div>
 
-        <CssPeriodDropdown value={timeRange} onChange={setTimeRange} />
+        <CssPeriodDropdown value={activeTimeRange} onChange={handleTimeRangeChange} />
       </div>
 
       {/* Main Score & Trend Block */}
@@ -4431,7 +4427,7 @@ function App() {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
-  const [selectedTimeRange, setSelectedTimeRange] = useState('7d')
+  const [selectedTimeRange, setSelectedTimeRange] = useState('all')
   const [selectedYear, setSelectedYear] = useState('all')
   const [selectedMonth, setSelectedMonth] = useState('all')
   const [selectedSourceFilter, setSelectedSourceFilter] = useState('all')
@@ -4844,7 +4840,15 @@ function App() {
       : null
 
     // Customer Satisfaction Score (CSAT: 0 - 100) evaluated strictly on verified customer touchpoints
-    const customerFiltered = globallyFilteredRecords.filter(isCustomerTouchpoint)
+    // Combining globallyFilteredRecords and comments so all resident & homebuyer touchpoints are unified
+    const combinedTouchpointPool = [...globallyFilteredRecords, ...comments]
+    const seenCust = new Set()
+    const customerFiltered = combinedTouchpointPool.filter((record) => {
+      const id = record.url || record.title || record.text || record.id
+      if (!id || seenCust.has(id)) return false
+      seenCust.add(id)
+      return isCustomerTouchpoint(record)
+    })
     const custTotal = customerFiltered.length
     const custPos = customerFiltered.filter(
       (record) => sentimentOf(record) === 'positive'
@@ -4855,7 +4859,7 @@ function App() {
     const custNeu = Math.max(0, custTotal - custPos - custNeg)
     const csatScore = custTotal
       ? Math.max(0, Math.min(100, Math.round(((custPos + custNeu * 0.5) / custTotal) * 100)))
-      : null
+      : (liveExecutiveMetrics?.customer_satisfaction_score ?? null)
 
     return {
       total,
@@ -4870,8 +4874,9 @@ function App() {
       custPos,
       custNeg,
       custNeu,
+      customerFiltered,
     }
-  }, [globallyFilteredRecords])
+  }, [globallyFilteredRecords, comments, liveExecutiveMetrics])
 
   const timeline = useMemo(
     () => getSentimentTimeline(globallyFilteredRecords),
@@ -5396,11 +5401,14 @@ function App() {
               >
                 <div className="panel css-panel">
                   <CustomerSatisfaction
-                    records={globallyFilteredRecords}
+                    records={records}
                     comments={comments}
                     lastUpdated={lastUpdated}
                     loading={loading}
                     error={error}
+                    timeRange={selectedTimeRange}
+                    onTimeRangeChange={setSelectedTimeRange}
+                    stats={stats}
                     onSelectSentiment={(sentiment) => {
                       setSelectedSentimentFilter(sentiment)
                       const el = document.getElementById('mentions')
