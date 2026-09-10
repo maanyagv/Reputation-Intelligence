@@ -3168,6 +3168,7 @@ function ExecutiveIntelligencePanel({
   alerts = [],
   lastUpdated,
   loading,
+  pollInterval = 15,
   onRefresh,
   onSelectFilter,
 }) {
@@ -3376,7 +3377,9 @@ function ExecutiveIntelligencePanel({
             <span className="exec-live-pulse" />
             <span className="exec-live-label">LIVE</span>
             <span className="exec-live-sep">•</span>
-            <span className="exec-sync-pill" style={{ color: '#20c997' }}>Auto-Sync: 12s</span>
+            <span className="exec-sync-pill" style={{ color: '#20c997' }}>
+              {pollInterval === 0 ? 'Auto-Sync: Paused' : `Auto-Sync: ${pollInterval}s`}
+            </span>
             <span className="exec-live-sep">•</span>
             <span className="exec-updated">Updated {updatedText}</span>
           </div>
@@ -4373,9 +4376,12 @@ function App() {
 
   useEffect(() => {
     let cancelled = false
+    let isFirstLoad = true
 
-    async function loadData() {
-      setLoading(true)
+    async function loadData(isSilent = false) {
+      if (!isSilent && isFirstLoad) {
+        setLoading(true)
+      }
       setError('')
 
       const endpoints = [
@@ -4455,13 +4461,15 @@ function App() {
       } finally {
         if (!cancelled) {
           setLoading(false)
+          isFirstLoad = false
         }
       }
     }
 
-    loadData()
+    loadData(false)
 
-    const interval = pollInterval > 0 ? setInterval(loadData, pollInterval * 1000) : null
+    // Real-time automatic polling: silent auto-update without UI flicker
+    const interval = pollInterval > 0 ? setInterval(() => loadData(true), pollInterval * 1000) : null
 
     return () => {
       cancelled = true
@@ -4688,17 +4696,13 @@ function App() {
       (record) => sentimentOf(record) === 'negative'
     ).length
 
+    const repNeu = Math.max(0, repTotal - repPos - repNeg)
+
     const net = repTotal ? ((repPos - repNeg) / repTotal) * 100 : 0
 
-    const averageScore = repTotal
-      ? reputationFiltered.reduce(
-        (sum, record) => sum + Number(record.sentiment_score || 0),
-        0
-      ) / repTotal
-      : 0
-
+    // Standardized Corporate Reputation Index (0 - 100): ((Positive + Neutral * 0.5) / Total) * 100
     const reputationScore = repTotal
-      ? Math.max(0, Math.min(100, Math.round(50 + averageScore * 50)))
+      ? Math.max(0, Math.min(100, Math.round(((repPos + repNeu * 0.5) / repTotal) * 100)))
       : null
 
     return {
@@ -5267,6 +5271,7 @@ function App() {
                   alerts={alerts}
                   lastUpdated={lastUpdated}
                   loading={loading}
+                  pollInterval={pollInterval}
                   onRefresh={refreshFeed}
                   onSelectFilter={(filterVal) => {
                     if (['positive', 'neutral', 'negative'].includes(filterVal)) {
