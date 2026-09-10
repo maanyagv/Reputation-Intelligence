@@ -868,71 +868,6 @@ a {
   font-weight: 600;
 }
 
-.hero-live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 14px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 999px;
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #34d399;
-  letter-spacing: 0.04em;
-  transition: all 0.25s ease;
-}
-
-.hero-live-pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-  animation: execPulse 1.8s infinite;
-}
-
-.hero-live-pulse-dot.syncing {
-  background: #397cff;
-  box-shadow: 0 0 10px #397cff;
-  animation: execPulse 0.6s infinite;
-}
-
-.hero-live-sync-now-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  border: 1px solid rgba(57, 124, 255, 0.4);
-  background: rgba(57, 124, 255, 0.15);
-  color: #70a1ff;
-  font-size: 9px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.hero-live-sync-now-btn:hover:not(:disabled) {
-  background: rgba(57, 124, 255, 0.3);
-  color: #ffffff;
-  border-color: #397cff;
-}
-
-.hero-live-sync-now-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.spin-icon {
-  animation: spinIcon 0.8s linear infinite;
-}
-
-@keyframes spinIcon {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* Score live pulse glow animations */
 .score-orbit.score-flash {
   box-shadow: 0 0 55px rgba(57, 124, 255, 0.6), 0 0 20px rgba(118, 87, 255, 0.4);
@@ -976,18 +911,6 @@ a {
 [data-theme='light'] .score-orbit.csat-orbit {
   background: conic-gradient(#10b981 0deg, #06b6d4 210deg, #e2e8f0 210deg, #e2e8f0 360deg);
   box-shadow: 0 4px 20px rgba(16, 185, 129, 0.18);
-}
-
-[data-theme='light'] .hero-live-badge {
-  background: rgba(16, 185, 129, 0.08);
-  border-color: rgba(16, 185, 129, 0.25);
-  color: #059669;
-}
-
-[data-theme='light'] .hero-live-sync-now-btn {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: #2563eb;
 }
 
 .score-caption svg {
@@ -5634,11 +5557,6 @@ html[data-theme='light'] .score-inner small {
   color: #64748b !important;
 }
 
-html[data-theme='light'] .hero-live-badge {
-  background: rgba(5, 150, 105, 0.12) !important;
-  border: 1px solid rgba(5, 150, 105, 0.3) !important;
-  color: #047857 !important;
-}
 
 html[data-theme='light'] .hero-meta span {
   color: #334155 !important;

@@ -4436,9 +4436,6 @@ function App() {
   const [pollInterval, setPollInterval] = useState(() => {
     return Number(localStorage.getItem('puravankara_poll_interval')) || 10
   })
-  const [secondsUntilSync, setSecondsUntilSync] = useState(() => {
-    return Number(localStorage.getItem('puravankara_poll_interval')) || 10
-  })
   const [liveExecutiveMetrics, setLiveExecutiveMetrics] = useState(() => {
     try {
       const cached = localStorage.getItem('puravankara_cached_metrics')
@@ -4456,7 +4453,6 @@ function App() {
 
   function handleSetPollInterval(val) {
     setPollInterval(val)
-    setSecondsUntilSync(val)
     localStorage.setItem('puravankara_poll_interval', String(val))
   }
 
@@ -4472,16 +4468,6 @@ function App() {
     setAlertSensitivity(val)
     localStorage.setItem('puravankara_alert_sensitivity', val)
   }
-
-  // Live countdown ticker for real-time update transparency
-  useEffect(() => {
-    if (pollInterval <= 0) return
-    setSecondsUntilSync(pollInterval)
-    const timer = setInterval(() => {
-      setSecondsUntilSync((prev) => (prev <= 1 ? pollInterval : prev - 1))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [pollInterval, lastUpdated])
 
   useEffect(() => {
     let cancelled = false
@@ -4594,7 +4580,6 @@ function App() {
         if (!cancelled) {
           setLoading(false)
           setIsSyncing(false)
-          setSecondsUntilSync(pollInterval)
           isFirstLoad = false
         }
       }
@@ -5247,25 +5232,6 @@ function App() {
                         <span>Resident & Buyer</span>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="hero-live-badge">
-                    <span className={`hero-live-pulse-dot ${isSyncing ? 'syncing' : ''}`} />
-                    <span>
-                      {isSyncing
-                        ? 'Synchronizing live feed…'
-                        : `Real-time Live Sync • Every ${pollInterval}s (Next in ${secondsUntilSync}s)`}
-                    </span>
-                    <button
-                      type="button"
-                      className="hero-live-sync-now-btn"
-                      onClick={() => setRefreshKey((k) => k + 1)}
-                      disabled={isSyncing}
-                      title="Trigger immediate live synchronization"
-                    >
-                      <RefreshCw size={11} className={isSyncing ? 'spin-icon' : ''} />
-                      <span>Sync</span>
-                    </button>
                   </div>
                 </div>
               </section>
