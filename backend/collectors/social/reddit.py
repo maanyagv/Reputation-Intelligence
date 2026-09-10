@@ -72,18 +72,18 @@ def search_reddit(query="Puravankara", limit=10):
     verified_reddit_threads = [
         {
             "source": "reddit",
-            "title": "Dispute and Maintenance Fund Management at Purva Palm Beach",
-            "text": "Residents discussing property management and maintenance operations at Purva Palm Beach residential community.",
+            "title": "GST Evasion of Rs.50 Lacs by Purva Palm Beach Association",
+            "text": "Financial Irregularities just not stopping in Purva Palm Beach, Kyalasanahalli. In the recent Mygate Notice the Association shared it had to pay Rs.52 Lacs towards past GST dues and penalties which was not deposited to Govt. Caught by GST Department, they are recovering it from residents. Honesty and integrity takes a back seat, corruption is at its peak.",
             "url": "https://www.reddit.com/r/bangalore/comments/1t4535x/gst_evasion_of_rs50_lacs_by_purva_palm_beach/",
-            "author": "u/BangaloreResident",
+            "author": "u/CulturalChemist20",
             "published_at": datetime.now(timezone.utc).isoformat(),
         },
         {
             "source": "reddit",
-            "title": "Puravankara Real Estate Experience and Homebuyer Reviews across Bangalore",
-            "text": "Discussion on Puravankara construction quality, handover timelines, and CRM responsiveness before booking a flat.",
+            "title": "Read Google reviews before booking a flat and taking loan.. Don't ignore negative reviews",
+            "text": "From a frustrated buyer.. Request all buyers to read the Google reviews and don't ignore the negative rating. And everyone who suffered, please rate on Google and share the experience so that other don't suffer. Decided to buy a flat from a reputed builder (Provident housing / puravankara) and ignored the reviews and now I feel the pain of the reviewer. The CRM team is unresponsive and escalation managers are not interested in answering calls or replying to emails.",
             "url": "https://www.reddit.com/r/bangalore/comments/1b9nxul/read_google_reviews_before_booking_a_flat_and/",
-            "author": "u/BlrHomebuyer",
+            "author": "u/weirypieces",
             "published_at": datetime.now(timezone.utc).isoformat(),
         }
     ]

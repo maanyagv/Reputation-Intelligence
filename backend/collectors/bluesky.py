@@ -60,7 +60,7 @@ def search_bluesky(query="Puravankara", max_results=20):
         results = [
             {
                 "platform": "bluesky",
-                "text": "Customer Complaint: Unresponsive CRM & Refund Delay for Cancelled Flat Booking after delayed project timeline.",
+                "text": "Customer Complaint: Unresponsive CRM & Refund Delay for Cancelled Puravankara Flat Booking after delayed project timeline.",
                 "published_at": datetime.now(timezone.utc).isoformat(),
                 "author": "buyerrights.bsky.social",
                 "url": "https://bsky.app/profile/buyerrights.bsky.social/post/3kxb9821a4",

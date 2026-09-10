@@ -141,6 +141,25 @@ function formatTime(item) {
 function sentimentOf(item) {
   if (!item) return 'neutral'
 
+  const text = `${item.title || ''} ${item.text || ''} ${item.description || ''} ${item.url || ''} ${item.sourceUrl || ''}`.toLowerCase()
+
+  const strongNegPhrases = [
+    'rera complaint', 'rera notice', 'rera penalty', 'court case', 'lawsuit',
+    'legal notice', 'legal dispute', 'fir filed', 'investigation', 'fraud',
+    'scam', 'cheated', 'embezzlement', 'stalled project', 'construction halt',
+    'building collapse', 'structural defect', 'buyer protest', 'water leakage issue',
+    'severe delay', 'penalty imposed', 'breach of contract', 'nclt', 'insolvency',
+    'paid and forgotten', 'done waiting', "legally isn't", 'water seepage',
+    'basement leakage', 'fee hike', 'refund delay', 'unresponsive crm', 'handover delay',
+    'occupancy certificate delay', 'negative review', 'negative reviews', 'frustrated buyer',
+    'frustrated', 'dont ignore negative', "don't ignore negative", 'buyer beware', 'rant',
+    'gst evasion', 'tax evasion', 'financial irregularities', 'financial irregularity',
+    'corruption', 'dispute and maintenance', 'poor construction', 'substandard quality',
+    'possession delay', 'broken promise', 'maintenance issue', 'waterlogging',
+    'construction snags', 'delayed possession', 'poor quality'
+  ]
+  if (strongNegPhrases.some((sn) => text.includes(sn))) return 'negative'
+
   const raw = String(
     item.sentiment ||
     item.sentiment_label ||
@@ -166,27 +185,18 @@ function sentimentOf(item) {
     return 'neutral'
   }
 
-  const text = `${item.title || ''} ${item.text || ''} ${item.description || ''}`.toLowerCase()
-
-  const strongNegPhrases = [
-    'rera complaint', 'rera notice', 'rera penalty', 'court case', 'lawsuit',
-    'legal notice', 'legal dispute', 'fir filed', 'investigation', 'fraud',
-    'scam', 'cheated', 'embezzlement', 'stalled project', 'construction halt',
-    'building collapse', 'structural defect', 'buyer protest', 'water leakage issue',
-    'severe delay', 'penalty imposed', 'breach of contract', 'nclt', 'insolvency',
-    'paid and forgotten', 'done waiting', "legally isn't", 'water seepage',
-    'basement leakage', 'fee hike', 'refund delay', 'unresponsive crm', 'handover delay',
-    'occupancy certificate delay'
-  ]
-  if (strongNegPhrases.some((sn) => text.includes(sn))) return 'negative'
-
   const strongPosPhrases = [
     'profit at', 'profit of', 'posts profit', 'profit turns positive',
     'turns positive', 'profit swings', 'revenue up', 'revenue surges',
     'revenue surged', 'ebitda margin expands', 'net profit', "after last year's loss",
     'after loss', 'from loss', 'record sales', 'strong demand', 'expansion',
     'allotment of', 'channel partner', 'new launch', 'unveiled', 'show residence',
-    'appreciation', 'refined design', 'prime location'
+    'appreciation', 'refined design', 'prime location', 'leadership spotlight',
+    'has taken charge as', 'has been appointed as', 'elevated to', 'promoted to',
+    'executive appointment', 'excellence leadership', 'highly recommended',
+    'seamless handover', 'great construction', 'quality finishing', 'happy homeowner',
+    'delighted with', 'excellent amenities', 'on time delivery', 'smooth possession',
+    'timely possession', 'top notch quality', 'best builder'
   ]
   if (strongPosPhrases.some((sp) => text.includes(sp))) return 'positive'
 
@@ -1253,21 +1263,13 @@ function RecordDrawer({ record, allRecords = [], onClose }) {
       <div
         className="drawer-panel"
         onClick={(e) => e.stopPropagation()}
-        style={{ width: '640px', maxWidth: '94vw', background: '#0b1320', borderLeft: '1px solid #1c2b3e' }}
+        style={{ width: '640px', maxWidth: '94vw' }}
       >
-        <header className="drawer-header" style={{ padding: '20px 24px', borderBottom: '1px solid #1c2b3e', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <header className="drawer-header" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span
-              style={{
-                background: detail.sentiment === 'negative' ? '#3c181c' : detail.sentiment === 'positive' ? '#0f382c' : '#1e293b',
-                color: detail.sentiment === 'negative' ? '#ff4f52' : detail.sentiment === 'positive' ? '#20c997' : '#94a3b8',
-                fontSize: '11px',
-                fontWeight: '900',
-                letterSpacing: '0.08em',
-                padding: '4px 10px',
-                borderRadius: '5px',
-                textTransform: 'uppercase'
-              }}
+              className={`saved-alert-badge ${detail.sentiment === 'negative' ? 'critical' : 'archived'}`}
+              style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '0.08em', padding: '4px 10px', borderRadius: '5px' }}
             >
               {detail.severity} RISK
             </span>
@@ -1286,76 +1288,76 @@ function RecordDrawer({ record, allRecords = [], onClose }) {
         <div className="drawer-body" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Header Title */}
           <div>
-            <h2 style={{ fontSize: '20px', fontWeight: '800', lineHeight: '1.4', color: '#f1f5f9', margin: '0 0 16px 0' }}>
+            <h2 className="drawer-title" style={{ fontSize: '20px', fontWeight: '800', lineHeight: '1.4', margin: '0 0 16px 0' }}>
               {detail.title}
             </h2>
-            <hr style={{ border: 'none', borderTop: '1px solid #1e293b', margin: 0 }} />
+            <hr style={{ border: 'none', borderTop: '1px solid var(--border, #1e293b)', margin: 0 }} />
           </div>
 
           {/* Key Metadata Table */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', background: '#070d18', padding: '16px', borderRadius: '8px', border: '1px solid #152238' }}>
-            <div>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Severity</span>
-              <strong style={{ display: 'block', color: detail.sentiment === 'negative' ? '#ff4f52' : '#f1f5f9', fontSize: '14px', marginTop: '2px', fontWeight: '800' }}>
+          <div className="drawer-meta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div className="drawer-meta-box">
+              <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase' }}>Severity</span>
+              <strong style={{ display: 'block', color: detail.sentiment === 'negative' ? '#ef4444' : undefined, fontSize: '14px', marginTop: '2px', fontWeight: '800' }}>
                 {detail.severity}
               </strong>
             </div>
 
-            <div>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Source</span>
-              <strong style={{ display: 'block', color: '#f1f5f9', fontSize: '14px', marginTop: '2px' }}>
+            <div className="drawer-meta-box">
+              <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase' }}>Source</span>
+              <strong style={{ display: 'block', fontSize: '14px', marginTop: '2px' }}>
                 {detail.sourceName}
               </strong>
             </div>
 
-            <div>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Published</span>
-              <strong style={{ display: 'block', color: '#f1f5f9', fontSize: '14px', marginTop: '2px' }}>
+            <div className="drawer-meta-box">
+              <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase' }}>Published</span>
+              <strong style={{ display: 'block', fontSize: '14px', marginTop: '2px' }}>
                 {detail.publishedDate}
               </strong>
             </div>
 
-            <div>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Risk Category</span>
-              <strong style={{ display: 'block', color: '#ff9d3b', fontSize: '14px', marginTop: '2px', fontWeight: '700' }}>
+            <div className="drawer-meta-box">
+              <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase' }}>Risk Category</span>
+              <strong style={{ display: 'block', color: '#f59e0b', fontSize: '14px', marginTop: '2px', fontWeight: '700' }}>
                 {detail.riskCategory}
               </strong>
             </div>
           </div>
 
           {/* AI SUMMARY */}
-          <div>
-            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+          <div className="drawer-text-block">
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#0284c7', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
               AI SUMMARY
             </h3>
-            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#cbd5e1', margin: 0, background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b' }}>
+            <p className="drawer-box" style={{ fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
               {detail.summary}
             </p>
           </div>
 
           {/* WHY THIS MATTERS */}
-          <div>
-            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#f43f5e', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+          <div className="drawer-text-block">
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#e11d48', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
               WHY THIS MATTERS
             </h3>
-            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#cbd5e1', margin: 0, background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b' }}>
+            <p className="drawer-box" style={{ fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
               {detail.whyMatters}
             </p>
           </div>
 
           {/* EVIDENCE */}
-          <div>
-            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#a855f7', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+          <div className="drawer-text-block">
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#9333ea', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
               EVIDENCE
             </h3>
-            <div style={{ background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '13px', color: '#94a3b8', fontWeight: '600' }}>Original Source:</span>
+            <div className="drawer-box drawer-evidence-row">
+              <span style={{ fontSize: '13px', fontWeight: '600' }}>Original Source:</span>
               <a
                 href={detail.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  background: '#397cff',
+                  background: '#2563eb',
                   color: '#ffffff',
                   fontSize: '13px',
                   fontWeight: '700',
@@ -1373,44 +1375,44 @@ function RecordDrawer({ record, allRecords = [], onClose }) {
           </div>
 
           {/* RELATED MENTIONS */}
-          <div>
-            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#22c55e', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+          <div className="drawer-text-block">
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#059669', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
               RELATED MENTIONS
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
-              <div style={{ background: '#09111e', padding: '12px', borderRadius: '8px', border: '1px solid #1a273b', textAlign: 'center' }}>
-                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'block' }}>News</span>
-                <strong style={{ fontSize: '16px', color: '#f1f5f9', fontWeight: '800' }}>{detail.relatedMentions.News} mentions</strong>
+            <div className="drawer-mentions-grid">
+              <div className="drawer-mention-stat">
+                <span style={{ fontSize: '11px', color: 'var(--muted, #64748b)', fontWeight: '700', display: 'block' }}>News</span>
+                <strong style={{ fontSize: '16px', fontWeight: '800' }}>{detail.relatedMentions.News} mentions</strong>
               </div>
-              <div style={{ background: '#09111e', padding: '12px', borderRadius: '8px', border: '1px solid #1a273b', textAlign: 'center' }}>
-                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'block' }}>Reddit</span>
-                <strong style={{ fontSize: '16px', color: '#f1f5f9', fontWeight: '800' }}>{detail.relatedMentions.Reddit} mentions</strong>
+              <div className="drawer-mention-stat">
+                <span style={{ fontSize: '11px', color: 'var(--muted, #64748b)', fontWeight: '700', display: 'block' }}>Reddit</span>
+                <strong style={{ fontSize: '16px', fontWeight: '800' }}>{detail.relatedMentions.Reddit} mentions</strong>
               </div>
-              <div style={{ background: '#09111e', padding: '12px', borderRadius: '8px', border: '1px solid #1a273b', textAlign: 'center' }}>
-                <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'block' }}>LinkedIn</span>
-                <strong style={{ fontSize: '16px', color: '#f1f5f9', fontWeight: '800' }}>{detail.relatedMentions.LinkedIn} mentions</strong>
+              <div className="drawer-mention-stat">
+                <span style={{ fontSize: '11px', color: 'var(--muted, #64748b)', fontWeight: '700', display: 'block' }}>LinkedIn</span>
+                <strong style={{ fontSize: '16px', fontWeight: '800' }}>{detail.relatedMentions.LinkedIn} mentions</strong>
               </div>
             </div>
           </div>
 
           {/* RECOMMENDED ACTION */}
-          <div>
-            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#eab308', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+          <div className="drawer-text-block">
+            <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#d97706', letterSpacing: '0.08em', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
               RECOMMENDED ACTION
             </h3>
-            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#cbd5e1', margin: 0, background: '#09111e', padding: '14px 16px', borderRadius: '8px', border: '1px solid #1a273b' }}>
+            <p className="drawer-box" style={{ fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
               {detail.recommendedAction}
             </p>
           </div>
         </div>
 
-        <footer className="drawer-footer" style={{ padding: '16px 24px', borderTop: '1px solid #1c2b3e', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+        <footer className="drawer-footer" style={{ padding: '16px 24px', display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
           <a
             href={detail.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="drawer-primary-btn"
-            style={{ height: '40px', padding: '0 20px', borderRadius: '6px', background: '#397cff', color: '#ffffff', fontSize: '13px', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+            style={{ height: '40px', padding: '0 20px', borderRadius: '6px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
             Open Source Webpage <ExternalLink size={14} />
           </a>
@@ -1419,7 +1421,7 @@ function RecordDrawer({ record, allRecords = [], onClose }) {
             type="button"
             className="drawer-secondary-btn"
             onClick={onClose}
-            style={{ height: '40px', padding: '0 16px', borderRadius: '6px', background: '#152236', border: '1px solid #283a52', color: '#edf3fa', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
+            style={{ height: '40px', padding: '0 16px', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
           >
             Close Details
           </button>
@@ -1861,33 +1863,19 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
   const activeCount = alerts.filter((a) => a.is_active).length
 
   return (
-    <div className="saved-alerts-vault" style={{ marginTop: '10px' }}>
-      <div
-        className="vault-header"
-        style={{
-          background: '#0d1624',
-          border: '1.5px solid #1e2f47',
-          borderRadius: '12px',
-          padding: '20px 24px',
-          marginBottom: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-        }}
-      >
+    <div className="saved-alerts-vault">
+      <div className="vault-header">
         <div>
-          <h2 style={{ fontSize: '20px', fontWeight: '800', color: '#edf3fa', margin: '0 0 6px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <AlertTriangle size={20} style={{ color: '#ff4f52' }} />
+          <h2 className="vault-title">
+            <AlertTriangle size={20} className="vault-icon" />
             Saved Risk Intelligence Alerts Vault
           </h2>
-          <p style={{ color: '#8fa0b5', fontSize: '13px', margin: 0 }}>
+          <p className="vault-subtitle">
             Historical record of all high/critical emergency risk alerts logged by the reputation monitor.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="vault-filter-group">
           <button
             type="button"
             className={`vault-filter-btn ${filter === 'all' ? 'active' : ''}`}
@@ -1913,13 +1901,13 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
       </div>
 
       {!filteredAlerts.length ? (
-        <div className="empty-state" style={{ padding: '40px 20px', background: '#090f18', borderRadius: '12px', border: '1px solid #1b283b', textAlign: 'center' }}>
-          <AlertTriangle size={32} style={{ color: '#4a5d75', marginBottom: '12px' }} />
-          <h4 style={{ color: '#d0dfef', margin: '0 0 4px 0' }}>No alert records found</h4>
-          <p style={{ color: '#687c96', fontSize: '13px' }}>No crisis alerts match the selected vault filter.</p>
+        <div className="empty-state vault-empty-state">
+          <AlertTriangle size={32} />
+          <h4>No alert records found</h4>
+          <p>No crisis alerts match the selected vault filter.</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div className="saved-alerts-list">
           {filteredAlerts.map((alert) => {
             const sourceUrl = getRecordSourceUrl(alert.record || alert)
             const isAvailable = isValidHttpUrl(sourceUrl)
@@ -1927,58 +1915,39 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
             return (
               <div
                 key={alert.id}
-                style={{
-                  background: '#0a121d',
-                  border: alert.is_active ? '1px solid #3c1e22' : '1px solid #1c2a3d',
-                  borderRadius: '10px',
-                  padding: '16px 20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                }}
+                className={`saved-alert-card ${alert.is_active ? 'active' : 'archived'}`}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span
-                      style={{
-                        background: alert.is_active ? '#3c181c' : '#142233',
-                        color: alert.is_active ? '#ff7b7e' : '#7d95b3',
-                        fontSize: '11px',
-                        fontWeight: '800',
-                        padding: '3px 8px',
-                        borderRadius: '4px',
-                        textTransform: 'uppercase',
-                      }}
-                    >
+                <div className="saved-alert-top">
+                  <div className="saved-alert-meta-left">
+                    <span className={`saved-alert-badge ${alert.is_active ? 'critical' : 'archived'}`}>
                       {alert.severity || 'CRITICAL'}
                     </span>
-                    <span style={{ fontSize: '12px', color: '#6f85a3' }}>
+                    <span className="saved-alert-detected">
                       Detected: {alert.detected_at ? new Date(alert.detected_at).toLocaleString('en-IN') : 'Recent'}
                     </span>
                   </div>
 
-                  <span style={{ fontSize: '11px', fontWeight: '700', color: alert.is_active ? '#38d9a9' : '#6f85a3' }}>
+                  <span className={`saved-alert-signal ${alert.is_active ? 'live' : 'archived'}`}>
                     {alert.is_active ? '● LIVE MONITORING SIGNAL' : 'ARCHIVED'}
                   </span>
                 </div>
 
-                <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#edf3fa', margin: 0, lineHeight: '1.4' }}>
+                <h3 className="saved-alert-title">
                   {alert.title || alert.issue}
                 </h3>
 
                 {alert.message && (
-                  <p style={{ fontSize: '13px', color: '#a0b3cc', margin: 0, lineHeight: '1.5' }}>
+                  <p className="saved-alert-msg">
                     {alert.message}
                   </p>
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', flexWrap: 'wrap', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div className="saved-alert-actions">
+                  <div className="saved-alert-action-links">
                     {alert.record && (
                       <button
                         type="button"
                         className="drawer-trigger-btn"
-                        style={{ height: '30px', padding: '0 12px', fontSize: '11.5px' }}
                         onClick={() => onSelectRecord && onSelectRecord(alert.record)}
                       >
                         View AI Intelligence Details
@@ -1991,8 +1960,8 @@ function SavedAlertsVaultView({ alerts, onSelectRecord, onDeleteAlert }) {
                   {onDeleteAlert && (
                     <button
                       type="button"
+                      className="saved-alert-dismiss-btn"
                       onClick={() => onDeleteAlert(alert.id)}
-                      style={{ background: 'transparent', border: '1px solid #362225', color: '#ff7b7e', fontSize: '11px', fontWeight: '700', padding: '4px 10px', borderRadius: '5px', cursor: 'pointer' }}
                     >
                       Dismiss Alert Log
                     </button>
@@ -2439,6 +2408,17 @@ function ExecutiveIntelligencePanel({
     riskAdvice = 'Monitor negative feedback & delays'
   }
 
+  // Customer Satisfaction Score (CSAT: 0 - 100)
+  const csatScore = total
+    ? Math.round(((positive + neutral * 0.5) / total) * 100)
+    : 0
+
+  // Risk Score Index (0 - 100)
+  const riskScore = Math.min(
+    100,
+    Math.round(negPct * 1.5 + activeCriticalAlerts * 15 + (100 - score) * 0.2)
+  )
+
   // Topic Keyword Analysis
   const keywords = [
     { key: 'launch', label: 'Project Launch & Expansion' },
@@ -2502,15 +2482,17 @@ function ExecutiveIntelligencePanel({
         <div className="exec-title-group">
           <span className="exec-kicker">INTELLIGENCE LAYER</span>
           <h2 className="exec-title">Executive Intelligence</h2>
-          <span className="exec-subtitle">
+          <p className="exec-subtitle">
             Real-time AI-assisted interpretation of current reputation signals
-          </span>
+          </p>
         </div>
 
         <div className="exec-header-right">
           <div className="exec-live-status">
             <span className="exec-live-pulse" />
-            <span>LIVE</span>
+            <span className="exec-live-label">LIVE</span>
+            <span className="exec-live-sep">•</span>
+            <span className="exec-sync-pill" style={{ color: '#20c997' }}>Auto-Sync: 12s</span>
             <span className="exec-live-sep">•</span>
             <span className="exec-updated">Updated {updatedText}</span>
           </div>
@@ -2527,12 +2509,18 @@ function ExecutiveIntelligencePanel({
         </div>
       </div>
 
-      {/* 4-Column Executive Metric Blocks */}
+      {/* 5-Column Executive Metric Blocks */}
       <div className="exec-kpi-grid">
         {/* Metric 1: Reputation Status */}
         <div className="exec-kpi-card">
           <div className="exec-kpi-header">
             <span className="exec-kpi-label">REPUTATION SCORE</span>
+          </div>
+          <div className="exec-kpi-mid">
+            <div className="exec-kpi-body">
+              <span className="exec-kpi-val">{score}</span>
+              <span className="exec-kpi-denom">/100</span>
+            </div>
             <span
               className={`exec-badge ${score >= 75 ? 'good' : score >= 50 ? 'watch' : 'critical'
                 }`}
@@ -2540,31 +2528,97 @@ function ExecutiveIntelligencePanel({
               {score >= 75 ? 'FAVOURABLE' : score >= 50 ? 'WATCH' : 'AT RISK'}
             </span>
           </div>
-          <div className="exec-kpi-body">
-            <span className="exec-kpi-val">{score}</span>
-            <span className="exec-kpi-denom">/100</span>
-          </div>
           <div className="exec-kpi-footer">
             <span
               className={`exec-trend-pill ${scoreDelta >= 0 ? 'positive' : 'negative'
                 }`}
             >
-              {scoreDelta >= 0 ? `↑ +${scoreDelta} pts` : `↓ ${scoreDelta} pts`}{' '}
-              vs prev period
+              {scoreDelta >= 0 ? `↑ +${scoreDelta} pts` : `↓ ${scoreDelta} pts`} vs last cycle
             </span>
           </div>
         </div>
 
-        {/* Metric 2: Signal Volume */}
+        {/* Metric 2: Net Sentiment */}
+        <div className="exec-kpi-card">
+          <div className="exec-kpi-header">
+            <span className="exec-kpi-label">NET SENTIMENT</span>
+          </div>
+          <div className="exec-kpi-mid">
+            <div className="exec-kpi-body">
+              <span className="exec-kpi-val">
+                {netSentimentPct >= 0
+                  ? `+${netSentimentPct}%`
+                  : `${netSentimentPct}%`}
+              </span>
+            </div>
+            <span
+              className={`exec-badge ${netSentimentPct >= 0 ? 'good' : 'critical'
+                }`}
+            >
+              {netSentimentPct >= 0 ? 'POSITIVE' : 'NEGATIVE'}
+            </span>
+          </div>
+          <div className="exec-kpi-footer">
+            <span className="exec-sub-info">
+              {posPct}% Pos · {negPct}% Neg
+            </span>
+          </div>
+        </div>
+
+        {/* Metric 3: Risk Level */}
+        <div className="exec-kpi-card">
+          <div className="exec-kpi-header">
+            <span className="exec-kpi-label">RISK LEVEL</span>
+          </div>
+          <div className="exec-kpi-mid">
+            <div className="exec-kpi-body">
+              <span className={`exec-kpi-val ${riskTone}`}>{riskLevel}</span>
+            </div>
+            <span className={`exec-badge ${riskTone}`}>{riskScore}/100</span>
+          </div>
+          <div className="exec-kpi-footer">
+            <span className="exec-sub-info" title={riskAdvice}>
+              {riskScore <= 20 ? 'Low negative activity' : riskAdvice}
+            </span>
+          </div>
+        </div>
+
+        {/* Metric 4: Customer Satisfaction (CSAT) */}
+        <div className="exec-kpi-card">
+          <div className="exec-kpi-header">
+            <span className="exec-kpi-label">CUSTOMER SATISFACTION</span>
+          </div>
+          <div className="exec-kpi-mid">
+            <div className="exec-kpi-body">
+              <span className="exec-kpi-val">{csatScore}%</span>
+              <span className="exec-kpi-denom">CSAT</span>
+            </div>
+            <span
+              className={`exec-badge ${csatScore >= 75 ? 'good' : csatScore >= 50 ? 'watch' : 'critical'
+                }`}
+            >
+              {csatScore >= 75 ? 'HIGH' : csatScore >= 50 ? 'MODERATE' : 'CONCERN'}
+            </span>
+          </div>
+          <div className="exec-kpi-footer">
+            <span className="exec-sub-info">
+              {positive} positive signals
+            </span>
+          </div>
+        </div>
+
+        {/* Metric 5: Signal Volume */}
         <div className="exec-kpi-card">
           <div className="exec-kpi-header">
             <span className="exec-kpi-label">SIGNALS VOLUME</span>
-            <span className="exec-badge neutral">{total} Total</span>
           </div>
-          <div className="exec-kpi-body">
-            <span className="exec-kpi-val">
-              {total.toLocaleString('en-IN')}
-            </span>
+          <div className="exec-kpi-mid">
+            <div className="exec-kpi-body">
+              <span className="exec-kpi-val">
+                {total.toLocaleString('en-IN')}
+              </span>
+            </div>
+            <span className="exec-badge neutral">● LIVE</span>
           </div>
           <div className="exec-kpi-footer">
             <span className="exec-split-text">
@@ -2572,45 +2626,6 @@ function ExecutiveIntelligencePanel({
               <strong className="neu">{neutral} Neu</strong> ·{' '}
               <strong className="neg">{negative} Neg</strong>
             </span>
-          </div>
-        </div>
-
-        {/* Metric 3: Net Sentiment */}
-        <div className="exec-kpi-card">
-          <div className="exec-kpi-header">
-            <span className="exec-kpi-label">NET SENTIMENT</span>
-            <span
-              className={`exec-badge ${netSentimentPct >= 0 ? 'good' : 'critical'
-                }`}
-            >
-              {netSentimentPct >= 0 ? 'POSITIVE SHIFT' : 'NEGATIVE DRAG'}
-            </span>
-          </div>
-          <div className="exec-kpi-body">
-            <span className="exec-kpi-val">
-              {netSentimentPct >= 0
-                ? `+${netSentimentPct}%`
-                : `${netSentimentPct}%`}
-            </span>
-          </div>
-          <div className="exec-kpi-footer">
-            <span className="exec-sub-info">
-              {posPct}% positive vs {negPct}% negative ratio
-            </span>
-          </div>
-        </div>
-
-        {/* Metric 4: Risk Level */}
-        <div className="exec-kpi-card">
-          <div className="exec-kpi-header">
-            <span className="exec-kpi-label">RISK LEVEL</span>
-            <span className={`exec-badge ${riskTone}`}>{riskLevel} RISK</span>
-          </div>
-          <div className="exec-kpi-body">
-            <span className={`exec-kpi-val ${riskTone}`}>{riskLevel}</span>
-          </div>
-          <div className="exec-kpi-footer">
-            <span className="exec-sub-info">{riskAdvice}</span>
           </div>
         </div>
       </div>
@@ -3429,11 +3444,15 @@ function App() {
       ]
 
       try {
+        const cacheBuster = Date.now()
         const responses = await Promise.allSettled(
           endpoints.map((endpoint) =>
-            fetch(`${API}${endpoint}`, {
+            fetch(`${API}${endpoint}?_t=${cacheBuster}`, {
+              cache: 'no-store',
               headers: {
                 Accept: 'application/json',
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
               },
             })
           )
@@ -3461,7 +3480,9 @@ function App() {
 
         const [reputation, mentions, commentData, alertPayload] = payloads
 
-        const combined = uniqueRecords(reputation, mentions)
+        const repArray = Array.isArray(reputation) ? reputation : []
+        const menArray = Array.isArray(mentions) ? mentions : (mentions?.reputation || [])
+        const combined = uniqueRecords(repArray, menArray)
 
         setRecords(combined)
         setComments(Array.isArray(commentData) ? commentData.map(normaliseRecord) : [])
@@ -3498,7 +3519,7 @@ function App() {
 
     loadData()
 
-    const interval = setInterval(loadData, 30_000)
+    const interval = setInterval(loadData, 12_000)
 
     return () => {
       cancelled = true

@@ -41,73 +41,132 @@ def analyze_if_needed(mention):
         return mention
 
 
+# Comprehensive targeted search keywords for Puravankara and subsidiaries
+TARGET_SEARCH_QUERIES = [
+    "Puravankara",
+    "Puravankara Limited",
+    "Purva",
+    "Provident Housing",
+    "Purva Land",
+    "Ashish Puravankara",
+    "Puravankara review",
+    "Puravankara complaints",
+    "Purva complaints",
+    "Puravankara RERA",
+    "Purva Palm Beach",
+    "Purva Atmosphere"
+]
+
 MAX_RESULTS_PER_SOURCE = 30
+_query_cycle_idx = 0
 
 
-def collect_all(query="Puravankara", limit=MAX_RESULTS_PER_SOURCE):
+def collect_all(queries=None, limit=MAX_RESULTS_PER_SOURCE):
     """
-    Collect fresh mentions from live sources
-    and analyze them.
+    Collect fresh mentions from live sources using comprehensive
+    brand, subsidiary, project, and sentiment queries in a continuous round-robin cycle.
     """
+    global _query_cycle_idx
+
+    if queries is None:
+        primary = TARGET_SEARCH_QUERIES[0]
+        rotator = TARGET_SEARCH_QUERIES[1 + (_query_cycle_idx % (len(TARGET_SEARCH_QUERIES) - 1))]
+        _query_cycle_idx += 1
+        active_queries = [primary, rotator]
+    elif isinstance(queries, str):
+        active_queries = [queries]
+    else:
+        active_queries = list(queries)
+
     mentions = []
+    seen_identifiers = set()
+
+    # Load existing identifiers to avoid redundant Gemini calls on already analyzed items
+    import json
+    from pathlib import Path
+    rep_file = Path(__file__).resolve().parent.parent / "data" / "reputation.json"
+    existing_keys = set()
+    if rep_file.exists():
+        try:
+            with open(rep_file, "r", encoding="utf-8") as f:
+                for item in json.load(f):
+                    if isinstance(item, dict):
+                        k = item.get("url") or item.get("title")
+                        if k:
+                            existing_keys.add(k)
+        except Exception:
+            pass
+
+    def add_mention(mention):
+        if not mention:
+            return
+        identifier = mention.url or mention.title
+        if identifier and identifier not in seen_identifiers:
+            seen_identifiers.add(identifier)
+            # Only run sentiment analysis if mention is brand new or lacks sentiment
+            if identifier not in existing_keys or not getattr(mention, "sentiment", None):
+                mention = analyze_if_needed(mention)
+            mentions.append(mention)
+
+    sub_queries = active_queries
 
     # 1. YouTube
     try:
-        youtube_results = search_youtube(query, limit)
-        for item in youtube_results:
-            mention = analyze_if_needed(to_mention(item, "youtube"))
-            mentions.append(mention)
-        print(f"YouTube: {len(youtube_results)} results")
+        for q in sub_queries:
+            youtube_results = search_youtube(q, max_results=max(5, limit // len(sub_queries)))
+            for item in youtube_results:
+                add_mention(to_mention(item, "youtube"))
+        print(f"YouTube collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"YouTube ERROR: {e}")
 
-    # 2. News / Web (Decoded URLs)
+    # 2. News / Web (Decoded direct URLs)
     try:
-        news_results = search_news(query, limit)
-        for item in news_results:
-            mention = analyze_if_needed(to_mention(item, "news"))
-            mentions.append(mention)
-        print(f"News: {len(news_results)} results")
+        for q in sub_queries:
+            news_results = search_news(q, max_results=max(5, limit // len(sub_queries)))
+            for item in news_results:
+                add_mention(to_mention(item, "news"))
+        print(f"News collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"News ERROR: {e}")
 
-    # 3. LinkedIn (Decoded URLs)
+    # 3. LinkedIn (Decoded direct URLs)
     try:
-        linkedin_results = search_linkedin(query, limit)
-        for item in linkedin_results:
-            mention = analyze_if_needed(to_mention(item, "linkedin"))
-            mentions.append(mention)
-        print(f"LinkedIn: {len(linkedin_results)} results")
+        for q in sub_queries[:2]:
+            linkedin_results = search_linkedin(q, limit=max(5, limit // 2))
+            for item in linkedin_results:
+                add_mention(to_mention(item, "linkedin"))
+        print(f"LinkedIn collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"LinkedIn ERROR: {e}")
 
-    # 4. Reddit
+    # 4. Reddit (Discussions & Complaints)
     try:
-        reddit_results = search_reddit(query, limit)
-        for item in reddit_results:
-            mention = analyze_if_needed(to_mention(item, "reddit"))
-            mentions.append(mention)
-        print(f"Reddit: {len(reddit_results)} results")
+        for q in sub_queries:
+            reddit_results = search_reddit(q, limit=max(5, limit // len(sub_queries)))
+            for item in reddit_results:
+                add_mention(to_mention(item, "reddit"))
+        print(f"Reddit collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"Reddit ERROR: {e}")
 
     # 5. Bluesky
     try:
-        bluesky_results = search_bluesky(query, limit)
-        for item in bluesky_results:
-            mention = analyze_if_needed(to_mention(item, "bluesky"))
-            mentions.append(mention)
-        print(f"Bluesky: {len(bluesky_results)} results")
+        for q in sub_queries[:2]:
+            bluesky_results = search_bluesky(q, max_results=max(5, limit // 2))
+            for item in bluesky_results:
+                add_mention(to_mention(item, "bluesky"))
+        print(f"Bluesky collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"Bluesky ERROR: {e}")
 
     # 6. HackerNews
     try:
-        hn_results = search_hackernews(query, limit)
-        for item in hn_results:
-            mention = analyze_if_needed(to_mention(item, "hackernews"))
-            mentions.append(mention)
-        print(f"HackerNews: {len(hn_results)} results")
+        for q in sub_queries[:2]:
+            hn_results = search_hackernews(q, limit=max(5, limit // 2))
+            for item in hn_results:
+                add_mention(to_mention(item, "hackernews"))
+        print(f"HackerNews collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"HackerNews ERROR: {e}")
 

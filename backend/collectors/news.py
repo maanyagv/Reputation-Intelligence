@@ -17,7 +17,7 @@ except ImportError:
 
 def decode_url(raw_url):
     """
-    Decodes Google News RSS link to actual direct article URL.
+    Decodes Google News RSS link to actual direct article URL with strict 2.0s timeout.
     """
     if not raw_url:
         return ""
@@ -25,11 +25,14 @@ def decode_url(raw_url):
         return raw_url
     if new_decoderv1:
         try:
-            res = new_decoderv1(raw_url, interval=0.2)
-            if isinstance(res, dict) and res.get("status") and res.get("decoded_url"):
-                return res["decoded_url"]
-            elif isinstance(res, str) and res.startswith("http"):
-                return res
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(new_decoderv1, raw_url, interval=0.2)
+                res = future.result(timeout=2.0)
+                if isinstance(res, dict) and res.get("status") and res.get("decoded_url"):
+                    return res["decoded_url"]
+                elif isinstance(res, str) and res.startswith("http"):
+                    return res
         except Exception:
             pass
     return raw_url

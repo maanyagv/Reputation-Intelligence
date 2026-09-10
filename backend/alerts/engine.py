@@ -18,8 +18,10 @@ def load_alerts():
 
 def save_alerts(alerts):
     ALERTS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(ALERTS_FILE, "w", encoding="utf-8") as f:
+    tmp_file = ALERTS_FILE.with_suffix(".tmp")
+    with open(tmp_file, "w", encoding="utf-8") as f:
         json.dump(alerts, f, indent=2, ensure_ascii=False)
+    tmp_file.replace(ALERTS_FILE)
 
 def is_major_critical_alert(record):
     if not isinstance(record, dict):
@@ -43,11 +45,22 @@ def is_major_critical_alert(record):
         "inaugurated", "show residence"
     ]
 
+    # 1b. Ignore executive leadership appointments, career milestones, and promotions
+    ignore_leadership = [
+        "leadership spotlight", "has taken charge as", "has been elevated to",
+        "appointed as", "joins puravankara", "new leadership", "career milestone",
+        "quality governance", "engineering excellence"
+    ]
+    if any(lp in combined for lp in ignore_leadership):
+        return False
+
     # If it's promotional and contains no critical threat keywords, do not treat as emergency
     has_critical_keyword = any(k in combined for k in [
-        "rera", "lawsuit", "court", "fraud", "scam", "fir", "penalty", "defect",
+        "rera", "lawsuit", "court", "fraud", "scam", "fir", "penalty", "penalties", "defect",
         "stalled", "protest", "nclt", "insolvency", "collapse", "cheated", "leakage",
-        "complaint", "seepage", "delay", "snags", "grievance", "dispute"
+        "complaint", "seepage", "delay", "snags", "grievance", "dispute",
+        "frustrated", "negative review", "negative reviews", "unresponsive", "buyer beware",
+        "evasion", "gst evasion", "tax evasion", "irregularities", "corruption"
     ])
 
     if any(p in combined for p in ignore_promotional) and not has_critical_keyword:
@@ -60,7 +73,10 @@ def is_major_critical_alert(record):
         "scam", "cheated", "embezzlement", "stalled project", "construction halt",
         "building collapse", "structural defect", "buyer protest", "nclt", "insolvency",
         "penalty imposed", "breach of contract", "water leakage issue", "severe delay",
-        "customer complaint", "construction quality", "construction snags", "water seepage"
+        "customer complaint", "poor construction quality", "substandard construction",
+        "construction quality issues", "construction quality complaints", "construction snags", "water seepage",
+        "unresponsive crm", "frustrated buyer", "negative reviews", "dont ignore negative", "don't ignore negative",
+        "gst evasion", "tax evasion", "financial irregularities", "corruption"
     ]
 
     if any(kw in combined for kw in high_stake_keywords):

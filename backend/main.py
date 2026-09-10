@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 import json
 import email.utils
@@ -28,6 +29,15 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def add_no_cache_header(request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
 def load_json(path: Path):
     if not path.exists():
         return []
@@ -42,7 +52,29 @@ def classify_sentiment(item):
     if not isinstance(item, dict):
         return "neutral"
 
-    # 1. Explicit sentiment string if present
+    text = f"{item.get('title', '')} {item.get('text', '')} {item.get('description', '')} {item.get('url', '')}".lower()
+
+    # 1. Critical Business Threat / Legal Emergency / Financial Irregularities / Complaint Phrases
+    # Checked FIRST to prevent misclassifying real grievances as neutral
+    strong_neg_phrases = [
+        "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
+        "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
+        "scam", "cheated", "embezzlement", "stalled project", "construction halt",
+        "building collapse", "structural defect", "buyer protest", "water leakage issue",
+        "severe delay", "penalty imposed", "breach of contract", "nclt", "insolvency",
+        "paid and forgotten", "done waiting", "legally isn't", "water seepage",
+        "basement leakage", "fee hike", "refund delay", "unresponsive crm", "handover delay",
+        "occupancy certificate delay", "gst evasion", "tax evasion", "financial irregularities",
+        "financial irregularity", "corruption", "negative review", "negative reviews",
+        "frustrated buyer", "frustrated", "dont ignore negative", "don't ignore negative",
+        "buyer beware", "rant", "dispute and maintenance", "poor construction", "substandard quality",
+        "possession delay", "broken promise", "maintenance issue", "waterlogging",
+        "construction snags", "delayed possession", "poor quality"
+    ]
+    if any(sn in text for sn in strong_neg_phrases):
+        return "negative"
+
+    # 2. Explicit sentiment string if present
     raw = str(
         item.get("sentiment") or
         item.get("sentiment_label") or
@@ -57,7 +89,7 @@ def classify_sentiment(item):
     if raw in ["neutral", "neu"]:
         return "neutral"
 
-    # 2. Explicit AI sentiment score if present
+    # 3. Explicit AI sentiment score if present
     score = item.get("sentiment_score")
     if score is None:
         score = item.get("sentimentScore")
@@ -76,30 +108,19 @@ def classify_sentiment(item):
         except (ValueError, TypeError):
             pass
 
-    text = f"{item.get('title', '')} {item.get('text', '')} {item.get('description', '')}".lower()
-
-    # 3. Critical Business Threat / Legal Emergency / Complaint Phrases
-    strong_neg_phrases = [
-        "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
-        "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
-        "scam", "cheated", "embezzlement", "stalled project", "construction halt",
-        "building collapse", "structural defect", "buyer protest", "water leakage issue",
-        "severe delay", "penalty imposed", "breach of contract", "nclt", "insolvency",
-        "paid and forgotten", "done waiting", "legally isn't", "water seepage",
-        "basement leakage", "fee hike", "refund delay", "unresponsive crm", "handover delay",
-        "occupancy certificate delay"
-    ]
-    if any(sn in text for sn in strong_neg_phrases):
-        return "negative"
-
-    # 4. Financial Turnaround & Strong Positive Context Phrases
+    # 4. Financial Turnaround, Leadership Appointments & Customer Satisfaction Positive Phrases
     strong_pos_phrases = [
         "profit at", "profit of", "posts profit", "profit turns positive",
         "turns positive", "profit swings", "revenue up", "revenue surges",
         "revenue surged", "ebitda margin expands", "net profit", "after last year's loss",
         "after loss", "from loss", "record sales", "strong demand", "expansion",
         "allotment of", "channel partner", "new launch", "unveiled", "show residence",
-        "appreciation", "refined design", "prime location"
+        "appreciation", "refined design", "prime location", "leadership spotlight",
+        "has taken charge as", "has been appointed as", "elevated to", "promoted to",
+        "executive appointment", "excellence leadership", "highly recommended",
+        "seamless handover", "great construction", "quality finishing", "happy homeowner",
+        "delighted with", "excellent amenities", "on time delivery", "smooth possession",
+        "timely possession", "top notch quality", "best builder"
     ]
     if any(sp in text for sp in strong_pos_phrases):
         return "positive"
@@ -370,6 +391,10 @@ def refresh_reputation_feed(limit: int = 50):
 
         mentions = collect_all(limit=limit)
         export_mentions(mentions)
+        
+        # Trigger real-time alert evaluation
+        recs = [map_source_url(r) for r in load_json(REPUTATION_FILE) if is_puravankara_related(r)]
+        process_emergency_alerts(recs)
     except ModuleNotFoundError as error:
         raise HTTPException(
             status_code=503,
@@ -385,3 +410,140 @@ def refresh_reputation_feed(limit: int = 50):
         "records_collected": len(mentions),
         "per_source_limit": limit,
     }
+
+
+# ==========================================
+# Real-Time Background Autofetch Engine
+# ==========================================
+autofetch_state = {
+    "is_running": False,
+    "last_sync_time": datetime.now(timezone.utc).isoformat(),
+    "last_records_collected": 0,
+    "total_cycles": 0,
+    "interval_seconds": 60,
+    "error": None
+}
+
+_autofetch_lock = asyncio.Lock()
+
+
+async def run_autofetch_cycle():
+    """Runs a single live collection pass across all configured sources."""
+    if _autofetch_lock.locked():
+        return
+
+    async with _autofetch_lock:
+        autofetch_state["is_running"] = True
+        try:
+            from backend.collectors.pipeline import collect_all
+            from backend.exporter import export_mentions
+
+            new_mentions = await asyncio.to_thread(collect_all, None, 20)
+            if new_mentions:
+                await asyncio.to_thread(export_mentions, new_mentions)
+                recs = [map_source_url(r) for r in load_json(REPUTATION_FILE) if is_puravankara_related(r)]
+                process_emergency_alerts(recs)
+
+            autofetch_state["last_sync_time"] = datetime.now(timezone.utc).isoformat()
+            autofetch_state["last_records_collected"] = len(new_mentions) if new_mentions else 0
+            autofetch_state["total_cycles"] += 1
+            autofetch_state["error"] = None
+        except Exception as e:
+            autofetch_state["error"] = str(e)
+            print(f"[Autofetch Worker Error]: {e}")
+        finally:
+            autofetch_state["is_running"] = False
+
+
+async def autofetch_background_loop():
+    """Continuous real-time background worker loop running every 60 seconds."""
+    # Grace period on startup before the first run
+    await asyncio.sleep(5)
+    while True:
+        try:
+            await run_autofetch_cycle()
+        except Exception as err:
+            print(f"[Autofetch Loop Exception]: {err}")
+        await asyncio.sleep(autofetch_state["interval_seconds"])
+
+
+@app.on_event("startup")
+async def startup_autofetch_worker():
+    asyncio.create_task(autofetch_background_loop())
+
+
+@app.get("/api/autofetch/status")
+def get_autofetch_status():
+    return {
+        "status": "fetching" if autofetch_state["is_running"] else "active",
+        "last_sync": autofetch_state["last_sync_time"],
+        "records_last_cycle": autofetch_state["last_records_collected"],
+        "total_cycles": autofetch_state["total_cycles"],
+        "interval_seconds": autofetch_state["interval_seconds"],
+        "error": autofetch_state["error"]
+    }
+
+
+@app.get("/api/analytics/metrics")
+def get_executive_metrics():
+    """
+    Computes real-time executive reputation scores, net sentiment,
+    risk index, and customer satisfaction (CSAT) score.
+    """
+    reputation = [r for r in load_json(REPUTATION_FILE) if is_puravankara_related(r)]
+    comments = [c for c in load_json(COMMENTS_FILE) if is_puravankara_related(c)]
+    all_records = reputation + comments
+
+    total = len(all_records)
+    positive = sum(1 for r in all_records if classify_sentiment(r) == "positive")
+    negative = sum(1 for r in all_records if classify_sentiment(r) == "negative")
+    neutral = max(0, total - positive - negative)
+
+    # Net Sentiment (-100% to +100%)
+    net_sentiment = round(((positive - negative) / max(total, 1)) * 100, 1)
+
+    # Reputation Score (0 - 100)
+    reputation_score = round(((positive + neutral * 0.5) / max(total, 1)) * 100)
+
+    # Customer Satisfaction Score (CSAT: 0 - 100)
+    customer_satisfaction_score = round(((positive + neutral * 0.5) / max(total, 1)) * 100)
+
+    # Risk Score & Level
+    alerts = process_emergency_alerts([map_source_url(r) for r in reputation])
+    active_critical = [a for a in alerts if a.get("is_active") and a.get("severity") in ["critical", "high"]]
+    active_critical_count = len(active_critical)
+
+    neg_pct = (negative / max(total, 1)) * 100
+    risk_score = min(100, round((neg_pct * 1.5) + (active_critical_count * 15) + (100 - reputation_score) * 0.2))
+
+    if active_critical_count > 0 or neg_pct > 15 or reputation_score < 50:
+        risk_level = "CRITICAL"
+        risk_tone = "critical"
+        risk_advice = "Immediate executive attention required"
+    elif negative >= 3 or neg_pct > 7 or reputation_score < 70:
+        risk_level = "MEDIUM"
+        risk_tone = "watch"
+        risk_advice = "Monitor negative feedback & construction grievances"
+    else:
+        risk_level = "LOW"
+        risk_tone = "good"
+        risk_advice = "Reputation narrative stable"
+
+    return {
+        "reputation_score": reputation_score,
+        "net_sentiment": net_sentiment,
+        "risk_score": risk_score,
+        "risk_level": risk_level,
+        "risk_tone": risk_tone,
+        "risk_advice": risk_advice,
+        "customer_satisfaction_score": customer_satisfaction_score,
+        "counts": {
+            "total": total,
+            "positive": positive,
+            "neutral": neutral,
+            "negative": negative,
+            "active_alerts": active_critical_count
+        },
+        "last_updated": datetime.now(timezone.utc).isoformat()
+    }
+

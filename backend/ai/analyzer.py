@@ -18,13 +18,21 @@ def fallback_analysis(mention: Mention) -> Mention:
     """
     text = f"{mention.title or ''} {mention.text or ''}".lower()
 
-    # 1. Critical Legal/Regulatory/Threat Negative
+    # 1. Critical Legal/Regulatory/Threat & Customer Grievance Negative
     strong_neg = [
         "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
         "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
         "scam", "cheated", "embezzlement", "stalled project", "construction halt",
         "building collapse", "structural defect", "buyer protest", "water leakage",
-        "severe delay", "penalty imposed", "breach of contract", "unresponsive crm"
+        "severe delay", "penalty imposed", "breach of contract", "unresponsive crm",
+        "negative review", "negative reviews", "frustrated buyer", "frustrated",
+        "dont ignore negative", "don't ignore negative", "not interested in answering",
+        "buyer beware", "rant", "gst evasion", "tax evasion", "financial irregularities",
+        "financial irregularity", "corruption", "water seepage", "basement leakage",
+        "structural audit", "handover delay", "refund delay", "lowest level of integrity",
+        "dispute and maintenance", "poor construction", "substandard quality",
+        "possession delay", "broken promise", "maintenance issue", "waterlogging",
+        "construction snags", "delayed possession", "poor quality"
     ]
     if any(sn in text for sn in strong_neg):
         mention.sentiment = "negative"
@@ -32,12 +40,23 @@ def fallback_analysis(mention: Mention) -> Mention:
         mention.relevance_score = 1.0
         return mention
 
-    # 2. Financial Turnaround / Expansion Positive
+    # 2. Financial Turnaround / Expansion / Customer Delight / Leadership Milestones / Regulatory Approvals Positive
     strong_pos = [
         "profit at", "profit of", "posts profit", "profit turns positive",
         "turns positive", "revenue up", "revenue surges", "surged",
         "ebitda margin expands", "net profit", "record sales", "strong demand",
-        "expansion", "allotment of", "new launch", "unveiled", "contract win", "bags order"
+        "expansion", "allotment of", "new launch", "unveiled", "contract win", "bags order",
+        "leadership spotlight", "has taken charge as", "has been appointed as",
+        "elevated to", "promoted to", "executive appointment", "excellence leadership",
+        "highly recommended", "seamless handover", "great construction", "quality finishing",
+        "happy homeowner", "delighted with", "excellent amenities", "on time delivery",
+        "smooth possession", "timely possession", "top notch quality", "best builder",
+        "secures rera", "secured rera", "securing rera", "rera approval",
+        "rera approved", "rera registration", "rera registered", "rera clearance",
+        "record sales", "annual sales", "record annual sales", "record booking",
+        "record bookings", "highest-ever sales", "highest ever sales", "55% yoy",
+        "q4 profits", "q4 profit", "q4 pat", "surge in profit", "profit surge",
+        "bullish", "record revenue", "all-time high"
     ]
     if any(sp in text for sp in strong_pos):
         mention.sentiment = "positive"
@@ -45,10 +64,24 @@ def fallback_analysis(mention: Mention) -> Mention:
         mention.relevance_score = 1.0
         return mention
 
-    neg_words = ['delay', 'complaint', 'court', 'rera', 'legal', 'defect', 'leakage', 'seepage', 'penalty', 'stuck', 'bad', 'poor', 'disappointed']
-    pos_words = ['profit', 'surged', 'growth', 'gains', 'best', 'premium', 'great', 'luxury', 'excellent', 'launch', 'successful', 'award']
+    neg_words = [
+        'delay', 'complaint', 'defect', 'leakage',
+        'seepage', 'penalty', 'penalties', 'stuck', 'bad', 'poor', 'disappointed', 'frustrated',
+        'suffered', 'suffer', 'terrible', 'horrible', 'cheat', 'cheated', 'warning',
+        'rant', 'unresponsive', 'pain', 'worst', 'harassment', 'refusal', 'fails',
+        'evasion', 'irregularities', 'irregularity', 'corrupt', 'corruption', 'dispute',
+        'disputes', 'flooding', 'dues', 'lawsuit', 'litigation',
+        'rera notice', 'rera penalty', 'rera order', 'rera complaint', 'rera fine',
+        'rera violation', 'court case', 'legal notice', 'legal dispute', 'legal battle'
+    ]
+    pos_words = [
+        'profit', 'surged', 'growth', 'gains', 'best', 'premium', 'great', 'luxury',
+        'excellent', 'launch', 'successful', 'award', 'record', 'secures', 'secured',
+        'approval', 'approved', 'registration', 'registered', 'sales', 'bullish',
+        'milestone', 'revenue', 'bookings'
+    ]
 
-    neg_count = sum(1 for w in neg_words if re.search(r'\b' + re.escape(w) + r'\b', text))
+    neg_count = sum(1 for w in neg_words if (w in text if ' ' in w else re.search(r'\b' + re.escape(w) + r'\b', text)))
     pos_count = sum(1 for w in pos_words if re.search(r'\b' + re.escape(w) + r'\b', text))
 
     if neg_count > pos_count:
@@ -97,10 +130,14 @@ Do not include markdown or any explanation.
 """
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(
+                client.models.generate_content,
+                model="gemini-3.6-flash",
+                contents=prompt
+            )
+            response = future.result(timeout=5.0)
 
         text = response.text.strip()
         if text.startswith("```"):
@@ -110,6 +147,24 @@ Do not include markdown or any explanation.
         mention.sentiment = data.get("sentiment", "neutral")
         mention.sentiment_score = float(data.get("sentiment_score", 0.0))
         mention.relevance_score = float(data.get("relevance_score", 1.0))
+
+        # Guardrail: Ensure critical regulatory, legal, fraud, and financial irregularities are never softened to neutral
+        combined_text = f"{mention.title or ''} {mention.text or ''}".lower()
+        critical_threats = [
+            "rera complaint", "rera notice", "rera penalty", "court case", "lawsuit",
+            "legal notice", "legal dispute", "fir filed", "investigation", "fraud",
+            "scam", "cheated", "embezzlement", "stalled project", "construction halt",
+            "building collapse", "structural defect", "buyer protest", "water leakage",
+            "severe delay", "penalty imposed", "breach of contract", "unresponsive crm",
+            "negative review", "negative reviews", "frustrated buyer", "frustrated",
+            "buyer beware", "rant", "gst evasion", "tax evasion", "financial irregularities",
+            "corruption", "water seepage", "basement leakage", "structural audit",
+            "handover delay", "refund delay", "lowest level of integrity"
+        ]
+        if any(sn in combined_text for sn in critical_threats):
+            mention.sentiment = "negative"
+            mention.sentiment_score = min(mention.sentiment_score, -0.85)
+
         return mention
     except Exception as e:
         # Fallback gracefully without breaking pipeline
