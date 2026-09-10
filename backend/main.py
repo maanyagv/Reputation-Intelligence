@@ -43,8 +43,12 @@ def load_json(path: Path):
     if not path.exists():
         return []
 
-    with open(path, "r", encoding="utf-8") as file:
-        return json.load(file)
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except Exception as e:
+        print(f"[Warning] Failed to read JSON from {path}: {e}")
+        return []
 
 
 import re
@@ -430,7 +434,7 @@ autofetch_state = {
     "last_sync_time": datetime.now(timezone.utc).isoformat(),
     "last_records_collected": 0,
     "total_cycles": 0,
-    "interval_seconds": 60,
+    "interval_seconds": 30,
     "error": None
 }
 

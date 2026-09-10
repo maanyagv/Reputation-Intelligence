@@ -37,6 +37,8 @@ import {
   Server,
   Radio,
   ShieldCheck,
+  Smile,
+  HeartHandshake,
 } from 'lucide-react'
 import './App.css'
 
@@ -2384,7 +2386,8 @@ function SettingsView({
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {[
-                    [10, '10s (Real-time)'],
+                    [5, '5s (Hyper Real-Time)'],
+                    [10, '10s (Fast Sync)'],
                     [15, '15s (Optimal)'],
                     [30, '30s (Balanced)'],
                     [60, '60s (Low Net)'],
@@ -4386,8 +4389,22 @@ function App() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   }
 
-  const [records, setRecords] = useState([])
-  const [comments, setComments] = useState([])
+  const [records, setRecords] = useState(() => {
+    try {
+      const cached = localStorage.getItem('puravankara_cached_records')
+      return cached ? JSON.parse(cached) : []
+    } catch {
+      return []
+    }
+  })
+  const [comments, setComments] = useState(() => {
+    try {
+      const cached = localStorage.getItem('puravankara_cached_comments')
+      return cached ? JSON.parse(cached) : []
+    } catch {
+      return []
+    }
+  })
   const [alerts, setAlerts] = useState([])
   const [activeAlert, setActiveAlert] = useState(null)
   const [active, setActive] = useState('Overview')
@@ -4395,11 +4412,19 @@ function App() {
   const [visibleCount, setVisibleCount] = useState(10)
   const [selectedRecord, setSelectedRecord] = useState(null)
   const [selectedIssueDetail, setSelectedIssueDetail] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(() => {
+    try {
+      return !localStorage.getItem('puravankara_cached_records')
+    } catch {
+      return true
+    }
+  })
   const [refreshing, setRefreshing] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
   const [error, setError] = useState('')
   const [lastUpdated, setLastUpdated] = useState(null)
+  const [isSyncing, setIsSyncing] = useState(false)
+  const [scoreFlash, setScoreFlash] = useState(false)
 
   const [showCalendar, setShowCalendar] = useState(false)
   const [datePreset, setDatePreset] = useState('all')
@@ -4413,7 +4438,18 @@ function App() {
   const [selectedSentimentFilter, setSelectedSentimentFilter] = useState('all')
 
   const [pollInterval, setPollInterval] = useState(() => {
-    return Number(localStorage.getItem('puravankara_poll_interval')) || 15
+    return Number(localStorage.getItem('puravankara_poll_interval')) || 10
+  })
+  const [secondsUntilSync, setSecondsUntilSync] = useState(() => {
+    return Number(localStorage.getItem('puravankara_poll_interval')) || 10
+  })
+  const [liveExecutiveMetrics, setLiveExecutiveMetrics] = useState(() => {
+    try {
+      const cached = localStorage.getItem('puravankara_cached_metrics')
+      return cached ? JSON.parse(cached) : null
+    } catch {
+      return null
+    }
   })
   const [soundAlerts, setSoundAlerts] = useState(() => {
     return localStorage.getItem('puravankara_sound_alerts') === 'true'
@@ -4424,6 +4460,7 @@ function App() {
 
   function handleSetPollInterval(val) {
     setPollInterval(val)
+    setSecondsUntilSync(val)
     localStorage.setItem('puravankara_poll_interval', String(val))
   }
 
@@ -4440,13 +4477,25 @@ function App() {
     localStorage.setItem('puravankara_alert_sensitivity', val)
   }
 
+  // Live countdown ticker for real-time update transparency
+  useEffect(() => {
+    if (pollInterval <= 0) return
+    setSecondsUntilSync(pollInterval)
+    const timer = setInterval(() => {
+      setSecondsUntilSync((prev) => (prev <= 1 ? pollInterval : prev - 1))
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [pollInterval, lastUpdated])
+
   useEffect(() => {
     let cancelled = false
-    let isFirstLoad = true
+    let isFirstLoad = !records.length
 
     async function loadData(isSilent = false) {
       if (!isSilent && isFirstLoad) {
         setLoading(true)
+      } else {
+        setIsSyncing(true)
       }
       setError('')
 
@@ -4455,6 +4504,7 @@ function App() {
         '/api/mentions',
         '/api/comments',
         '/api/alerts',
+        '/api/analytics/metrics',
       ]
 
       try {
@@ -4492,19 +4542,39 @@ function App() {
 
         if (cancelled) return
 
-        const [reputation, mentions, commentData, alertPayload] = payloads
+        const [reputation, mentions, commentData, alertPayload, metricsPayload] = payloads
 
         const repArray = Array.isArray(reputation) ? reputation : []
         const menArray = Array.isArray(mentions) ? mentions : (mentions?.reputation || [])
         const combined = uniqueRecords(repArray, menArray)
 
-        setRecords(combined)
-        setComments(Array.isArray(commentData) ? commentData.map(normaliseRecord) : [])
+        if (combined.length) setRecords(combined)
+        if (Array.isArray(commentData)) setComments(commentData.map(normaliseRecord))
         if (alertPayload && typeof alertPayload === 'object' && !Array.isArray(alertPayload)) {
           setAlerts(alertPayload.all_alerts || [])
           setActiveAlert((alertPayload.active_alerts && alertPayload.active_alerts[0]) || null)
         }
+        if (metricsPayload && typeof metricsPayload === 'object' && metricsPayload.reputation_score !== undefined) {
+          setLiveExecutiveMetrics(metricsPayload)
+        }
         setLastUpdated(new Date())
+
+        // Trigger real-time pulse glow on both scores
+        setScoreFlash(true)
+        setTimeout(() => setScoreFlash(false), 1400)
+
+        // Cache lightweight snapshot for instant render on refresh
+        try {
+          if (combined.length) {
+            localStorage.setItem('puravankara_cached_records', JSON.stringify(combined.slice(0, 100)))
+          }
+          if (Array.isArray(commentData) && commentData.length) {
+            localStorage.setItem('puravankara_cached_comments', JSON.stringify(commentData.slice(0, 100)))
+          }
+          if (metricsPayload) {
+            localStorage.setItem('puravankara_cached_metrics', JSON.stringify(metricsPayload))
+          }
+        } catch {}
 
         const backendFailed = responses.every(
           (response) =>
@@ -4527,6 +4597,8 @@ function App() {
       } finally {
         if (!cancelled) {
           setLoading(false)
+          setIsSyncing(false)
+          setSecondsUntilSync(pollInterval)
           isFirstLoad = false
         }
       }
@@ -4771,6 +4843,20 @@ function App() {
       ? Math.max(0, Math.min(100, Math.round(((repPos + repNeu * 0.5) / repTotal) * 100)))
       : null
 
+    // Customer Satisfaction Score (CSAT: 0 - 100) evaluated strictly on verified customer touchpoints
+    const customerFiltered = globallyFilteredRecords.filter(isCustomerTouchpoint)
+    const custTotal = customerFiltered.length
+    const custPos = customerFiltered.filter(
+      (record) => sentimentOf(record) === 'positive'
+    ).length
+    const custNeg = customerFiltered.filter(
+      (record) => sentimentOf(record) === 'negative'
+    ).length
+    const custNeu = Math.max(0, custTotal - custPos - custNeg)
+    const csatScore = custTotal
+      ? Math.max(0, Math.min(100, Math.round(((custPos + custNeu * 0.5) / custTotal) * 100)))
+      : null
+
     return {
       total,
       repTotal,
@@ -4779,6 +4865,11 @@ function App() {
       neutral,
       net,
       reputationScore,
+      csatScore,
+      custTotal,
+      custPos,
+      custNeg,
+      custNeu,
     }
   }, [globallyFilteredRecords])
 
@@ -4969,6 +5060,20 @@ function App() {
               </small>
             </div>
 
+            <div className="topbar-live-scores" title="Real-time synchronized Corporate Reputation & CSAT scores">
+              <div className={`topbar-score-chip rep ${scoreFlash ? 'flash' : ''}`} title="Corporate Reputation Score (0-100)">
+                <Gauge size={12} />
+                <span>Corp Rep</span>
+                <strong>{stats.reputationScore ?? '—'}</strong>
+                <small>/100</small>
+              </div>
+              <div className={`topbar-score-chip csat ${scoreFlash ? 'flash' : ''}`} title="Customer Satisfaction Score (CSAT)">
+                <Smile size={12} />
+                <span>CSAT</span>
+                <strong>{stats.csatScore ?? '—'}%</strong>
+              </div>
+            </div>
+
             <button
               className={`icon-button theme-toggle-btn ${theme}`}
               onClick={toggleTheme}
@@ -5112,24 +5217,64 @@ function App() {
                   </div>
                 </div>
 
-                <div className="hero-score">
-                  <div className="score-orbit">
-                    <div className="score-inner">
-                      <span>
-                        OVERALL
-                        <br />
-                        REPUTATION
-                      </span>
+                <div className="hero-scores-wrapper">
+                  <div className="hero-scores-row">
+                    {/* Score 1: Overall Corporate Reputation */}
+                    <div className="hero-score-block">
+                      <div className={`score-orbit ${scoreFlash ? 'score-flash' : ''}`} title="Real-time Overall Corporate Reputation Score across all verified media & brand signals">
+                        <div className="score-inner">
+                          <span>
+                            OVERALL
+                            <br />
+                            REPUTATION
+                          </span>
+                          <strong className={`score-live-val ${scoreFlash ? 'val-pulse' : ''}`}>{stats.reputationScore ?? '—'}</strong>
+                          <small>/100</small>
+                        </div>
+                      </div>
+                      <div className="score-caption">
+                        <Gauge size={13} />
+                        <span>Corporate Brand</span>
+                      </div>
+                    </div>
 
-                      <strong>{stats.reputationScore ?? '—'}</strong>
-
-                      <small>/100</small>
+                    {/* Score 2: Customer Satisfaction (CSAT) */}
+                    <div className="hero-score-block">
+                      <div className={`score-orbit csat-orbit ${scoreFlash ? 'score-flash-csat' : ''}`} title="Real-time Customer Satisfaction Score (CSAT) across verified resident & buyer touchpoints">
+                        <div className="score-inner">
+                          <span>
+                            CUSTOMER
+                            <br />
+                            SATISFACTION
+                          </span>
+                          <strong className={`score-live-val csat ${scoreFlash ? 'val-pulse' : ''}`}>{stats.csatScore ?? '—'}%</strong>
+                          <small>CSAT</small>
+                        </div>
+                      </div>
+                      <div className="score-caption">
+                        <Smile size={13} />
+                        <span>Resident & Buyer</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="score-caption">
-                    <Gauge size={15} />
-                    <span>Derived from current sentiment intelligence</span>
+                  <div className="hero-live-badge">
+                    <span className={`hero-live-pulse-dot ${isSyncing ? 'syncing' : ''}`} />
+                    <span>
+                      {isSyncing
+                        ? 'Synchronizing live feed…'
+                        : `Real-time Live Sync • Every ${pollInterval}s (Next in ${secondsUntilSync}s)`}
+                    </span>
+                    <button
+                      type="button"
+                      className="hero-live-sync-now-btn"
+                      onClick={() => setRefreshKey((k) => k + 1)}
+                      disabled={isSyncing}
+                      title="Trigger immediate live synchronization"
+                    >
+                      <RefreshCw size={11} className={isSyncing ? 'spin-icon' : ''} />
+                      <span>Sync</span>
+                    </button>
                   </div>
                 </div>
               </section>
