@@ -3222,6 +3222,17 @@ function ExecutiveIntelligencePanel({
     ? Math.round(((positive + neutral * 0.5) / scoringTotal) * 100)
     : 0
 
+  // Total volume sentiment breakdown across all signals
+  const allPositive = useMemo(
+    () => pool.filter((r) => sentimentOf(r) === 'positive').length,
+    [pool]
+  )
+  const allNegative = useMemo(
+    () => pool.filter((r) => sentimentOf(r) === 'negative').length,
+    [pool]
+  )
+  const allNeutral = Math.max(0, total - allPositive - allNegative)
+
   // Net Sentiment (-100% to +100%) calculated without mouthshut
   const netSentimentPct = scoringTotal
     ? Math.round(((positive - negative) / scoringTotal) * 100)
@@ -3495,9 +3506,9 @@ function ExecutiveIntelligencePanel({
           </div>
           <div className="exec-kpi-footer">
             <span className="exec-split-text">
-              <strong className="pos">{positive} Pos</strong> ·{' '}
-              <strong className="neu">{neutral} Neu</strong> ·{' '}
-              <strong className="neg">{negative} Neg</strong>
+              <strong className="pos">{allPositive} Pos</strong> ·{' '}
+              <strong className="neu">{allNeutral} Neu</strong> ·{' '}
+              <strong className="neg">{allNegative} Neg</strong>
             </span>
           </div>
         </div>
@@ -4622,23 +4633,32 @@ function App() {
   const stats = useMemo(() => {
     const total = globallyFilteredRecords.length
 
-    // MouthShut is an informative consumer review label but excluded from official reputation calculation
+    // Monitored feed sentiment breakdown (includes all visible sources such as MouthShut consumer reviews)
+    const positive = globallyFilteredRecords.filter(
+      (record) => sentimentOf(record) === 'positive'
+    ).length
+
+    const negative = globallyFilteredRecords.filter(
+      (record) => sentimentOf(record) === 'negative'
+    ).length
+
+    const neutral = Math.max(0, total - positive - negative)
+
+    // For executive reputation calculation (index score & net sentiment): exclude MouthShut per user specification
     const reputationFiltered = globallyFilteredRecords.filter(
       (r) => !String(r.source || '').toLowerCase().includes('mouthshut')
     )
     const repTotal = reputationFiltered.length
 
-    const positive = reputationFiltered.filter(
+    const repPos = reputationFiltered.filter(
       (record) => sentimentOf(record) === 'positive'
     ).length
 
-    const negative = reputationFiltered.filter(
+    const repNeg = reputationFiltered.filter(
       (record) => sentimentOf(record) === 'negative'
     ).length
 
-    const neutral = Math.max(0, repTotal - positive - negative)
-
-    const net = repTotal ? ((positive - negative) / repTotal) * 100 : 0
+    const net = repTotal ? ((repPos - repNeg) / repTotal) * 100 : 0
 
     const averageScore = repTotal
       ? reputationFiltered.reduce(
