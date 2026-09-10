@@ -6424,3 +6424,75 @@ html[data-theme='light'] .exec-live-label {
 .spinning {
   animation: spin 0.9s linear infinite;
 }
+
+/* Feed Show All Filter Button */
+.feed-show-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #edf3fa;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.feed-show-all-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.feed-show-all-btn .feed-show-all-x {
+  font-size: 11px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.feed-show-all-btn:hover .feed-show-all-x {
+  opacity: 1;
+}
+
+/* Light mode for Show All tab */
+html[data-theme='light'] .feed-show-all-btn,
+[data-theme='light'] .feed-show-all-btn {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  border: 1.5px solid #94a3b8 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-theme='light'] .feed-show-all-btn:hover,
+[data-theme='light'] .feed-show-all-btn:hover {
+  background: #cbd5e1 !important;
+  color: #000000 !important;
+  border-color: #64748b !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14) !important;
+}
+
+html[data-theme='light'] .feed-show-all-btn .feed-show-all-x,
+[data-theme='light'] .feed-show-all-btn .feed-show-all-x {
+  color: #334155 !important;
+}
+
+html[data-theme='light'] .feed-show-all-btn:hover .feed-show-all-x,
+[data-theme='light'] .feed-show-all-btn:hover .feed-show-all-x {
+  color: #000000 !important;
+}
+
+/* Light mode sentiment filter pill inactive text contrast */
+html[data-theme='light'] .sentiment-filter-pill:not(.active) span,
+[data-theme='light'] .sentiment-filter-pill:not(.active) span {
+  color: #0f172a !important;
+}
+
+html[data-theme='light'] .sentiment-filter-pill:not(.active),
+[data-theme='light'] .sentiment-filter-pill:not(.active) {
+  background: rgba(15, 23, 42, 0.05) !important;
+}

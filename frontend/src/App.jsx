@@ -1732,7 +1732,7 @@ function SentimentBadgePill({ tone, count, label, active, onClick }) {
       <strong style={{ color: active ? theme.activeText : theme.text, fontSize: '14px', fontWeight: '800' }}>
         {count}
       </strong>
-      <span style={{ color: active ? theme.activeText : '#ffffff' }}>{label}</span>
+      <span style={{ color: active ? theme.activeText : 'var(--text-h, #ffffff)' }}>{label}</span>
     </button>
   )
 }
@@ -5365,19 +5365,12 @@ function App() {
                     {selectedSentimentFilter !== 'all' && (
                       <button
                         type="button"
+                        className="feed-show-all-btn"
                         onClick={() => setSelectedSentimentFilter('all')}
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.08)',
-                          color: '#edf3fa',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          padding: '3px 9px',
-                          borderRadius: '16px',
-                          fontSize: '11px',
-                          fontWeight: '700',
-                          cursor: 'pointer',
-                        }}
+                        title="Clear sentiment filter and show all records"
                       >
-                        Show All ({stats.total}) ✕
+                        <span>Show All ({stats.total})</span>
+                        <span className="feed-show-all-x">✕</span>
                       </button>
                     )}
                   </div>
