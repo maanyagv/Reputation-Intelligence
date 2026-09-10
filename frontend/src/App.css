@@ -3639,6 +3639,12 @@ a {
   color: #32db9a;
 }
 
+.source-pill.mouthshut {
+  background: rgba(234, 88, 12, 0.12);
+  color: #fb923c;
+  border: 1px solid rgba(234, 88, 12, 0.3);
+}
+
 .sentiment-pill.positive {
   background: rgba(25, 215, 138, 0.09);
   color: #24dc91;
@@ -5681,6 +5687,13 @@ html[data-theme='light'] .source-pill-mini.puravankara-website {
   border: 1px solid #4ade80 !important;
 }
 
+html[data-theme='light'] .source-pill.mouthshut,
+html[data-theme='light'] .source-pill-mini.mouthshut {
+  background: #ffedd5 !important;
+  color: #c2410c !important;
+  border: 1px solid #fdba74 !important;
+}
+
 /* Time Filters & Search Box */
 html[data-theme='light'] .time-pill-group {
   background: #f1f5f9 !important;
@@ -6401,4 +6414,13 @@ html[data-theme='light'] .exec-live-status {
 
 html[data-theme='light'] .exec-live-label {
   color: #0f172a !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinning {
+  animation: spin 0.9s linear infinite;
 }

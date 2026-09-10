@@ -7,6 +7,7 @@ from backend.collectors.social.reddit import search_reddit
 from backend.collectors.social.linkedin import search_linkedin
 from backend.collectors.bluesky import search_bluesky
 from backend.collectors.hackernews import search_hackernews
+from backend.collectors.mouthshut import search_mouthshut
 from backend.models.mention import Mention
 from backend.ai.analyzer import analyze_mention
 from backend.exporter import export_mentions
@@ -169,6 +170,16 @@ def collect_all(queries=None, limit=MAX_RESULTS_PER_SOURCE):
         print(f"HackerNews collected ({len(mentions)} total so far)")
     except Exception as e:
         print(f"HackerNews ERROR: {e}")
+
+    # 7. MouthShut (Consumer Grievances & Reviews)
+    try:
+        for q in sub_queries[:2]:
+            ms_results = search_mouthshut(q, limit=max(5, limit // 2))
+            for item in ms_results:
+                add_mention(to_mention(item, "mouthshut"))
+        print(f"MouthShut collected ({len(mentions)} total so far)")
+    except Exception as e:
+        print(f"MouthShut ERROR: {e}")
 
     return mentions
 

@@ -319,8 +319,17 @@ def get_sentiment_analytics(
     negative = sum(1 for p in parsed if p["sentiment"] == "negative")
     neutral = sum(1 for p in parsed if p["sentiment"] == "neutral")
 
-    net_sentiment = round(((positive - negative) / max(total, 1)) * 100, 1)
-    reputation_score = max(0, min(100, round(50 + ((positive - negative) / max(total, 1)) * 50)))
+    # MouthShut is tracked as an informative consumer review label but excluded from executive reputation score calculation per specification
+    scoring_parsed = [
+        p for p in parsed
+        if "mouthshut" not in str(p.get("source") or "").lower()
+    ]
+    scoring_total = len(scoring_parsed)
+    pos_scoring = sum(1 for p in scoring_parsed if p["sentiment"] == "positive")
+    neg_scoring = sum(1 for p in scoring_parsed if p["sentiment"] == "negative")
+
+    net_sentiment = round(((pos_scoring - neg_scoring) / max(scoring_total, 1)) * 100, 1)
+    reputation_score = max(0, min(100, round(50 + ((pos_scoring - neg_scoring) / max(scoring_total, 1)) * 50)))
 
     parsed_with_time = [p for p in parsed if p["timestamp"] > 0]
     parsed_with_time.sort(key=lambda x: x["timestamp"])
@@ -406,7 +415,7 @@ def refresh_reputation_feed(limit: int = 50):
 
     return {
         "status": "ok",
-        "sources": ["youtube", "news", "reddit", "linkedin", "bluesky", "hackernews"],
+        "sources": ["youtube", "news", "reddit", "linkedin", "bluesky", "hackernews", "mouthshut"],
         "records_collected": len(mentions),
         "per_source_limit": limit,
     }
@@ -494,15 +503,21 @@ def get_executive_metrics():
     comments = [c for c in load_json(COMMENTS_FILE) if is_puravankara_related(c)]
     all_records = reputation + comments
 
-    total = len(all_records)
-    positive = sum(1 for r in all_records if classify_sentiment(r) == "positive")
-    negative = sum(1 for r in all_records if classify_sentiment(r) == "negative")
+    # MouthShut is tracked as an informative consumer review label but excluded from executive reputation score calculation per specification
+    scoring_records = [
+        r for r in all_records
+        if "mouthshut" not in str(r.get("source") or "").lower()
+    ]
+
+    total = len(scoring_records)
+    positive = sum(1 for r in scoring_records if classify_sentiment(r) == "positive")
+    negative = sum(1 for r in scoring_records if classify_sentiment(r) == "negative")
     neutral = max(0, total - positive - negative)
 
-    # Net Sentiment (-100% to +100%)
+    # Net Sentiment (-100% to +100%) computed on core reputation pool
     net_sentiment = round(((positive - negative) / max(total, 1)) * 100, 1)
 
-    # Reputation Score (0 - 100)
+    # Reputation Score (0 - 100) computed on core reputation pool
     reputation_score = round(((positive + neutral * 0.5) / max(total, 1)) * 100)
 
     # Customer Satisfaction Score (CSAT: 0 - 100)
