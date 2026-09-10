@@ -5024,22 +5024,25 @@ function App() {
 
       <main className="main">
         <header className="topbar">
-          <div>
-            <div className="topbar-kicker">REPUTATION INTELLIGENCE</div>
+          <div className="topbar-branding">
+            <div className="topbar-kicker">
+              <span className="topbar-kicker-dot" />
+              REPUTATION INTELLIGENCE
+            </div>
 
-            <h1>Command Center</h1>
+            <h1 className="topbar-title">Command Center</h1>
 
-            <p>
-              Real-time perception, reputation risk and market signals for
-              Puravankara.
+            <p className="topbar-subtitle">
+              Real-time perception, risk intelligence &amp; market signals for Puravankara
             </p>
           </div>
 
           <div className="top-actions">
             <div className="live-status-badge">
               <span className={`live-pulse ${error ? 'offline' : 'online'}`} />
-              <strong>{error ? 'OFFLINE' : 'LIVE'}</strong>
-              <small>
+              <strong className="live-status-label">{error ? 'OFFLINE' : 'LIVE'}</strong>
+              <span className="live-status-divider">•</span>
+              <small className="live-status-time">
                 {lastUpdated
                   ? `Updated ${lastUpdated.toLocaleTimeString('en-IN', {
                     hour: '2-digit',
@@ -5056,7 +5059,7 @@ function App() {
               title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Theme`}
               aria-label="Toggle theme mode"
             >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
             </button>
 
             <button
@@ -5065,8 +5068,8 @@ function App() {
               title={`${negativeCount} Active Alert${negativeCount === 1 ? '' : 's'}`}
               aria-label="View risk alerts and notifications"
             >
-              <Bell size={18} />
-              {negativeCount > 0 && <b>{negativeCount > 99 ? '99+' : negativeCount}</b>}
+              <Bell size={17} />
+              {negativeCount > 0 && <b className="notification-badge">{negativeCount > 99 ? '99+' : negativeCount}</b>}
             </button>
 
             <button
@@ -5075,7 +5078,7 @@ function App() {
               title="Select Date Range Filter"
               aria-label="Open date range filter picker"
             >
-              <CalendarDays size={18} />
+              <CalendarDays size={17} />
             </button>
 
             {showCalendar && (
@@ -5102,12 +5105,15 @@ function App() {
               disabled={refreshing}
               title="Collect the latest available results from all configured sources"
             >
-              {refreshing ? 'Collecting feed…' : 'Refresh full feed'}
+              <RefreshCw size={13} className={refreshing ? 'spin-icon' : ''} />
+              <span>{refreshing ? 'Refreshing…' : 'Refresh full feed'}</span>
             </button>
+
+            <div className="topbar-divider" />
 
             <div className="profile">
               <div className="avatar">PR</div>
-              <div>
+              <div className="profile-info">
                 <strong>Reputation Team</strong>
                 <span>Puravankara</span>
               </div>
