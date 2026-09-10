@@ -4285,15 +4285,12 @@ function ExecutiveDisclaimer() {
       </div>
 
       <p className="disclaimer-text">
-        This executive intelligence dashboard aggregates observational brand perception signals from publicly indexed digital channels (Google News, YouTube, Reddit, Bluesky, HackerNews, and MouthShut). Data collection is subject to search engine indexing depth, third-party platform rate limits, and automated background sync cycles. Consumer reviews (including MouthShut.com) are monitored as informative field feedback and are <strong>strictly quarantined from the official corporate reputation index</strong>. Sentiment categorizations, risk severity levels, and CSAT models are algorithmically evaluated via automated heuristic and NLP pipelines for executive decision-support and trend monitoring, and do not constitute statutory audit, legal counsel, or financial advice.
+        This executive intelligence dashboard aggregates observational brand perception signals from publicly indexed digital channels (Google News, YouTube, Reddit, Bluesky, and HackerNews). Data collection is subject to search engine indexing depth, third-party platform rate limits, and automated background sync cycles. Third-party consumer reviews are monitored as informative field feedback and are <strong>strictly quarantined from the official corporate reputation index</strong>. Sentiment categorizations, risk severity levels, and CSAT models are algorithmically evaluated via automated heuristic and NLP pipelines for executive decision-support and trend monitoring, and do not constitute statutory audit, legal counsel, or financial advice.
       </p>
 
       <div className="disclaimer-tags">
         <span className="disclaimer-tag">
           <span className="dot" /> Sampled Public Coverage
-        </span>
-        <span className="disclaimer-tag">
-          <span className="dot" /> MouthShut Excluded from Reputation Index
         </span>
         <span className="disclaimer-tag">
           <span className="dot" /> Automated NLP Sentiment
